@@ -1,36 +1,5 @@
 # Image Analysis and Pattern Recognition
 
-## Groupe 34
-
-Dans VsCode, pour voir ce document comme dans GitHub `CTRL+SHIFT+V` ou **click droit** sur l'onglet et `Open Preview`.
-
-Pour tout installer il faut ouvrir la ligne de commande dans ce dossier :
-```shell
-cd iapr2026_gr34
-```
-
-Pour éviter d'avoir des problèmes avec les versions de packages Python il faut créer un environnement virtuel. Je suis pas méga-fan d'Anaconda comme ils utillisent dans le cours, alors je le génère avec Python de base c'est 1000x plus simple :
-```shell
-python -m venv .env
-```
-
-Comme ça l'environnement est tout dans le dossier `.env`. Ensuite il faut l'activer :
-- Windows :
-```shell
-.\.env\Scripts\activate
-```
-- Linux/MAC :
-```shell
-source ./.env/bin/activate
-```
-
-Ensuite il faut installer les librairies du cours. Tout est dans `requirements.txt`. Pour tout installer d'un coup :
-```shell
-pip install -r ./requirements.txt
-```
-
-Pour vérifier si tout marche, il faut ouvrir le [tuto](tutorial\tutorial.ipynb), sélectionner le Kernel (le `.env` qu'on vient de créer, faut checher dans les sous-menus qui popent, il à une petit étoile a coté), pis lancer les cellules.
-
 ## General information
 * Lecturer: [Jean-Philippe Thiran][jpt]
 * [EE-451 coursebook][coursebook]
