@@ -1,2 +1,4 @@
 .env
 **/__pycache__
+data/data_lab_03.zip
+data/data_lab_03/
