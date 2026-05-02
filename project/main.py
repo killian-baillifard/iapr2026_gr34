@@ -3,6 +3,12 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
+"""
+Note :
+- download the dataset from https://www.kaggle.com/competitions/iapr-26-uno-vision-challenge/data
+- unzip it's content into the 'data' folder
+"""
+
 def main():
 
     # Get current file path
