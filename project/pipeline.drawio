@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
   <diagram name="Page-1" id="yIlR3M7i0ErZJHUMviVm">
-    <mxGraphModel dx="720" dy="426" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="800" pageHeight="400" math="1" shadow="0">
+    <mxGraphModel dx="1260" dy="745" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="800" pageHeight="400" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -106,7 +106,7 @@
         <mxCell id="IaGZnV9rJ9qDf96hAU-b-38" value="$$2 \times W \times H$$" style="text;html=1;align=center;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="160" y="200" width="80" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="IaGZnV9rJ9qDf96hAU-b-40" value="Area threshold" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="IaGZnV9rJ9qDf96hAU-b-40" value="Position detection" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="120" y="320" width="80" height="40" as="geometry" />
         </mxCell>
         <mxCell id="IaGZnV9rJ9qDf96hAU-b-43" value="$$2 \times W \times H$$" style="text;html=1;align=center;verticalAlign=middle;resizable=1;points=[];autosize=0;strokeColor=none;fillColor=none;" vertex="1" parent="1">
