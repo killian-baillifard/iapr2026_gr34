@@ -6,6 +6,7 @@ import pandas as pd
 from enum import StrEnum
 from cv2.typing import MatLike
 from matplotlib import pyplot as plt
+from matplotlib.gridspec import GridSpec
 
 CURRENT_FILE = os.path.abspath(__file__)
 CURRENT_PATH = os.path.dirname(CURRENT_FILE)
@@ -82,6 +83,21 @@ class Card(StrEnum):
     DRAW_4 = "draw_4"
     WILD = "wild"
 
+CARDS_IDX_DICT = {}
+for i, card in enumerate(list(Card)):
+    CARDS_IDX_DICT[str(card)] = i
+CARDS_COUNT = len(Card)
+
+def to_probability_vector(cards: list[Card]) -> np.ndarray:
+    vector = np.zeros(CARDS_COUNT, dtype=np.float32)
+    for card in cards:
+        vector[CARDS_IDX_DICT[str(card)]] += 1
+    if vector.sum() > 0:
+        vector /= vector.sum()
+    else:
+        vector[:] = 1 / CARDS_COUNT
+    return vector
+
 class Label:
 
     def __init__(self, image_id: str, center_card: Card, active_player: Player, players_cards: list[list[Card]]) -> None:
@@ -125,8 +141,29 @@ class Label:
                 cards_list = [Card(card_id) for card_id in raw_cards_strings]
                 players_cards.append(cards_list)
         return Label(image_id, center_card, active_player, players_cards)
+    
+    def probabilities(self) -> np.ndarray:
+        """
+        Output:
+            Probability vectors [center, p1, p2, p3, p4]
+        """
+        return np.array([
+            to_probability_vector([self.center_card]),
+            to_probability_vector(self.players_cards[0]),
+            to_probability_vector(self.players_cards[1]),
+            to_probability_vector(self.players_cards[2]),
+            to_probability_vector(self.players_cards[3])
+        ])
 
-def load_train_images() -> tuple[list[MatLike], list[Label]]:
+def load_train_images() -> tuple[np.ndarray, list[Label]]:
+    """
+    Output:
+        Train images (n, height, width, 3)
+        Labels (n)
+    """
+
+    # Print current step
+    print(f"Loading all train images")
 
     # Load labels
     csv = pd.read_csv(TRAIN_FILE)
@@ -140,27 +177,48 @@ def load_train_images() -> tuple[list[MatLike], list[Label]]:
         images.append(image)
 
     # Return both
-    return images, labels
+    return np.array(images), labels
 
-def load_random_train_image() -> tuple[MatLike, Label]:
+def load_random_train_images(n: int) -> tuple[np.ndarray, list[Label]]:
+    """
+    Output:
+        Random set of train images (n, height, width, 3)
+        Labels (n)
+    """
 
-    # Load labels and pick one at random
+    # Print current step
+    print(f"Loading {n} random images from train set")
+
+    # Load labels and pick n at random
     csv = pd.read_csv(TRAIN_FILE)
-    row = csv.sample(1).iloc[0]
-    label = Label.from_row(row)
+    rows = csv.sample(n)
+    labels = [Label.from_row(row) for _, row in rows.iterrows()]
 
-    # Load only the corresponding image
-    image_path = os.path.join(TRAIN_IMAGES_PATH, label.image_id + ".jpg")
-    image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
-    return image, label
+    # Load all corresponding images
+    images = []
+    for label in labels:
+        image_path = os.path.join(TRAIN_IMAGES_PATH, label.image_id + ".jpg")
+        image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+        images.append(image)
 
-def load_test_images() -> list[MatLike]:
+    return np.array(images), labels
+
+def load_test_images() -> np.ndarray:
+    """
+    Output:
+        Test images (n, height, width, 3)
+    """
+
+    # Print current step
+    print(f"Loading all test images")
+
+    # Load all test images
     images = []
     for filename in os.listdir(TEST_IMAGES_PATH):
         image_path = os.path.join(TEST_IMAGES_PATH, filename)
         image = cv2.imread(image_path)
         images.append(image)
-    return images
+    return np.array(images)
 
 def load_manually_segmented_images() -> dict[str, MatLike]:
     images = {}
@@ -170,14 +228,39 @@ def load_manually_segmented_images() -> dict[str, MatLike]:
     return images
 
 if __name__ == "__main__":
-    print(f"Number of unique cards : {len(Card)}")
+
+    # Print path and cards count
     print(f"Parent path : {PARENT_PATH}")
-    train_images, labels = load_train_images()
-    plt.figure(figsize=(10, 10))
-    for i in range(5):
-        random_index = np.random.randint(len(train_images))
-        plt.subplot(1, 5, i + 1)
-        plt.imshow(train_images[random_index])
-        plt.axis("off")
-        print(labels[random_index])
+    print(f"Number of unique cards : {CARDS_COUNT}")
+
+    # Load random set of images
+    N = 2
+    images, labels = load_random_train_images(N)
+    probabilities = np.array([label.probabilities() for label in labels])
+
+    # Print images and their labels
+    fig = plt.figure(f"{N} random samples from train dataset")
+    gs = GridSpec(6, N, figure=fig, height_ratios=[5, 1, 1, 1, 1, 1], hspace=0)
+
+    for i in range(N):
+        # Image
+        ax = fig.add_subplot(gs[0, i])
+        ax.imshow(images[i])
+        ax.axis("off")
+
+        # Histograms
+        for j in range(5):
+            ax = fig.add_subplot(gs[j + 1, i])
+            ax.bar(np.arange(CARDS_COUNT), probabilities[i, j], width=0.6)
+            ax.set_xlim(-0.5, CARDS_COUNT - 0.5)
+            ax.set_ylim(0, 1)
+            ax.set_yticks([])
+            if j < 4:
+                ax.set_xticks([])
+            else:
+                ax.set_xticks(np.arange(CARDS_COUNT))
+                ax.set_xticklabels([str(c) for c in Card], rotation=90, fontsize=8)
+
+    # Show figure
+    plt.tight_layout()
     plt.show()
