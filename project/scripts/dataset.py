@@ -3,6 +3,8 @@ from typing import Self
 import cv2
 import numpy as np
 import pandas as pd
+import torch
+from torch.utils.data import Dataset
 from enum import StrEnum
 from cv2.typing import MatLike
 from matplotlib import pyplot as plt
@@ -15,6 +17,7 @@ TRAIN_FILE = os.path.join(PARENT_PATH, "data", "train.csv")
 TRAIN_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "train_images")
 TEST_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "test_images")
 MANUAL_SEGMENTATION_PATH = os.path.join(PARENT_PATH, "manual_segmentation")
+PREPROCESSED_CACHE_PATH = os.path.join(PARENT_PATH, "data", "preprocessed")
 
 class Player(StrEnum):
     P1 = "p1"
@@ -154,6 +157,59 @@ class Label:
             to_probability_vector(self.players_cards[2]),
             to_probability_vector(self.players_cards[3])
         ])
+
+    def center_idx(self) -> int:
+        return CARDS_IDX_DICT[str(self.center_card)]
+
+    def counts(self) -> np.ndarray:
+        result = np.zeros((5, CARDS_COUNT), dtype=np.int64)
+        for card in [self.center_card]:
+            result[0, CARDS_IDX_DICT[str(card)]] += 1
+        for i, hand in enumerate(self.players_cards):
+            for card in hand:
+                result[i + 1, CARDS_IDX_DICT[str(card)]] += 1
+        return result
+
+class PreprocessedDataset(Dataset):
+    """Loads preprocessed .npy files on demand — one sample per __getitem__ call."""
+
+    def __init__(self, labels: list[Label]):
+        self.labels = labels
+        self.cache_dir = PREPROCESSED_CACHE_PATH
+
+    def __len__(self):
+        return len(self.labels)
+
+    def __getitem__(self, idx):
+        label = self.labels[idx]
+        path = os.path.join(self.cache_dir, label.image_id + ".npy")
+        if not os.path.exists(path):
+            raise FileNotFoundError(
+                f"Cache missing for {label.image_id}. Run: python -m project.scripts.cache_preprocessing"
+            )
+        x       = torch.from_numpy(np.load(path)).float() / 255.0  # (5, H, W, 4)
+        y_center = torch.tensor(label.center_idx(), dtype=torch.long)
+        y_player = torch.from_numpy(label.counts()[1:, :]).long()   # (4, 54)
+        return x, y_center, y_player
+
+def load_preprocessed_train() -> tuple[np.ndarray, list[Label]]:
+    """
+    Output:
+        Preprocessed images (n, 5, height, width, 4)
+        Labels (n)
+    """
+    cache_dir = os.path.join(PARENT_PATH, "data", "preprocessed")
+    csv = pd.read_csv(TRAIN_FILE)
+    labels = [Label.from_row(row) for _, row in csv.iterrows()]
+    preprocessed = []
+    for label in labels:
+        path = os.path.join(cache_dir, label.image_id + ".npy")
+        if not os.path.exists(path):
+            raise FileNotFoundError(
+                f"Cache missing for {label.image_id}. Run: python -m project.scripts.cache_preprocessing"
+            )
+        preprocessed.append(np.load(path))
+    return np.array(preprocessed), labels
 
 def load_train_images() -> tuple[np.ndarray, list[Label]]:
     """

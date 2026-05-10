@@ -1,5 +1,5 @@
 import numpy as np
-from dataset import Player, load_random_train_images
+from project.scripts.dataset import Player, load_random_train_images
 from matplotlib import pyplot as plt
 
 FULL_IMAGE_WIDTH = 4000
