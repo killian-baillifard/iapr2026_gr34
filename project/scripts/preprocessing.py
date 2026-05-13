@@ -1,11 +1,18 @@
 import numpy as np
-from dataset import Player, load_random_train_images
+from dataset import CARDS_COUNT, Card, Player, load_random_train_images
 from matplotlib import pyplot as plt
 
 FULL_IMAGE_WIDTH = 4000
 FULL_IMAGE_HEIGHT = 2662
 SECTOR_WIDTH = 2000
 SECTOR_HEIGHT = 1000
+
+CROP_SQUARE_SIZE = 250
+NUM_CROPS = 16
+CROP_X_GRID_SIZE = SECTOR_WIDTH // CROP_SQUARE_SIZE
+CROP_Y_GRID_SIZE = SECTOR_HEIGHT // CROP_SQUARE_SIZE
+assert CROP_X_GRID_SIZE * CROP_SQUARE_SIZE == SECTOR_WIDTH
+assert CROP_Y_GRID_SIZE * CROP_SQUARE_SIZE == SECTOR_HEIGHT
 
 class Sector:
 
@@ -25,10 +32,17 @@ class Sector:
 
     def slice(self, images: np.ndarray) -> np.ndarray:
         """
-        Input:
-            Images (n, height, width, rgb)
-        Output:
-            Sectors (n, sector, sector_height, sector_width, rgb)
+        Parameters
+        ----------
+
+        images : np.ndarray
+            RGB images of whole table (n, height, width, 3)
+        
+        Returns
+        -------
+
+        sectors : np.ndarray 
+            RGB images of this sector (n, sector, sector_height, sector_width, 3)
         """
         return images[:, self.y:(self.y + self.height), self.x:(self.x + self.width), :]
 
@@ -67,10 +81,17 @@ SECTORS = {
 
 def slice_sectors(images: np.ndarray) -> np.ndarray:
     """
-    Input:
-        Images (n, height, width, rgb)
-    Output:
-        Sectors (n, sector, sector_height, sector_width, rgb)
+    Parameters
+    ----------
+
+    images : np.ndarray
+        Whole RGB images (n, height, width, 3)
+    
+    Returns
+    -------
+
+    sectors : np.ndarray
+        RGB images sliced in sectors (n, sector, sector_height, sector_width, 3)
     """
 
     # Print current step
@@ -124,18 +145,25 @@ TOLERANCES: dict[str, HSV] = {
     "black":    HSV(179,       64,         6 * 14)
 }
 
-def rgb_to_hsv_batch(images: np.ndarray) -> np.ndarray:
+def rgb_to_hsv_batch(rgb: np.ndarray) -> np.ndarray:
     """
-    Input:
+    Parameters
+    ----------
+
+    rgb : np.ndarray
         RGB images (n, height, width, 3)
-    Output:
+    
+    Returns
+    -------
+
+    hsv : np.ndarray
         HSV images (n, height, width, 3)
     """
 
     # Print current step
-    print(f"Converting from RGB to HSV {images.shape}", end="")
+    print(f"Converting from RGB to HSV {rgb.shape}", end="")
 
-    img = images.astype(np.float32) / 255.0
+    img = rgb.astype(np.float32) / 255.0
     r, g, b = img[..., 0], img[..., 1], img[..., 2]
     Cmax = np.maximum(np.maximum(r, g), b)
     Cmin = np.minimum(np.minimum(r, g), b)
@@ -169,10 +197,20 @@ def rgb_to_hsv_batch(images: np.ndarray) -> np.ndarray:
 
 def segment_color(images: np.ndarray, component: str) -> np.ndarray:
     """
-    Input:
-        Images (n, 5, height, width, 3) in HSV
-    Output:
-        Masks (n, 5, height, width) with 255 at perfect match, 0 at tolerance boundary
+    Parameters
+    ----------
+
+    images : np.ndarray
+        HSV images (n, 5, height, width, 3)
+    
+    component: str
+        Code of color to segment
+    
+    Returns
+    -------
+
+    masks
+        (n, 5, height, width) with 255 at perfect match, 0 at tolerance boundary
     """
     # Print current step
     print(f"Segmenting {component} component {images.shape}", end="")
@@ -196,13 +234,19 @@ def segment_color(images: np.ndarray, component: str) -> np.ndarray:
     print(f" -> {segmentations.shape}")
     return segmentations
 
-def preprocess(images: np.ndarray, preview: bool = False) -> np.ndarray:
+def preprocess(images: np.ndarray) -> np.ndarray:
     """
-    Input:
-        Images (n, height, width, rgb)
-    Output:
-        Preprocessed images (n, sectors, height, width, rygb)
-        Previews (n, sectors, height, width, rgb) [Optionnal]
+    Parameters
+    ----------
+
+    images : np.ndarray
+        RGB raw images (n, height, width, 3)
+    
+    Returns
+    -------
+
+    preprocessed : np.ndarray
+        RYGB preprocessed images (n, sectors, height, width, 4)
     """
 
     # Print current step
@@ -219,55 +263,137 @@ def preprocess(images: np.ndarray, preview: bool = False) -> np.ndarray:
     b_mask = segment_color(hsv_sectors, "blue")
     k_mask = segment_color(hsv_sectors, "black")
 
+    # Add black component to all channels as the white of this new color space (for +4 and color cards)
+    print(f"Embedding black as white into RYGB color components")
+    y_mask = np.clip(y_mask.astype(np.int16) + k_mask.astype(np.int16), 0, 255).astype(np.uint8)
+    r_mask = np.clip(r_mask.astype(np.int16) + k_mask.astype(np.int16), 0, 255).astype(np.uint8)
+    g_mask = np.clip(g_mask.astype(np.int16) + k_mask.astype(np.int16), 0, 255).astype(np.uint8)
+    b_mask = np.clip(b_mask.astype(np.int16) + k_mask.astype(np.int16), 0, 255).astype(np.uint8)
+
     print("Recombining components", end="")
     preprocessed = np.stack([r_mask, y_mask, g_mask, b_mask], axis=-1)
     print(f" -> {preprocessed.shape}")
+    return preprocessed    
 
-    # Build previews from masks using fixed RGB colors
-    if preview:
-        print(f"Building previews {preprocessed.shape}", end="")
-        RGB_COLORS = {
-            "R": np.array([255,   0,   0], dtype=np.float32),
-            "Y": np.array([255, 255,   0], dtype=np.float32),
-            "G": np.array([  0, 255,   0], dtype=np.float32),
-            "B": np.array([  0,   0, 255], dtype=np.float32),
-            "K": np.array([255, 255, 255], dtype=np.float32),
-        }
-        previews = sum(
-            (mask[..., np.newaxis] / 255) * rgb_color
-            for mask, rgb_color in zip(
-                [r_mask, y_mask, g_mask, b_mask, k_mask],
-                RGB_COLORS.values()
-            )
-        )
-        previews = np.clip(previews, 0, 255).astype(np.uint8)
-        print(f" -> {previews.shape}")
-        return preprocessed, previews
+def preview(preprocessed: np.ndarray) -> np.ndarray:
+    """
+    Parameters
+    ----------
+
+    preprocessed : np.ndarray
+        RYGB preprocessed images (n, sectors, height, width, rygb)
     
-    # Or return only preprocessed images
-    else:
-        return preprocessed
+    Returns
+    -------
+
+    preview : np.ndarray
+        RGB preview images (n, height, width, rgb)
+    """
+
+    print(f"Building previews of {preprocessed.shape[0]} RYGB images into RGB images", end="")
+    RGB_COLORS = {
+        "R": np.array([255,   0,   0], dtype=np.float32),
+        "Y": np.array([255, 255,   0], dtype=np.float32),
+        "G": np.array([  0, 255,   0], dtype=np.float32),
+        "B": np.array([  0,   0, 255], dtype=np.float32)
+    }
+    r_mask = preprocessed[:, :, :, :, 0]
+    y_mask = preprocessed[:, :, :, :, 1]
+    g_mask = preprocessed[:, :, :, :, 2]
+    b_mask = preprocessed[:, :, :, :, 3]
+    previews = sum((mask[..., np.newaxis] / 255) * rgb_color for mask, rgb_color in zip([r_mask, y_mask, g_mask, b_mask], RGB_COLORS.values()))
+    previews = np.clip(previews, 0, 255).astype(np.uint8)
+    print(f" -> {previews.shape}")
+    return previews
+
+def crop(images: np.ndarray) -> np.ndarray:
+    """
+    Parameters
+    ----------
+
+    RYGB preprocessed images : np.ndarray
+        (n, sectors, height, width, 4)
+    
+    Returns
+    -------
+
+    RYGB cropped images : np.ndarray
+        (n, sectors, height, width, rygb)
+    """
+
+    # Generate crops positions
+    n, sectors, _, _, _ = images.shape
+    print(f"Cropping batch of {n} images")
+    x_crop_positions = np.random.randint(0, CROP_X_GRID_SIZE, (n, sectors, NUM_CROPS)) * CROP_SQUARE_SIZE
+    y_crop_positions = np.random.randint(0, CROP_Y_GRID_SIZE, (n, sectors, NUM_CROPS)) * CROP_SQUARE_SIZE
+
+    # Add square range to indices
+    offsets = np.arange(CROP_SQUARE_SIZE)
+    x_indices = x_crop_positions[..., np.newaxis] + offsets
+    y_indices = y_crop_positions[..., np.newaxis] + offsets
+
+    # Reshape x and y and channel indices
+    x_indices = x_indices[:, :, :, np.newaxis, :]
+    y_indices = y_indices[:, :, :, :, np.newaxis]
+
+    # Combine into one indexing array
+    n_idx = np.arange(n)[:, np.newaxis, np.newaxis, np.newaxis, np.newaxis]
+    sector_idx = np.arange(sectors)[np.newaxis, :, np.newaxis, np.newaxis, np.newaxis]
+    crop_indices = (n_idx, sector_idx, y_indices, x_indices)
+
+    # Copy, crop and return
+    cropped = images.copy()
+    cropped[crop_indices] = 0
+    return cropped
 
 if __name__ == "__main__":
 
     # Load random train sample
-    images, labels = load_random_train_images(4)
+    N = 4
+    train_images, labels = load_random_train_images(N)
 
-    # Preprocess whole batch
-    _, previews = preprocess(images, True)
+    # Apply preprocessing to batch
+    preprocessed = preprocess(train_images)
+    probabilities = np.array([label.probabilities() for label in labels])
+    cropped = crop(preprocessed)
+
+    # Create RGB preview from RYGB images for display
+    preprocessed_preview = preview(preprocessed)
+    cropped_preview = preview(cropped)
 
     # Create a figure for each image
+    print("Plotting preview")
     for n in range(len(labels)):
         plt.figure(f"Sample {n}")
-        plt.subplot(1, 2, 1)
-        plt.imshow(images[n])
+
+        # Plot original image
+        plt.subplot(1, 4, 1)
+        plt.imshow(train_images[n])
         plt.axis('off')
 
         # Show results sector by sector
         for sector in range(5):
-            plt.subplot(5, 2, 2 + 2 * sector)
-            plt.imshow(previews[n, sector])
+
+            # Show preprocessed images
+            plt.subplot(5, 4, 2 + 4 * sector)
+            plt.imshow(preprocessed_preview[n, sector])
             plt.axis('off')
+
+            # Show cropped images
+            plt.subplot(5, 4, 3 + 4 * sector)
+            plt.imshow(cropped_preview[n, sector])
+            plt.axis('off')
+
+            # Show labels
+            plt.subplot(5, 4, 4 + 4 * sector)
+            plt.bar(np.arange(CARDS_COUNT), probabilities[n, sector], width=0.6)
+            plt.xlim(-0.5, CARDS_COUNT - 0.5)
+            plt.ylim(0, 1)
+            plt.yticks([])
+            if sector < 4:
+                plt.xticks([])
+            else:
+                plt.xticks(np.arange(CARDS_COUNT), [str(c) for c in Card], rotation=90, fontsize=8)
 
         # Finalize figure
         plt.tight_layout()

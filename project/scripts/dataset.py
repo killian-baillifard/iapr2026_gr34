@@ -144,8 +144,11 @@ class Label:
     
     def probabilities(self) -> np.ndarray:
         """
-        Output:
-            Probability vectors [center, p1, p2, p3, p4]
+        Returns
+        -------
+
+            probabilities : np.ndarray
+                Probability vector for each player and center [center, p1, p2, p3, p4]
         """
         return np.array([
             to_probability_vector([self.center_card]),
@@ -157,9 +160,13 @@ class Label:
 
 def load_train_images() -> tuple[np.ndarray, list[Label]]:
     """
-    Output:
-        Train images (n, height, width, 3)
-        Labels (n)
+    Returns
+    -------
+
+        images: np.ndarray
+            RGB train images (n, height, width, 3)
+        labels: list[Label]
+            list of label objects (n)
     """
 
     # Print current step
@@ -181,9 +188,19 @@ def load_train_images() -> tuple[np.ndarray, list[Label]]:
 
 def load_random_train_images(n: int) -> tuple[np.ndarray, list[Label]]:
     """
-    Output:
-        Random set of train images (n, height, width, 3)
-        Labels (n)
+    Parameters
+    ----------
+
+    n : int
+        Number of images to load (selected at random)
+
+    Returns
+    -------
+
+        images : np.ndarray
+            Set of n random RGB images (n, height, width, 3)
+        labels: list[Label]
+            list of label objects (n)
     """
 
     # Print current step
@@ -205,8 +222,11 @@ def load_random_train_images(n: int) -> tuple[np.ndarray, list[Label]]:
 
 def load_test_images() -> np.ndarray:
     """
-    Output:
-        Test images (n, height, width, 3)
+    Returns
+    -------
+
+        images : np.ndarray
+            Test RGB images (n, height, width, 3)
     """
 
     # Print current step
