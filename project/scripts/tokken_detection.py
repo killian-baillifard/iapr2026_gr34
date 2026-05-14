@@ -5,6 +5,7 @@ from preprocessing import (FULL_IMAGE_WIDTH, FULL_IMAGE_HEIGHT,
                             SECTOR_WIDTH, SECTOR_HEIGHT,
                             rgb_to_hsv_batch, segment_color)
 from matplotlib import pyplot as plt
+from dataset import Player, load_train_images, load_random_train_images
 
 # Player zone centers
 PLAYER_CENTERS = {
@@ -273,10 +274,10 @@ def _debug_plot(n, img, white, soft, binary,
 
 if __name__ == "__main__":
 
-    images, labels = load_random_train_images(20)
+    images, labels = load_train_images()
 
     print("\n=== Detection ===")
-    predictions = detect_active_player(images, debug=True)
+    predictions = detect_active_player(images, debug=False)
 
     print("\n=== Results ===")
     correct  = sum(str(p) == str(l.active_player)
