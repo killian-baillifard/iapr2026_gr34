@@ -2,6 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from dataset import Player, load_train_images, load_test_images
 from preprocessing import preprocess, crop
+from tokken_detection import detect_active_player
 
 """
 Note :
@@ -15,8 +16,9 @@ if __name__ == "__main__":
     train_images, labels = load_train_images()
     test_images = load_test_images()
 
-    # TODO find active player, return Player.P1 or .P2 ...
-
+    # active player 
+    active_player = detect_active_player(train_images)
+    
     # Apply preprocessing to full dataset
     train_preprocessed = preprocess(train_images)
     train_cropped = crop(train_preprocessed)
