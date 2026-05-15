@@ -276,7 +276,6 @@ def bandpass_area_filter(preprocessed: np.ndarray, area_bands: list[tuple[int, i
             for ch_idx in range(n_channels):
                 output[img_idx, cap_idx, :, :, ch_idx] = np.where(mask > 0, preprocessed[img_idx, cap_idx, :, :, ch_idx], 0)
 
-    print(f"remove_small_objects: {preprocessed.shape}, bands={area_bands}")
     return output
     
 def preprocess(images: np.ndarray) -> np.ndarray:
@@ -402,15 +401,15 @@ if __name__ == "__main__":
 
     # Load random train sample
     N = 4
-    train_images, labels = load_random_train_images(N)
+    train_images, labels_list = load_random_train_images(N)
 
     # Apply preprocessing to batch
-    preprocessed = preprocess(train_images)
-    probabilities = np.array([label.probabilities() for label in labels])
-    cropped = crop(preprocessed)
+    train = preprocess(train_images)
+    labels = np.array([label.as_binary_vector() for label in labels_list])
+    cropped = crop(train)
 
     # Create RGB preview from RYGB images for display
-    preprocessed_preview = preview(preprocessed)
+    preprocessed_preview = preview(train)
     cropped_preview = preview(cropped)
 
     # Create a figure for each image
@@ -438,7 +437,7 @@ if __name__ == "__main__":
 
             # Show labels
             plt.subplot(5, 4, 4 + 4 * sector)
-            plt.bar(np.arange(CARDS_COUNT), probabilities[n, sector], width=0.6)
+            plt.bar(np.arange(CARDS_COUNT), labels[n, sector], width=0.6)
             plt.xlim(-0.5, CARDS_COUNT - 0.5)
             plt.ylim(0, 1)
             plt.yticks([])

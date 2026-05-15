@@ -89,14 +89,10 @@ for i, card in enumerate(list(Card)):
     CARDS_IDX_DICT[str(card)] = i
 CARDS_COUNT = len(Card)
 
-def to_probability_vector(cards: list[Card]) -> np.ndarray:
+def cards_list_to_binary_vector(cards: list[Card]) -> np.ndarray:
     vector = np.zeros(CARDS_COUNT, dtype=np.float32)
     for card in cards:
-        vector[CARDS_IDX_DICT[str(card)]] += 1
-    if vector.sum() > 0:
-        vector /= vector.sum()
-    else:
-        vector[:] = 1 / CARDS_COUNT
+        vector[CARDS_IDX_DICT[str(card)]] = 1.0
     return vector
 
 class Label:
@@ -143,20 +139,20 @@ class Label:
                 players_cards.append(cards_list)
         return Label(image_id, center_card, active_player, players_cards)
     
-    def probabilities(self) -> np.ndarray:
+    def as_binary_vector(self) -> np.ndarray:
         """
         Returns
         -------
 
-            probabilities : np.ndarray
-                Probability vector for each player and center [center, p1, p2, p3, p4]
+            labels : np.ndarray
+                Binary vector of cards presence for each player and center [center, p1, p2, p3, p4]
         """
         return np.array([
-            to_probability_vector([self.center_card]),
-            to_probability_vector(self.players_cards[0]),
-            to_probability_vector(self.players_cards[1]),
-            to_probability_vector(self.players_cards[2]),
-            to_probability_vector(self.players_cards[3])
+            cards_list_to_binary_vector([self.center_card]),
+            cards_list_to_binary_vector(self.players_cards[0]),
+            cards_list_to_binary_vector(self.players_cards[1]),
+            cards_list_to_binary_vector(self.players_cards[2]),
+            cards_list_to_binary_vector(self.players_cards[3])
         ])
 
 def load_train_images() -> tuple[np.ndarray, list[Label]]:
