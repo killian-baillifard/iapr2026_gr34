@@ -9,55 +9,43 @@ import matplotlib.pyplot as plt
 class UNOCNNClassifier(nn.Module):
     def __init__(self, num_classes=54):
         super().__init__()
-
         self.features = nn.Sequential(
             # Block 1 — 4 → 32
             nn.Conv2d(4, 32, kernel_size=3, padding=1),
             nn.BatchNorm2d(32), nn.ReLU(),
-            nn.Conv2d(32, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32), nn.ReLU(),
-            nn.MaxPool2d(2, 2),          # /2
-
+            nn.MaxPool2d(2, 2),
             # Block 2 — 32 → 64
             nn.Conv2d(32, 64, kernel_size=3, padding=1),
             nn.BatchNorm2d(64), nn.ReLU(),
-            nn.Conv2d(64, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64), nn.ReLU(),
-            nn.MaxPool2d(2, 2),          # /4
-
+            nn.MaxPool2d(2, 2),
             # Block 3 — 64 → 128
             nn.Conv2d(64, 128, kernel_size=3, padding=1),
             nn.BatchNorm2d(128), nn.ReLU(),
-            nn.Conv2d(128, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128), nn.ReLU(),
-            nn.MaxPool2d(2, 2),          # /8
-
-            # Block 4 — 128 → 256
-            nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256), nn.ReLU(),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256), nn.ReLU(),
-            nn.MaxPool2d(2, 2),          # /16
+            nn.MaxPool2d(2, 2),
         )
-
-        # Head
         self.classifier = nn.Sequential(
-            nn.AdaptiveAvgPool2d((4, 4)),
+            nn.AdaptiveAvgPool2d((2, 2)),
             nn.Flatten(),
-            nn.Linear(256 * 4 * 4, 512),
+            nn.Linear(128 * 2 * 2, 256),
             nn.ReLU(),
-            nn.Dropout(0.4),
-            nn.Linear(512, 54)
+            nn.Dropout(0.5),
+            nn.Linear(256, num_classes)
         )
 
     def forward(self, x):
         return self.classifier(self.features(x))
 
-class UNOSectorizedDataset(Dataset):
+class UNODataset(Dataset):
+
     def __init__(self, file_paths, labels):
         """
-        file_paths : list of (n*s) paths to individual sector images on disk
-        labels     : (n*s, 54) binary numpy array, small enough to keep in RAM
+        Parameters
+        ----------
+        file_paths : list[str]
+            List of paths to  of (n*s) paths to individual sector images on disk
+
+        labels : np.ndarray
+            (n*s, 54) binary numpy array, small enough to keep in RAM
         """
         self.file_paths = file_paths
         self.labels     = torch.tensor(labels, dtype=torch.float32)
@@ -67,11 +55,11 @@ class UNOSectorizedDataset(Dataset):
 
     def __getitem__(self, idx):
         image = np.load(self.file_paths[idx])              # load single sample
-        image = torch.tensor(image, dtype=torch.float32)
+        image = torch.from_numpy(image).float()
         image = image.permute(2, 0, 1)                     # (c, h, w)
         image = F.interpolate(
             image.unsqueeze(0),
-            size=(256, 512),
+            size=(250, 500),
             mode="bilinear",
             align_corners=False
         ).squeeze(0)
@@ -88,8 +76,8 @@ def compute_pos_weights(loader, num_labels, device):
         pos_counts += labels.sum(dim=0).cpu()
         total += labels.shape[0]
     neg_counts = total - pos_counts
-    # Clamp to avoid division by zero for labels that never appear
     pos_weight = neg_counts / pos_counts.clamp(min=1)
+    pos_weight = pos_weight.clamp(max=20) # NOTE Increase when model predict 0 everywhere, decrease when model predict false positives
     return pos_weight.to(device)
 
 def train_epoch(model, loader, optimizer, criterion, device):
@@ -118,7 +106,8 @@ def val_epoch(model, loader, criterion, device):
             total_loss += criterion(outputs, labels).item()
 
             # Threshold to get binary predictions
-            preds = (torch.sigmoid(outputs) > 0.5).float()
+            THRESHOLD = 0.2
+            preds = (torch.sigmoid(outputs) > THRESHOLD).float()
 
             # Calculate True Positives, False Positives, False Negatives
             tp = (preds * labels).sum().item()
@@ -135,10 +124,10 @@ def val_epoch(model, loader, criterion, device):
     avg_f1 = total_f1 / len(loader)
     return total_loss / len(loader), avg_f1
 
-def stratified_split_multilabel(labels: np.ndarray, train_ratio: float = 0.7):
+def stratified_split_multilabel(labels: np.ndarray, train_ratio: float = 0.8):
     """
     labels      : (n, C) binary numpy array
-    train_ratio : fraction of data for training (default 0.7)
+    train_ratio : fraction of data for training (default 0.8)
     Returns train_indices, val_indices guaranteeing each card
     appears at least once in the training set.
     """
@@ -182,8 +171,8 @@ if __name__ == "__main__":
     # Split dataset into train and validations sets
     print("Stratifying data")
     train_indices, val_indices = stratified_split_multilabel(labels)
-    train_dataset = UNOSectorizedDataset([images[i] for i in train_indices], labels[train_indices])
-    val_dataset   = UNOSectorizedDataset([images[i] for i in val_indices],   labels[val_indices])
+    train_dataset = UNODataset([images[i] for i in train_indices], labels[train_indices])
+    val_dataset   = UNODataset([images[i] for i in val_indices],   labels[val_indices])
     train_loader  = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=4)
     val_loader    = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=4)
 
@@ -191,10 +180,20 @@ if __name__ == "__main__":
     print("Loading model")
     device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model     = UNOCNNClassifier(num_classes=54).to(device)
-    optimizer = torch.optim.AdamW(model.parameters())
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-2)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, mode='min', patience=3, factor=0.5
+    )
+    """
+    optimizer = torch.optim.Adagrad(
+        model.parameters(),
+        lr=0.01,           # AdaGrad typically needs a higher lr than Adam (0.01–0.1)
+        lr_decay=0,        # optional: decays lr over time to combat the vanishing lr problem
+        eps=1e-10,         # numerical stability term
+        weight_decay=0     # L2 regularization if needed
+    )
+    """
     pos_weight = compute_pos_weights(train_loader, num_labels=54, device=device)
-    #pos_weight = neg_counts / pos_counts.clamp(min=1)
-    #pos_weight = pos_weight.clamp(max=50)   # tune this cap to your sparsity level
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     print(f"Total parameters: {sum(p.numel() for p in model.parameters())}")
 
