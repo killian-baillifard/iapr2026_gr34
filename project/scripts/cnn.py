@@ -77,22 +77,33 @@ class UNOSectorizedDataset(Dataset):
         ).squeeze(0)
         return image, self.labels[idx]
 
+def compute_pos_weights(loader, num_labels, device):
+    """
+    pos_weight[i] = (# negative samples for label i) / (# positive samples for label i)
+    This is the standard formulation recommended by PyTorch docs.
+    """
+    pos_counts = torch.zeros(num_labels)
+    total = 0
+    for _, labels in loader:
+        pos_counts += labels.sum(dim=0).cpu()
+        total += labels.shape[0]
+    neg_counts = total - pos_counts
+    # Clamp to avoid division by zero for labels that never appear
+    pos_weight = neg_counts / pos_counts.clamp(min=1)
+    return pos_weight.to(device)
+
 def train_epoch(model, loader, optimizer, criterion, device):
     model.train()
     total_loss = 0.0
-
     for images, labels in loader:
-        images = images.to(device)   # (batch, 4, 1000, 2000)
-        labels = labels.to(device)   # (batch, 54)
-
+        images = images.to(device)
+        labels = labels.to(device)
         optimizer.zero_grad()
-        outputs = model(images)      # (batch, 54) — raw logits
-        loss = criterion(outputs, labels)
+        outputs = model(images)
+        loss = criterion(outputs, labels)   # pos_weight applied automatically per label
         loss.backward()
         optimizer.step()
-
         total_loss += loss.item()
-
     return total_loss / len(loader)
 
 def val_epoch(model, loader, criterion, device):
@@ -181,7 +192,10 @@ if __name__ == "__main__":
     device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model     = UNOCNNClassifier(num_classes=54).to(device)
     optimizer = torch.optim.AdamW(model.parameters())
-    criterion = nn.BCEWithLogitsLoss()
+    pos_weight = compute_pos_weights(train_loader, num_labels=54, device=device)
+    #pos_weight = neg_counts / pos_counts.clamp(min=1)
+    #pos_weight = pos_weight.clamp(max=50)   # tune this cap to your sparsity level
+    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     print(f"Total parameters: {sum(p.numel() for p in model.parameters())}")
 
     # Run epochs
