@@ -137,12 +137,13 @@ COLORS: dict[str, HSV] = {
 }
 
 # Tolerances in multiple of standard deviation
+N_SIGMAS = 6
 TOLERANCES: dict[str, HSV] = {
-    "red":      HSV(6 * 1,     6 * 16,     6 * 14),
-    "yellow":   HSV(6 * 1,     6 * 33,     6 * 8),
-    "green":    HSV(6 * 4,     6 * 22,     6 * 13),
-    "blue":     HSV(6 * 2,     6 * 50,     6 * 13),
-    "black":    HSV(179,       64,         6 * 14)
+    "red":      HSV(N_SIGMAS * 1,   N_SIGMAS * 16,  N_SIGMAS * 14),
+    "yellow":   HSV(N_SIGMAS * 1,   N_SIGMAS * 33,  N_SIGMAS * 8),
+    "green":    HSV(N_SIGMAS * 4,   N_SIGMAS * 22,  N_SIGMAS * 13),
+    "blue":     HSV(N_SIGMAS * 2,   N_SIGMAS * 50,  N_SIGMAS * 13),
+    "black":    HSV(179,                       64,  N_SIGMAS * 14)
 }
 
 def rgb_to_hsv_batch(rgb: np.ndarray) -> np.ndarray:
@@ -212,6 +213,7 @@ def segment_color(images: np.ndarray, component: str) -> np.ndarray:
     masks
         (n, 5, height, width) with 255 at perfect match, 0 at tolerance boundary
     """
+
     # Print current step
     print(f"Segmenting {component} component {images.shape}", end="")
 
@@ -233,7 +235,7 @@ def segment_color(images: np.ndarray, component: str) -> np.ndarray:
     segmentations = (score * 255).astype(np.uint8)
     print(f" -> {segmentations.shape}")
     return segmentations
-
+    
 def preprocess(images: np.ndarray) -> np.ndarray:
     """
     Parameters
@@ -273,7 +275,7 @@ def preprocess(images: np.ndarray) -> np.ndarray:
     print("Recombining components", end="")
     preprocessed = np.stack([r_mask, y_mask, g_mask, b_mask], axis=-1)
     print(f" -> {preprocessed.shape}")
-    return preprocessed    
+    return preprocessed
 
 def preview(preprocessed: np.ndarray) -> np.ndarray:
     """
