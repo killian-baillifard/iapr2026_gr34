@@ -14,6 +14,7 @@ PARENT_PATH = os.path.dirname(CURRENT_PATH)
 TRAIN_FILE = os.path.join(PARENT_PATH, "data", "train.csv")
 TRAIN_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "train_images")
 TEST_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "test_images")
+REF_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "reference_images")
 MANUAL_SEGMENTATION_PATH = os.path.join(PARENT_PATH, "manual_segmentation")
 
 class Player(StrEnum):
@@ -241,11 +242,36 @@ def load_test_images() -> np.ndarray:
     return np.array(images)
 
 def load_manually_segmented_images() -> dict[str, MatLike]:
+    """
+    Returns
+    -------
+
+        images : np.ndarray
+            Manually segmented RGB images (5, height, width, 3)
+    """
+
     images = {}
     for color in ["r", "y", "g", "b", "k"]:
         path = os.path.join(MANUAL_SEGMENTATION_PATH, f"{color}.png")
         images[color] = cv2.imread(path, cv2.IMREAD_UNCHANGED)
     return images
+
+def load_reference_images() -> np.ndarray:
+    """
+    Returns
+    -------
+
+        images : np.ndarray
+            Reference images (4, height, width, 3)
+    """
+
+    # Load all reference images
+    images = []
+    for filename in os.listdir(REF_IMAGES_PATH):
+        image_path = os.path.join(REF_IMAGES_PATH, filename)
+        image = cv2.imread(image_path)
+        images.append(image)
+    return np.array(images)
 
 if __name__ == "__main__":
 

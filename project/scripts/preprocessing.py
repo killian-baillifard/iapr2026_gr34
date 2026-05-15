@@ -1,4 +1,5 @@
 import numpy as np
+import cv2
 from dataset import CARDS_COUNT, Card, Player, load_random_train_images
 from matplotlib import pyplot as plt
 
@@ -210,7 +211,7 @@ def segment_color(images: np.ndarray, component: str) -> np.ndarray:
     Returns
     -------
 
-    masks
+    progressive color mask
         (n, 5, height, width) with 255 at perfect match, 0 at tolerance boundary
     """
 
@@ -235,6 +236,48 @@ def segment_color(images: np.ndarray, component: str) -> np.ndarray:
     segmentations = (score * 255).astype(np.uint8)
     print(f" -> {segmentations.shape}")
     return segmentations
+
+def bandpass_area_filter(preprocessed: np.ndarray, area_bands: list[tuple[int, int]]) -> np.ndarray:
+    """
+    Remove connected components whose area does not fall within any of the specified bands.
+    The mask is computed as the logical OR across all channels before filtering.
+    
+    Parameters
+    ----------
+    preprocessed : np.ndarray
+        RYGB images (n, 5, height, width, rygb)
+    area_bands : list[tuple[int, int]]
+        List of (min_area, max_area) bands. Components whose area falls within
+        any band are kept, all others are removed.
+    
+    Returns
+    -------
+    np.ndarray
+        Filtered images, same shape (n, 5, height, width, rygb)
+    """
+    n, sectors, _, _, n_channels = preprocessed.shape
+    output = preprocessed.copy()
+
+    for img_idx in range(n):
+        for cap_idx in range(sectors):
+
+            # OR across all channels: a pixel is foreground if any channel detects it
+            combined = np.any(preprocessed[img_idx, cap_idx] > 0, axis=-1).astype(np.uint8) * 255  # (H, W)
+
+            num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(combined, connectivity=8)
+
+            mask = np.zeros_like(combined)
+            for label in range(1, num_labels):
+                area = stats[label, cv2.CC_STAT_AREA]
+                if any(min_area <= area <= max_area for min_area, max_area in area_bands):
+                    mask[labels == label] = 255
+
+            # Apply the same spatial mask to all channels
+            for ch_idx in range(n_channels):
+                output[img_idx, cap_idx, :, :, ch_idx] = np.where(mask > 0, preprocessed[img_idx, cap_idx, :, :, ch_idx], 0)
+
+    print(f"remove_small_objects: {preprocessed.shape}, bands={area_bands}")
+    return output
     
 def preprocess(images: np.ndarray) -> np.ndarray:
     """
@@ -272,9 +315,16 @@ def preprocess(images: np.ndarray) -> np.ndarray:
     g_mask = np.clip(g_mask.astype(np.int16) + k_mask.astype(np.int16), 0, 255).astype(np.uint8)
     b_mask = np.clip(b_mask.astype(np.int16) + k_mask.astype(np.int16), 0, 255).astype(np.uint8)
 
+    # Recombine components
     print("Recombining components", end="")
-    preprocessed = np.stack([r_mask, y_mask, g_mask, b_mask], axis=-1)
+    combined = np.stack([r_mask, y_mask, g_mask, b_mask], axis=-1)
+    print(f" -> {combined.shape}")
+
+    # Filter area bands to remove background
+    print("Filtering area bands", end="")
+    preprocessed = bandpass_area_filter(combined, [(5_000, 90_000)])
     print(f" -> {preprocessed.shape}")
+
     return preprocessed
 
 def preview(preprocessed: np.ndarray) -> np.ndarray:
