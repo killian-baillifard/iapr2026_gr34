@@ -95,29 +95,34 @@ def train_epoch(model, loader, optimizer, criterion, device):
 
     return total_loss / len(loader)
 
-
 def val_epoch(model, loader, criterion, device):
     model.eval()
-    total_loss    = 0.0
-    total_correct = 0
-    total_cards   = 0
+    total_loss = 0.0
+    total_f1 = 0.0
 
     with torch.no_grad():
         for images, labels in loader:
-            images = images.to(device)
-            labels = labels.to(device)
+            images, labels = images.to(device), labels.to(device)
+            outputs = model(images)
+            total_loss += criterion(outputs, labels).item()
 
-            outputs     = model(images)
-            loss        = criterion(outputs, labels)
-            total_loss += loss.item()
+            # Threshold to get binary predictions
+            preds = (torch.sigmoid(outputs) > 0.5).float()
 
-            # Threshold at 0.5
-            preds         = (torch.sigmoid(outputs) > 0.5).float()
-            total_correct += (preds == labels).sum().item()
-            total_cards   += labels.numel()
+            # Calculate True Positives, False Positives, False Negatives
+            tp = (preds * labels).sum().item()
+            fp = (preds * (1 - labels)).sum().item()
+            fn = ((1 - preds) * labels).sum().item()
 
-    accuracy = total_correct / total_cards
-    return total_loss / len(loader), accuracy
+            # Calculate F1 for this batch (adding epsilon to avoid div by zero)
+            precision = tp / (tp + fp + 1e-7)
+            recall = tp / (tp + fn + 1e-7)
+            f1 = 2 * (precision * recall) / (precision + recall + 1e-7)
+            
+            total_f1 += f1
+
+    avg_f1 = total_f1 / len(loader)
+    return total_loss / len(loader), avg_f1
 
 def stratified_split_multilabel(labels: np.ndarray, train_ratio: float = 0.7):
     """
@@ -175,44 +180,36 @@ if __name__ == "__main__":
     print("Loading model")
     device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model     = UNOCNNClassifier(num_classes=54).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
+    optimizer = torch.optim.AdamW(model.parameters())
     criterion = nn.BCEWithLogitsLoss()
-    print(f"Total parameters: {sum(p.numel() for p in model.parameters()):,}")
+    print(f"Total parameters: {sum(p.numel() for p in model.parameters())}")
 
     # Run epochs
     print("Running training epochs")
     NUM_EPOCHS = 30
-    PATIENCE = 2
     best_val_loss = float('inf')
-    epochs_without_improvement = 0
-    train_losses   = []
-    val_losses     = []
-    val_accuracies = []
-
+    train_losses = []
+    val_losses = []
+    f1_scores = []
     for epoch in range(NUM_EPOCHS):
-        train_loss          = train_epoch(model, train_loader, optimizer, criterion, device)
-        val_loss, val_acc   = val_epoch(model, val_loader, criterion, device)
-        print(f"Epoch {epoch+1:03d}/{NUM_EPOCHS} | Train loss: {train_loss:.4f} | Val loss: {val_loss:.4f} | Val acc: {val_acc:.2%}")
+        train_loss = train_epoch(model, train_loader, optimizer, criterion, device)
+        val_loss, f1_score = val_epoch(model, val_loader, criterion, device)
+        print(f"Epoch {epoch + 1:d}/{NUM_EPOCHS} | Train loss: {train_loss:.4f} | Val loss: {val_loss:.4f} | F1 score: {f1_score:.2%}")
         train_losses.append(train_loss)
         val_losses.append(val_loss)
-        val_accuracies.append(val_acc)
+        f1_scores.append(f1_score)
 
         if val_loss < best_val_loss:
-            best_val_loss              = val_loss
-            epochs_without_improvement = 0
+            best_val_loss = val_loss
             torch.save(model.state_dict(), "best_model.pth")
             print(f"  ✓ Saved new best model (val loss: {val_loss:.4f})")
-        else:
-            epochs_without_improvement += 1
-            if epochs_without_improvement >= PATIENCE:
-                print(f"Early stopping at epoch {epoch+1}")
-                break
 
+    # Plot results
     print("Training complete, generating plots")
-    epochs = range(1, len(train_losses) + 1)  # use actual epochs ran, not num_epochs
-    plt.plot(epochs, train_losses,   label="Train loss")
-    plt.plot(epochs, val_losses,     label="Val loss")
-    plt.plot(epochs, val_accuracies, label="Val acc")
+    epochs = range(1, len(train_losses) + 1)
+    plt.plot(epochs, train_losses, label="Train loss")
+    plt.plot(epochs, val_losses, label="Val loss")
+    plt.plot(epochs, f1_scores, label="F1 scores")
     plt.xlabel("Epoch")
     plt.ylabel("Loss / Accuracy")
     plt.title("Training evolution")

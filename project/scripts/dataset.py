@@ -1,4 +1,5 @@
 import os
+import random
 from typing import Self
 import cv2
 import numpy as np
@@ -233,9 +234,42 @@ def load_test_images() -> np.ndarray:
     images = []
     for filename in os.listdir(TEST_IMAGES_PATH):
         image_path = os.path.join(TEST_IMAGES_PATH, filename)
-        image = cv2.imread(image_path)
+        image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
         images.append(image)
     return np.array(images)
+
+def load_random_test_image() -> np.ndarray:
+    """
+    Selects a random image from the test directory and loads it.
+
+    Returns
+    -------
+    image : np.ndarray
+        A single RGB image (height, width, 3)
+    """
+    # Get list of all files in the directory
+    files = os.listdir(TEST_IMAGES_PATH)
+    
+    # Filter for common image extensions if necessary
+    # files = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+
+    if not files:
+        raise FileNotFoundError(f"No images found in {TEST_IMAGES_PATH}")
+
+    # Pick one random filename
+    random_filename = random.choice(files)
+    image_path = os.path.join(TEST_IMAGES_PATH, random_filename)
+
+    # Print current step
+    print(f"Loading random image: {random_filename}")
+
+    # Load the image
+    image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+    
+    if image is None:
+        raise ValueError(f"Could not read image at {image_path}")
+
+    return image
 
 def load_manually_segmented_images() -> dict[str, MatLike]:
     """
@@ -249,7 +283,7 @@ def load_manually_segmented_images() -> dict[str, MatLike]:
     images = {}
     for color in ["r", "y", "g", "b", "k"]:
         path = os.path.join(MANUAL_SEGMENTATION_PATH, f"{color}.png")
-        images[color] = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+        images[color] = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB)
     return images
 
 def load_reference_images() -> np.ndarray:
@@ -265,7 +299,7 @@ def load_reference_images() -> np.ndarray:
     images = []
     for filename in os.listdir(REF_IMAGES_PATH):
         image_path = os.path.join(REF_IMAGES_PATH, filename)
-        image = cv2.imread(image_path)
+        image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
         images.append(image)
     return np.array(images)
 
