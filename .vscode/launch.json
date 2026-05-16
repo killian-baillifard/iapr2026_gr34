@@ -12,6 +12,20 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Submission",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "module": "project.scripts"
+        },
+        {
+            "name": "Token",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "module": "project.scripts.tokken_detection"
+        },
+        {
             "name": "Preprocessing",
             "type": "debugpy",
             "request": "launch",

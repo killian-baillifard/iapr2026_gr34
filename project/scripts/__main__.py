@@ -1,5 +1,5 @@
 import os, torch, cv2, csv, numpy as np
-from project.scripts.dataset import load_test_images_paths, TEST_IMAGES_PATH, CARD_LOOKUP
+from project.scripts.dataset import Player, load_test_images_paths, TEST_IMAGES_PATH, CARD_LOOKUP
 from project.scripts.preprocessing import preprocess
 from project.scripts.preprocessing.sectors import slice_sectors
 from project.scripts.tokken_detection import detect_active_player
@@ -40,11 +40,11 @@ if __name__ == "__main__":
 
                 # Load image
                 print(f"Image {i + 1} / {N}")
-                image = cv2.imread(os.path.join(TEST_IMAGES_PATH, path), cv2.COLOR_BGR2RGB)
+                image = cv2.cvtColor(cv2.imread(os.path.join(TEST_IMAGES_PATH, path)), cv2.COLOR_BGR2RGB)
                 image_id: str = path.split(".")[0]
 
                 # Find active player
-                active_player: str = str(detect_active_player(np.array([image]))[0])
+                active_player: list[Player] = str(detect_active_player(np.array([image]))[0])
 
                 # For each sector of the image
                 player_cards: list[str] = []
