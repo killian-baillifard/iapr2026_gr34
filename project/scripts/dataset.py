@@ -88,8 +88,10 @@ class Card(StrEnum):
     DRAW_4 = "draw_4"
     WILD = "wild"
 
+CARD_LOOKUP = []
 CARDS_IDX_DICT = {}
 for i, card in enumerate(list(Card)):
+    CARD_LOOKUP.append(card)
     CARDS_IDX_DICT[str(card)] = i
 CARDS_COUNT = len(Card)
 
@@ -243,6 +245,17 @@ def load_random_train_images(n: int) -> tuple[np.ndarray, list[Label]]:
         images.append(image)
 
     return np.array(images), labels
+
+def load_test_images_paths() -> list[str]:
+    """
+    Returns
+    -------
+
+        paths : list[str]
+            List of paths to test images
+    """
+
+    return os.listdir(TEST_IMAGES_PATH)
 
 def load_test_images() -> np.ndarray:
     """
