@@ -18,6 +18,9 @@ TEST_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "test_images")
 REF_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "reference_images")
 MANUAL_SEGMENTATION_PATH = os.path.join(PARENT_PATH, "manual_segmentation")
 
+WIDTH = 4000
+HEIGHT = 2662
+
 class Player(StrEnum):
     P1 = "p1"
     P2 = "p2"
@@ -148,13 +151,36 @@ class Label:
             labels : np.ndarray
                 Binary vector of cards presence for each player and center [center, p1, p2, p3, p4]
         """
-        return np.array([
+        return np.stack([
             cards_list_to_binary_vector([self.center_card]),
             cards_list_to_binary_vector(self.players_cards[0]),
             cards_list_to_binary_vector(self.players_cards[1]),
             cards_list_to_binary_vector(self.players_cards[2]),
             cards_list_to_binary_vector(self.players_cards[3])
         ])
+
+def load_train_images_paths_and_labels() -> list[tuple[str, Label]]:
+    """
+    Returns
+    -------
+
+        train : list[tuple[str, Label]]
+            - path
+                Path to the train image
+            - label
+                Image label
+    """
+
+    # Print current step
+    print(f"Loading all train images paths with their labels")
+
+    # Load labels and images paths
+    csv = pd.read_csv(TRAIN_FILE)
+    labels: list[Label] = [Label.from_row(row) for _, row in csv.iterrows()]
+    paths = [os.path.join(TRAIN_IMAGES_PATH, label.image_id + ".jpg") for label in labels]
+
+    # Return both
+    return [(path, label) for (label, path) in zip(labels, paths)]
 
 def load_train_images() -> tuple[np.ndarray, list[Label]]:
     """

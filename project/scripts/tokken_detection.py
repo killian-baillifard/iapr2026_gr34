@@ -1,29 +1,27 @@
 import cv2
 import numpy as np
-from dataset import Player, load_random_train_images
-from preprocessing import (FULL_IMAGE_WIDTH, FULL_IMAGE_HEIGHT,
-                            SECTOR_WIDTH, SECTOR_HEIGHT,
-                            rgb_to_hsv_batch, segment_color)
+from project.scripts.dataset import WIDTH, HEIGHT, Player, load_train_images
+from project.scripts.preprocessing.rygb import filter_color
+from project.scripts.preprocessing.sectors import SECTOR_WIDTH, SECTOR_HEIGHT
 from matplotlib import pyplot as plt
-from dataset import Player, load_train_images, load_random_train_images
 
 # Player zone centers
 PLAYER_CENTERS = {
-    Player.P1: (FULL_IMAGE_WIDTH // 2,                  FULL_IMAGE_HEIGHT - SECTOR_HEIGHT // 2),
-    Player.P2: (FULL_IMAGE_WIDTH  - SECTOR_HEIGHT // 2, FULL_IMAGE_HEIGHT // 2),
-    Player.P3: (FULL_IMAGE_WIDTH // 2,                  SECTOR_HEIGHT // 2),
-    Player.P4: (SECTOR_HEIGHT // 2,                     FULL_IMAGE_HEIGHT // 2),
+    Player.P1: (WIDTH // 2,                  HEIGHT - SECTOR_HEIGHT // 2),
+    Player.P2: (WIDTH  - SECTOR_HEIGHT // 2, HEIGHT // 2),
+    Player.P3: (WIDTH // 2,                  SECTOR_HEIGHT // 2),
+    Player.P4: (SECTOR_HEIGHT // 2,          HEIGHT // 2),
 }
 
 PLAYER_ZONES = {
-    Player.P1: (FULL_IMAGE_WIDTH//2 - SECTOR_WIDTH//2,  FULL_IMAGE_HEIGHT - SECTOR_HEIGHT,
-                FULL_IMAGE_WIDTH//2 + SECTOR_WIDTH//2,  FULL_IMAGE_HEIGHT),
-    Player.P2: (FULL_IMAGE_WIDTH - SECTOR_HEIGHT,       FULL_IMAGE_HEIGHT//2 - SECTOR_WIDTH//2,
-                FULL_IMAGE_WIDTH,                        FULL_IMAGE_HEIGHT//2 + SECTOR_WIDTH//2),
-    Player.P3: (FULL_IMAGE_WIDTH//2 - SECTOR_WIDTH//2,  0,
-                FULL_IMAGE_WIDTH//2 + SECTOR_WIDTH//2,  SECTOR_HEIGHT),
-    Player.P4: (0,                                       FULL_IMAGE_HEIGHT//2 - SECTOR_WIDTH//2,
-                SECTOR_HEIGHT,                           FULL_IMAGE_HEIGHT//2 + SECTOR_WIDTH//2),
+    Player.P1: (WIDTH//2 - SECTOR_WIDTH//2,  HEIGHT - SECTOR_HEIGHT,
+                WIDTH//2 + SECTOR_WIDTH//2,  HEIGHT),
+    Player.P2: (WIDTH - SECTOR_HEIGHT,       HEIGHT//2 - SECTOR_WIDTH//2,
+                WIDTH,                       HEIGHT//2 + SECTOR_WIDTH//2),
+    Player.P3: (WIDTH//2 - SECTOR_WIDTH//2,  0,
+                WIDTH//2 + SECTOR_WIDTH//2,  SECTOR_HEIGHT),
+    Player.P4: (0,                           HEIGHT//2 - SECTOR_WIDTH//2,
+                SECTOR_HEIGHT,               HEIGHT//2 + SECTOR_WIDTH//2),
 }
 
 # Token blob parameters 
@@ -82,16 +80,14 @@ def compute_yellow_mask(image_rgb: np.ndarray) -> np.ndarray:
     """
     Use preprocessing soft mask for yellow, then threshold to binary.
     """
-    hsv      = rgb_to_hsv_batch(image_rgb[np.newaxis])  # (1, H, W, 3)
-    hsv_fake = hsv[:, np.newaxis]                        # (1, 1, H, W, 3)
-    soft     = segment_color(hsv_fake, "yellow")[0, 0]   # (H, W)
+    hsv = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2HSV)
+    soft = filter_color(hsv, "yellow")
 
     _, binary = cv2.threshold(soft, 80, 255, cv2.THRESH_BINARY)
     k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
     binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, k)
     binary = cv2.morphologyEx(binary, cv2.MORPH_OPEN,  k)
     return binary, soft
-
 
 # Step 3: find token blob
 

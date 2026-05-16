@@ -3,7 +3,7 @@ import numpy as np
 from torch import nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset
-from cache import load_cached_preprocessed_train
+from project.scripts.preprocessing.cache import load_cached_preprocessing
 import matplotlib.pyplot as plt
 
 class UNOCNNClassifier(nn.Module):
@@ -59,7 +59,7 @@ class UNODataset(Dataset):
         image = image.permute(2, 0, 1)                     # (c, h, w)
         image = F.interpolate(
             image.unsqueeze(0),
-            size=(250, 500),
+            size=(256, 512),
             mode="bilinear",
             align_corners=False
         ).squeeze(0)
@@ -166,13 +166,13 @@ if __name__ == "__main__":
 
     # Load dataset
     print("Loading preprocessed data")
-    images, labels = load_cached_preprocessed_train()
+    paths, labels = load_cached_preprocessing()
 
     # Split dataset into train and validations sets
     print("Stratifying data")
     train_indices, val_indices = stratified_split_multilabel(labels)
-    train_dataset = UNODataset([images[i] for i in train_indices], labels[train_indices])
-    val_dataset   = UNODataset([images[i] for i in val_indices],   labels[val_indices])
+    train_dataset = UNODataset([paths[i] for i in train_indices], labels[train_indices])
+    val_dataset   = UNODataset([paths[i] for i in val_indices], labels[val_indices])
     train_loader  = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=4)
     val_loader    = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=4)
 

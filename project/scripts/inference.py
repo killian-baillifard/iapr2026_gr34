@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 import random
-from cache import load_cached_preprocessed_train
+from project.scripts.preprocessing.cache import load_preprocessing_cache
 
 # 1. Import the model architecture (must match the training code)
 from cnn import UNOCNNClassifier
@@ -16,7 +16,7 @@ def run_inference():
 
     # 2. Load the data
     print("Loading preprocessed data...")
-    images, labels = load_cached_preprocessed_train()
+    images, labels = load_preprocessing_cache()
     
     # Select a random index
     idx = random.randint(0, len(images) - 1)
