@@ -158,11 +158,11 @@ def find_token_blob(binary_mask: np.ndarray, token_type: str) -> dict | None:
         return None
 
     # Debug: print all candidates
-    print(f"  [{token_type}] {len(candidates)} candidates:")
-    for c in sorted(candidates, key=lambda b: -b["score"])[:5]:
-        print(f"    score={c['score']:.3f} area={int(c['area']):6d} "
-              f"circ={c['circ']} sol={c['sol']} aspect={c['aspect']} "
-              f"pos={c['center']}")
+    #print(f"  [{token_type}] {len(candidates)} candidates:")
+    #for c in sorted(candidates, key=lambda b: -b["score"])[:5]:
+    #    print(f"    score={c['score']:.3f} area={int(c['area']):6d} "
+    #          f"circ={c['circ']} sol={c['sol']} aspect={c['aspect']} "
+    #          f"pos={c['center']}")
 
     if token_type == "black":
         return max(candidates, key=lambda b: b["area"])  # biggest = token
@@ -179,7 +179,7 @@ def assign_player(cx: int, cy: int) -> Player:
 
 # Main pipeline 
 
-def detect_active_player(images: np.ndarray, debug: bool = False) -> list:
+def detect_active_player(images: np.ndarray, debug: bool = False) -> list[Player]:
     results = []
 
     for n in range(len(images)):
@@ -205,9 +205,9 @@ def detect_active_player(images: np.ndarray, debug: bool = False) -> list:
                         token, token_type, active_player)
 
         results.append(active_player)
-        bg  = "WHITE" if white else "FLOWER"
-        det = f"score={token['score']} area={token['area']}" if token else "✗ not found"
-        print(f"Image {n}: bg={bg}  predicted={active_player}  {det}")
+        #bg  = "WHITE" if white else "FLOWER"
+        #det = f"score={token['score']} area={token['area']}" if token else "✗ not found"
+        #print(f"Image {n}: bg={bg}  predicted={active_player}  {det}")
 
     return results
 
