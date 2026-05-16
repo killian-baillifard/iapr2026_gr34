@@ -8,6 +8,77 @@ from project.scripts.preprocessing.cache import load_cached_preprocessing
 import matplotlib.pyplot as plt
 from sklearn.metrics import f1_score
 
+"""
+class ResidualBlock(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super().__init__()
+        self.conv = nn.Sequential(
+            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, bias=False),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1, bias=False),
+            nn.BatchNorm2d(out_channels),
+        )
+        # 1×1 projection to match channel dims for the skip addition
+        self.skip = (
+            nn.Conv2d(in_channels, out_channels, kernel_size=1, bias=False)
+            if in_channels != out_channels else nn.Identity()
+        )
+        self.relu = nn.ReLU(inplace=True)
+
+    def forward(self, x):
+        return self.relu(self.conv(x) + self.skip(x))
+
+
+class UNOCNNClassifier(nn.Module):
+    def __init__(self, num_classes=54):
+        super().__init__()
+
+        # ── Spatial feature extraction ──────────────────────────────────────
+        # Block 1: 4 → 32,  MaxPool ÷2  → (32, 125, 250)
+        self.block1 = nn.Sequential(
+            ResidualBlock(4, 32),
+            nn.MaxPool2d(2, 2),
+        )
+        # Block 2: 32 → 64, MaxPool ÷2  → (64, 62, 125)
+        self.block2 = nn.Sequential(
+            ResidualBlock(32, 64),
+            nn.MaxPool2d(2, 2),
+        )
+        # Block 3: 64 → 128, MaxPool ÷2 → (128, 31, 62)
+        self.block3 = nn.Sequential(
+            ResidualBlock(64, 128),
+            nn.MaxPool2d(2, 2),
+        )
+        # Block 4: 128 → 256, NO MaxPool → (256, 31, 62)
+        # Keeps spatial resolution high before pooling
+        self.block4 = ResidualBlock(128, 256)
+
+        # ── Spatial → vector ────────────────────────────────────────────────
+        # (4×4) instead of (2×2): 8× more spatial info than original
+        self.pool = nn.AdaptiveAvgPool2d((4, 4))   # → (256, 4, 4) = 4096-d
+
+        # ── Classifier head ─────────────────────────────────────────────────
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(256 * 4 * 4, 512),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.4),
+            nn.Linear(512, 256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.3),
+            nn.Linear(256, num_classes),
+        )
+
+    def forward(self, x):
+        x = self.block1(x)
+        x = self.block2(x)
+        x = self.block3(x)
+        x = self.block4(x)
+        x = self.pool(x)
+        return self.classifier(x)
+"""
+
 class UNOCNNClassifier(nn.Module):
     def __init__(self, num_classes=54):
         super().__init__()
@@ -177,15 +248,6 @@ if __name__ == "__main__":
     scheduler = ReduceLROnPlateau(
         optimizer, mode='min', patience=3, factor=0.5
     )
-    """
-    optimizer = torch.optim.Adagrad(
-        model.parameters(),
-        lr=0.01,           # AdaGrad typically needs a higher lr than Adam (0.01–0.1)
-        lr_decay=0,        # optional: decays lr over time to combat the vanishing lr problem
-        eps=1e-10,         # numerical stability term
-        weight_decay=0     # L2 regularization if needed
-    )
-    """
     pos_weight = compute_pos_weights(train_loader, num_labels=54, device=device)
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     print(f"Total parameters: {sum(p.numel() for p in model.parameters())}")
@@ -202,7 +264,7 @@ if __name__ == "__main__":
     for epoch in range(NUM_EPOCHS):
         train_loss = train_epoch(model, train_loader, optimizer, criterion, device)
         val_loss, f1 = val_epoch(model, val_loader, criterion, device)
-        print(f"Epoch {epoch + 1:d}/{NUM_EPOCHS} | Train loss: {train_loss:.4f} | Val loss: {val_loss:.4f} | F1 score: {f1:.2%}")
+        print(f"Epoch {epoch + 1:02d}/{NUM_EPOCHS} | Train loss: {train_loss:.4f} | Val loss: {val_loss:.4f} | F1 score: {f1:.2%}")
         train_losses.append(train_loss)
         val_losses.append(val_loss)
         f1s.append(f1)
