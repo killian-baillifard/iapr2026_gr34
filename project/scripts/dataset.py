@@ -1,4 +1,5 @@
 import os
+import random
 from typing import Self
 import cv2
 import numpy as np
@@ -16,6 +17,9 @@ TRAIN_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "train_images")
 TEST_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "test_images")
 REF_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "reference_images")
 MANUAL_SEGMENTATION_PATH = os.path.join(PARENT_PATH, "manual_segmentation")
+
+WIDTH = 4000
+HEIGHT = 2662
 
 class Player(StrEnum):
     P1 = "p1"
@@ -84,19 +88,17 @@ class Card(StrEnum):
     DRAW_4 = "draw_4"
     WILD = "wild"
 
+CARD_LOOKUP = []
 CARDS_IDX_DICT = {}
 for i, card in enumerate(list(Card)):
+    CARD_LOOKUP.append(card)
     CARDS_IDX_DICT[str(card)] = i
 CARDS_COUNT = len(Card)
 
-def to_probability_vector(cards: list[Card]) -> np.ndarray:
+def cards_list_to_binary_vector(cards: list[Card]) -> np.ndarray:
     vector = np.zeros(CARDS_COUNT, dtype=np.float32)
     for card in cards:
-        vector[CARDS_IDX_DICT[str(card)]] += 1
-    if vector.sum() > 0:
-        vector /= vector.sum()
-    else:
-        vector[:] = 1 / CARDS_COUNT
+        vector[CARDS_IDX_DICT[str(card)]] = 1.0
     return vector
 
 class Label:
@@ -143,21 +145,44 @@ class Label:
                 players_cards.append(cards_list)
         return Label(image_id, center_card, active_player, players_cards)
     
-    def probabilities(self) -> np.ndarray:
+    def as_binary_vector(self) -> np.ndarray:
         """
         Returns
         -------
 
-            probabilities : np.ndarray
-                Probability vector for each player and center [center, p1, p2, p3, p4]
+            labels : np.ndarray
+                Binary vector of cards presence for each player and center [center, p1, p2, p3, p4]
         """
-        return np.array([
-            to_probability_vector([self.center_card]),
-            to_probability_vector(self.players_cards[0]),
-            to_probability_vector(self.players_cards[1]),
-            to_probability_vector(self.players_cards[2]),
-            to_probability_vector(self.players_cards[3])
+        return np.stack([
+            cards_list_to_binary_vector([self.center_card]),
+            cards_list_to_binary_vector(self.players_cards[0]),
+            cards_list_to_binary_vector(self.players_cards[1]),
+            cards_list_to_binary_vector(self.players_cards[2]),
+            cards_list_to_binary_vector(self.players_cards[3])
         ])
+
+def load_train_images_paths_and_labels() -> list[tuple[str, Label]]:
+    """
+    Returns
+    -------
+
+        train : list[tuple[str, Label]]
+            - path
+                Path to the train image
+            - label
+                Image label
+    """
+
+    # Print current step
+    print(f"Loading all train images paths with their labels")
+
+    # Load labels and images paths
+    csv = pd.read_csv(TRAIN_FILE)
+    labels: list[Label] = [Label.from_row(row) for _, row in csv.iterrows()]
+    paths = [os.path.join(TRAIN_IMAGES_PATH, label.image_id + ".jpg") for label in labels]
+
+    # Return both
+    return [(path, label) for (label, path) in zip(labels, paths)]
 
 def load_train_images() -> tuple[np.ndarray, list[Label]]:
     """
@@ -221,6 +246,17 @@ def load_random_train_images(n: int) -> tuple[np.ndarray, list[Label]]:
 
     return np.array(images), labels
 
+def load_test_images_paths() -> list[str]:
+    """
+    Returns
+    -------
+
+        paths : list[str]
+            List of paths to test images
+    """
+
+    return os.listdir(TEST_IMAGES_PATH)
+
 def load_test_images() -> np.ndarray:
     """
     Returns
@@ -237,9 +273,42 @@ def load_test_images() -> np.ndarray:
     images = []
     for filename in os.listdir(TEST_IMAGES_PATH):
         image_path = os.path.join(TEST_IMAGES_PATH, filename)
-        image = cv2.imread(image_path)
+        image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
         images.append(image)
     return np.array(images)
+
+def load_random_test_image() -> np.ndarray:
+    """
+    Selects a random image from the test directory and loads it.
+
+    Returns
+    -------
+    image : np.ndarray
+        A single RGB image (height, width, 3)
+    """
+    # Get list of all files in the directory
+    files = os.listdir(TEST_IMAGES_PATH)
+    
+    # Filter for common image extensions if necessary
+    # files = [f for f in files if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+
+    if not files:
+        raise FileNotFoundError(f"No images found in {TEST_IMAGES_PATH}")
+
+    # Pick one random filename
+    random_filename = random.choice(files)
+    image_path = os.path.join(TEST_IMAGES_PATH, random_filename)
+
+    # Print current step
+    print(f"Loading random image: {random_filename}")
+
+    # Load the image
+    image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+    
+    if image is None:
+        raise ValueError(f"Could not read image at {image_path}")
+
+    return image
 
 def load_manually_segmented_images() -> dict[str, MatLike]:
     """
@@ -253,7 +322,7 @@ def load_manually_segmented_images() -> dict[str, MatLike]:
     images = {}
     for color in ["r", "y", "g", "b", "k"]:
         path = os.path.join(MANUAL_SEGMENTATION_PATH, f"{color}.png")
-        images[color] = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+        images[color] = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB)
     return images
 
 def load_reference_images() -> np.ndarray:
@@ -269,7 +338,7 @@ def load_reference_images() -> np.ndarray:
     images = []
     for filename in os.listdir(REF_IMAGES_PATH):
         image_path = os.path.join(REF_IMAGES_PATH, filename)
-        image = cv2.imread(image_path)
+        image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
         images.append(image)
     return np.array(images)
 
