@@ -2,9 +2,11 @@ import torch
 import numpy as np
 from torch import nn
 import torch.nn.functional as F
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader, Dataset
 from cache import load_cached_preprocessed_train
 import matplotlib.pyplot as plt
+from sklearn.metrics import f1_score
 
 class UNOCNNClassifier(nn.Module):
     def __init__(self, num_classes=54):
@@ -108,16 +110,7 @@ def val_epoch(model, loader, criterion, device):
             # Threshold to get binary predictions
             THRESHOLD = 0.2
             preds = (torch.sigmoid(outputs) > THRESHOLD).float()
-
-            # Calculate True Positives, False Positives, False Negatives
-            tp = (preds * labels).sum().item()
-            fp = (preds * (1 - labels)).sum().item()
-            fn = ((1 - preds) * labels).sum().item()
-
-            # Calculate F1 for this batch (adding epsilon to avoid div by zero)
-            precision = tp / (tp + fp + 1e-7)
-            recall = tp / (tp + fn + 1e-7)
-            f1 = 2 * (precision * recall) / (precision + recall + 1e-7)
+            f1 = f1_score(labels, preds, average='micro', zero_division=0)
             
             total_f1 += f1
 
@@ -173,15 +166,15 @@ if __name__ == "__main__":
     train_indices, val_indices = stratified_split_multilabel(labels)
     train_dataset = UNODataset([images[i] for i in train_indices], labels[train_indices])
     val_dataset   = UNODataset([images[i] for i in val_indices],   labels[val_indices])
-    train_loader  = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=4)
-    val_loader    = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=4)
+    train_loader  = DataLoader(train_dataset, batch_size=16, shuffle=True,  num_workers=4)
+    val_loader    = DataLoader(val_dataset,   batch_size=16, shuffle=False, num_workers=4)
 
     # Instantiate model
     print("Loading model")
     device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model     = UNOCNNClassifier(num_classes=54).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-2)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    scheduler = ReduceLROnPlateau(
         optimizer, mode='min', patience=3, factor=0.5
     )
     """
@@ -199,30 +192,39 @@ if __name__ == "__main__":
 
     # Run epochs
     print("Running training epochs")
-    NUM_EPOCHS = 30
+    NUM_EPOCHS = 80
+    PATIENCE = 10
+    patience = 0
     best_val_loss = float('inf')
     train_losses = []
     val_losses = []
-    f1_scores = []
+    f1s = []
     for epoch in range(NUM_EPOCHS):
         train_loss = train_epoch(model, train_loader, optimizer, criterion, device)
-        val_loss, f1_score = val_epoch(model, val_loader, criterion, device)
-        print(f"Epoch {epoch + 1:d}/{NUM_EPOCHS} | Train loss: {train_loss:.4f} | Val loss: {val_loss:.4f} | F1 score: {f1_score:.2%}")
+        val_loss, f1 = val_epoch(model, val_loader, criterion, device)
+        print(f"Epoch {epoch + 1:d}/{NUM_EPOCHS} | Train loss: {train_loss:.4f} | Val loss: {val_loss:.4f} | F1 score: {f1:.2%}")
         train_losses.append(train_loss)
         val_losses.append(val_loss)
-        f1_scores.append(f1_score)
+        f1s.append(f1)
 
         if val_loss < best_val_loss:
+            patience = 0
             best_val_loss = val_loss
             torch.save(model.state_dict(), "best_model.pth")
             print(f"  ✓ Saved new best model (val loss: {val_loss:.4f})")
+        else:
+            patience += 1
+            if patience > PATIENCE:
+                break
+
+        scheduler.step(val_loss)
 
     # Plot results
     print("Training complete, generating plots")
     epochs = range(1, len(train_losses) + 1)
     plt.plot(epochs, train_losses, label="Train loss")
     plt.plot(epochs, val_losses, label="Val loss")
-    plt.plot(epochs, f1_scores, label="F1 scores")
+    plt.plot(epochs, f1s, label="F1 scores")
     plt.xlabel("Epoch")
     plt.ylabel("Loss / Accuracy")
     plt.title("Training evolution")
