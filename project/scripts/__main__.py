@@ -2,8 +2,8 @@ import os, torch, cv2, csv, numpy as np
 from project.scripts.dataset import Player, load_test_images_paths, TEST_IMAGES_PATH, CARD_LOOKUP
 from project.scripts.preprocessing import preprocess
 from project.scripts.preprocessing.sectors import slice_sectors
-from project.scripts.tokken_detection import detect_active_player
-from project.scripts.cnn import UNOCNNClassifier
+from project.scripts.token import detect_active_player
+from project.scripts.classifiers.cnn import UNOCNNClassifier
 import torch.nn.functional as F
 
 # Dataset from https://www.kaggle.com/competitions/iapr-26-uno-vision-challenge/data

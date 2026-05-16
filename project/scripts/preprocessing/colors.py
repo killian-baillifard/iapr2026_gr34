@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from dataset import load_manually_segmented_images
+from project.scripts.dataset import load_manually_segmented_images
 
 def circular_mean_std(angles, max_val=180):
     """Compute mean and stddev for circular data (e.g. hue)."""
