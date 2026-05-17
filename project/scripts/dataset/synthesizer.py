@@ -219,10 +219,11 @@ class Synthesizer:
 def synthesize_train_set(n: int = SYNTHESIZED_SECTORS) -> None:
     os.makedirs(SYNTHESIZED_DIRECTORY, exist_ok=True)
     labels = np.zeros((0, CARDS_COUNT))
+    synthesizer = Synthesizer()
 
-    for i in range(SYNTHESIZED_SECTORS):
+    for i in range(n):
 
-        print(f"Synthesizing image {i + 1} / {SYNTHESIZED_SECTORS}")
+        print(f"Synthesizing image {i + 1} / {n}")
         image, label = synthesizer.generate()
         labels = np.concatenate([labels, label.reshape(1, CARDS_COUNT)])
         np.save(synthesized_image_path(i), image)
@@ -234,11 +235,11 @@ if __name__ == "__main__":
 
     PREVIEW = True
     N = 20
-    synthesizer = Synthesizer()
 
     if PREVIEW:
         for i in range(N):
 
+            synthesizer = Synthesizer()
             image, label = synthesizer.generate()
             plt.figure(f"Synthesized image {i}")
             

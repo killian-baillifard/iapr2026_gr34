@@ -1,9 +1,11 @@
 import os, torch, cv2, csv, numpy as np
 from project.scripts.dataset import Player, load_test_images_paths, TEST_IMAGES_PATH, CARD_LOOKUP
+from project.scripts.dataset.synthesizer import synthesize_train_set
 from project.scripts.preprocessing import preprocess
 from project.scripts.preprocessing.sectors import slice_sectors
+from project.scripts.preprocessing.cache import Cache, rebuild_cache
 from project.scripts.token import detect_active_player
-from project.scripts.classifiers.cnn import UNOCNNClassifier
+from project.scripts.classifiers.cnn import UNOCNNClassifier, train_model
 import torch.nn.functional as F
 
 # Dataset from https://www.kaggle.com/competitions/iapr-26-uno-vision-challenge/data
@@ -12,6 +14,29 @@ MODEL_PATH = os.path.join("best_model.pth")
 SUBMISSION_FILE = os.path.join("submission.csv")
 
 if __name__ == "__main__":
+
+    # Settings
+    SYNTHETIZE = False
+    REBUILD_TRAIN_PREPROC_CACHE = False
+    REBUILD_VAL_PREPROC_CACHE = False
+    TRAIN_MODEL = True
+    SUBMISSION = False
+
+    # Synthetize data
+    if SYNTHETIZE:
+        synthesize_train_set(512)
+
+    # Preprocess and cache train set
+    if REBUILD_TRAIN_PREPROC_CACHE:
+        rebuild_cache(Cache.TRAINING)
+
+    # Preprocess and cache train set
+    if REBUILD_TRAIN_PREPROC_CACHE:
+        rebuild_cache(Cache.VALIDATION)
+
+    # Train model
+    if TRAIN_MODEL:
+        train_model()
 
     # Create submission file
     with open(SUBMISSION_FILE, "w") as submission:

@@ -3,7 +3,7 @@ import numpy as np
 from torch import nn
 import torch.nn.functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, RandomSampler
 import matplotlib.pyplot as plt
 from project.scripts.preprocessing.cache import Cache, load_labels, load_image
 from sklearn.metrics import f1_score
@@ -97,12 +97,6 @@ class UNODataset(Dataset):
         image = load_image(self.cache, i)
         image = torch.from_numpy(image).float()
         image = image.permute(2, 0, 1) # (c, h, w)
-        image = F.interpolate(
-            image.unsqueeze(0),
-            size=(256, 512),
-            mode="bilinear",
-            align_corners=False
-        ).squeeze(0)
         return image, self.labels[i]
 
 def compute_pos_weights(labels: np.ndarray, device: torch.device):
@@ -154,13 +148,14 @@ def val_epoch(model: UNOCNNClassifier, loader: DataLoader, criterion: nn.BCEWith
     avg_f1 = total_f1 / len(loader)
     return total_loss / len(loader), avg_f1
 
-if __name__ == "__main__":
+def train_model() -> None:
 
     # Split dataset into train and validations sets
     print("Creating datasets")
     train_dataset = UNODataset(Cache.TRAINING)
     val_dataset = UNODataset(Cache.VALIDATION)
-    train_loader = DataLoader(train_dataset, batch_size=32, sampler=True, num_workers=4)
+    sampler = RandomSampler(train_dataset, replacement=True, num_samples=512)
+    train_loader = DataLoader(train_dataset, batch_size=32, sampler=sampler, num_workers=4)
     val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False, num_workers=4)
 
     # Instantiate model
@@ -177,7 +172,7 @@ if __name__ == "__main__":
 
     # Run epochs
     print("Running training epochs")
-    NUM_EPOCHS = 80
+    NUM_EPOCHS = 100
     PATIENCE = 10
     patience = 0
     best_val_loss = np.inf
@@ -216,3 +211,6 @@ if __name__ == "__main__":
     plt.legend()
     plt.tight_layout()
     plt.show()
+
+if __name__ == "__main__":
+    train_model()

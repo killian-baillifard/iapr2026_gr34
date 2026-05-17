@@ -1,4 +1,4 @@
-import os, cv2, shutil
+import os, cv2
 import numpy as np
 from matplotlib import pyplot as plt
 from enum import StrEnum
@@ -67,11 +67,13 @@ def rebuild_cache(cache: Cache) -> None:
             os.makedirs(TRAINING_CACHE_DIRECTORY, exist_ok=True)
 
             # Copy labels
-            shutil.copy(SYNTHESIZED_LABELS_PATH, TRAINING_LABELS_PATH)
+            labels = np.load(SYNTHESIZED_LABELS_PATH)
+            n = labels.shape[0]
+            np.save(TRAINING_LABELS_PATH, labels)
 
             # For each sector
-            for i in range(SYNTHESIZED_SECTORS):
-                print(f"Preprocessing sector {i + 1} / {SYNTHESIZED_SECTORS}")
+            for i in range(n):
+                print(f"Preprocessing sector {i + 1} / {n}")
                 path = synthesized_image_path(i)
                 sector = np.array(np.load(path))
                 np.save(training_image_path(i), preprocess(sector))
@@ -121,8 +123,7 @@ if __name__ == "__main__":
         image = load_image(CACHE, i)
         label = labels[i]
 
-        preprocessed = np.load(image)
-        preview = rygb2rgb(preprocessed)
+        preview = rygb2rgb(image)
         
         plt.figure()
 
