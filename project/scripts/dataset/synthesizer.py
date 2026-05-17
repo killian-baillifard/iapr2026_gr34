@@ -180,6 +180,20 @@ class Synthesizer:
         # Convert to RGB and return result
         return cv2.cvtColor(self.canvas.copy(), cv2.COLOR_BGRA2RGB), label
 
+def synthesize_train_set(n: int = SYNTHESIZED_SECTORS) -> None:
+    os.makedirs(SYNTHESIZED_DIRECTORY, exist_ok=True)
+    labels = np.zeros((0, CARDS_COUNT))
+
+    for i in range(SYNTHESIZED_SECTORS):
+
+        print(f"Synthesizing image {i + 1} / {SYNTHESIZED_SECTORS}")
+        image, label = synthesizer.generate()
+        labels = np.concatenate([labels, label.reshape(1, CARDS_COUNT)])
+        np.save(synthesized_image_path(i), image)
+
+    print(f"Saving labels")
+    np.save(SYNTHESIZED_LABELS_PATH, labels)
+
 if __name__ == "__main__":
 
     PREVIEW = False
@@ -212,15 +226,4 @@ if __name__ == "__main__":
         plt.show()
     
     else:
-        os.makedirs(SYNTHESIZED_DIRECTORY, exist_ok=True)
-        labels = np.zeros((0, CARDS_COUNT))
-
-        for i in range(SYNTHESIZED_SECTORS):
-
-            print(f"Synthesizing image {i + 1} / {SYNTHESIZED_SECTORS}")
-            image, label = synthesizer.generate()
-            labels = np.concatenate([labels, label.reshape(1, CARDS_COUNT)])
-            np.save(synthesized_image_path(i), image)
-    
-        print(f"Saving labels")
-        np.save(SYNTHESIZED_LABELS_PATH, labels)
+        synthesize_train_set()

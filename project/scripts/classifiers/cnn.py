@@ -105,17 +105,16 @@ class UNODataset(Dataset):
         ).squeeze(0)
         return image, self.labels[i]
 
-def compute_pos_weights(loader: DataLoader, num_labels: int, device: torch.device):
+def compute_pos_weights(labels: np.ndarray, device: torch.device):
     """
     pos_weight[i] = (# negative samples for label i) / (# positive samples for label i)
     This is the standard formulation recommended by PyTorch docs.
+
+    labels : np.ndarray of shape (N, 54), binary
     """
-    pos_counts = torch.zeros(num_labels)
-    total = 0
-    for _, labels in loader:
-        pos_counts += labels.sum(dim=0).cpu()
-        total += labels.shape[0]
-    neg_counts = total - pos_counts
+    labels     = torch.from_numpy(labels).float()
+    pos_counts = labels.sum(dim=0)
+    neg_counts = len(labels) - pos_counts
     pos_weight = neg_counts / pos_counts.clamp(min=1)
     pos_weight = pos_weight.clamp(max=20) # NOTE Increase when model predict 0 everywhere, decrease when model predict false positives
     return pos_weight.to(device)
@@ -157,26 +156,22 @@ def val_epoch(model: UNOCNNClassifier, loader: DataLoader, criterion: nn.BCEWith
 
 if __name__ == "__main__":
 
-    # Load dataset
-    print("Loading preprocessed data")
-    paths, labels = load_labels()
-
     # Split dataset into train and validations sets
-    print("Stratifying data")
+    print("Creating datasets")
     train_dataset = UNODataset(Cache.TRAINING)
     val_dataset = UNODataset(Cache.VALIDATION)
-    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
-    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False, num_workers=4)
+    train_loader = DataLoader(train_dataset, batch_size=32, sampler=True, num_workers=4)
+    val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False, num_workers=4)
 
     # Instantiate model
-    print("Loading model")
+    print("Instantiating new model")
     device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model     = UNOCNNClassifier(num_classes=54).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-2)
     scheduler = ReduceLROnPlateau(
         optimizer, mode='min', patience=3, factor=0.5
     )
-    pos_weight = compute_pos_weights(train_loader, num_labels=54, device=device)
+    pos_weight = compute_pos_weights(train_dataset.labels, device=device)
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     print(f"Total parameters: {sum(p.numel() for p in model.parameters())}")
 

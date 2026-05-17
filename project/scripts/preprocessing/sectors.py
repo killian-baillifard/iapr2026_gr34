@@ -1,9 +1,10 @@
 import numpy as np
+import cv2
 from project.scripts.dataset import Player
 from project.scripts.dataset import WIDTH as IMAGE_WIDTH, HEIGHT as IMAGE_HEIGHT
 
-SECTOR_WIDTH = 2000
-SECTOR_HEIGHT = 1000
+SECTOR_WIDTH = 2048
+SECTOR_HEIGHT = 1024
 
 class Sector:
 
@@ -105,4 +106,16 @@ def slice_sectors(image: np.ndarray) -> np.ndarray:
         player_3_sector,
         player_4_sector
     ])
+
+    # TODO try downscaling here already
+    """
+    sectors = np.stack([
+        cv2.resize(center_sector, (512, 256), interpolation=cv2.INTER_AREA),
+        cv2.resize(player_1_sector, (512, 256), interpolation=cv2.INTER_AREA),
+        cv2.resize(player_2_sector, (512, 256), interpolation=cv2.INTER_AREA),
+        cv2.resize(player_3_sector, (512, 256), interpolation=cv2.INTER_AREA),
+        cv2.resize(player_4_sector, (512, 256), interpolation=cv2.INTER_AREA)
+    ])
+    """
+
     return sectors
