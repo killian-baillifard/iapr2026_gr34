@@ -6,12 +6,10 @@ import numpy as np
 import pandas as pd
 from enum import StrEnum
 from cv2.typing import MatLike
-from matplotlib import pyplot as plt
-from matplotlib.gridspec import GridSpec
 
 CURRENT_FILE = os.path.abspath(__file__)
 CURRENT_PATH = os.path.dirname(CURRENT_FILE)
-PARENT_PATH = os.path.dirname(CURRENT_PATH)
+PARENT_PATH = os.path.dirname(os.path.dirname(CURRENT_PATH))
 TRAIN_FILE = os.path.join(PARENT_PATH, "data", "train.csv")
 TRAIN_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "train_images")
 TEST_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "test_images")
@@ -341,41 +339,3 @@ def load_reference_images() -> np.ndarray:
         image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
         images.append(image)
     return np.array(images)
-
-if __name__ == "__main__":
-
-    # Print path and cards count
-    print(f"Parent path : {PARENT_PATH}")
-    print(f"Number of unique cards : {CARDS_COUNT}")
-
-    # Load random set of images
-    N = 2
-    images, labels = load_random_train_images(N)
-    probabilities = np.array([label.probabilities() for label in labels])
-
-    # Print images and their labels
-    fig = plt.figure(f"{N} random samples from train dataset")
-    gs = GridSpec(6, N, figure=fig, height_ratios=[5, 1, 1, 1, 1, 1], hspace=0)
-
-    for i in range(N):
-        # Image
-        ax = fig.add_subplot(gs[0, i])
-        ax.imshow(images[i])
-        ax.axis("off")
-
-        # Histograms
-        for j in range(5):
-            ax = fig.add_subplot(gs[j + 1, i])
-            ax.bar(np.arange(CARDS_COUNT), probabilities[i, j], width=0.6)
-            ax.set_xlim(-0.5, CARDS_COUNT - 0.5)
-            ax.set_ylim(0, 1)
-            ax.set_yticks([])
-            if j < 4:
-                ax.set_xticks([])
-            else:
-                ax.set_xticks(np.arange(CARDS_COUNT))
-                ax.set_xticklabels([str(c) for c in Card], rotation=90, fontsize=8)
-
-    # Show figure
-    plt.tight_layout()
-    plt.show()

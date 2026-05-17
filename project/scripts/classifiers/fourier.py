@@ -4,7 +4,7 @@ from skimage.morphology import closing, disk
 from matplotlib import pyplot as plt
 from project.scripts.dataset import CARDS_COUNT, Card
 from project.scripts.preprocessing.rygb import rygb2rgb
-from project.scripts.preprocessing.cache import load_cached_preprocessing
+from project.scripts.preprocessing.cache import load_labels
 
 def fourier_descriptors(contour: np.ndarray, n_descriptors: int = 32) -> np.ndarray:
     """
@@ -43,7 +43,7 @@ def fourier_descriptors(contour: np.ndarray, n_descriptors: int = 32) -> np.ndar
 if __name__ == "__main__":
 
     # Load data and select random sample
-    paths, labels = load_cached_preprocessing()
+    paths, labels = load_labels()
     i = np.random.randint(0, labels.shape[0])
     path = paths[i]
     label = labels[i]

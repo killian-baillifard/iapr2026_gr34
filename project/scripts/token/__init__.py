@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from project.scripts.dataset import WIDTH, HEIGHT, Player, load_train_images
+from project.scripts.dataset import WIDTH, HEIGHT, Player
 from project.scripts.preprocessing.rygb import filter_color
 from project.scripts.preprocessing.sectors import SECTOR_WIDTH, SECTOR_HEIGHT
 from matplotlib import pyplot as plt
@@ -264,23 +264,3 @@ def _debug_plot(n, img, white, soft, binary,
     plt.savefig(f"/tmp/debug_image_{n}.png", dpi=60)
     plt.close()
     print(f"  Debug saved to /tmp/debug_image_{n}.png")
-
-
-#  Test 
-
-if __name__ == "__main__":
-
-    images, labels = load_train_images()
-
-    print("\n=== Detection ===")
-    predictions = detect_active_player(images, debug=False)
-
-    print("\n=== Results ===")
-    correct  = sum(str(p) == str(l.active_player)
-                   for p, l in zip(predictions, labels) if p is not None)
-    detected = sum(p is not None for p in predictions)
-    print(f"  Detected : {detected}/{len(images)}")
-    print(f"  Correct  : {correct}/{len(images)}")
-    for i, (p, l) in enumerate(zip(predictions, labels)):
-        status = "✓" if str(p) == str(l.active_player) else "✗"
-        print(f"  {status} Image {i}: predicted={p}  truth={l.active_player}")

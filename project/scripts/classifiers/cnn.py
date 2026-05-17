@@ -4,11 +4,10 @@ from torch import nn
 import torch.nn.functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader, Dataset
-from project.scripts.preprocessing.cache import load_cached_preprocessing
 import matplotlib.pyplot as plt
+from project.scripts.preprocessing.cache import Cache, load_labels, load_image
 from sklearn.metrics import f1_score
 
-"""
 class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels):
         super().__init__()
@@ -77,68 +76,36 @@ class UNOCNNClassifier(nn.Module):
         x = self.block4(x)
         x = self.pool(x)
         return self.classifier(x)
-"""
-
-class UNOCNNClassifier(nn.Module):
-    def __init__(self, num_classes=54):
-        super().__init__()
-        self.features = nn.Sequential(
-            # Block 1 — 4 → 32
-            nn.Conv2d(4, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32), nn.ReLU(),
-            nn.MaxPool2d(2, 2),
-            # Block 2 — 32 → 64
-            nn.Conv2d(32, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64), nn.ReLU(),
-            nn.MaxPool2d(2, 2),
-            # Block 3 — 64 → 128
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128), nn.ReLU(),
-            nn.MaxPool2d(2, 2),
-        )
-        self.classifier = nn.Sequential(
-            nn.AdaptiveAvgPool2d((2, 2)),
-            nn.Flatten(),
-            nn.Linear(128 * 2 * 2, 256),
-            nn.ReLU(),
-            nn.Dropout(0.5),
-            nn.Linear(256, num_classes)
-        )
-
-    def forward(self, x):
-        return self.classifier(self.features(x))
 
 class UNODataset(Dataset):
 
-    def __init__(self, file_paths, labels):
+    def __init__(self, cache: Cache):
         """
         Parameters
         ----------
-        file_paths : list[str]
-            List of paths to  of (n*s) paths to individual sector images on disk
 
-        labels : np.ndarray
-            (n*s, 54) binary numpy array, small enough to keep in RAM
+        cache : Cache
+            Cache from which to load the dataset
         """
-        self.file_paths = file_paths
-        self.labels     = torch.tensor(labels, dtype=torch.float32)
+        self.cache = cache
+        self.labels = load_labels(self.cache)
 
     def __len__(self):
-        return len(self.file_paths)
+        return self.labels.shape[0]
 
-    def __getitem__(self, idx):
-        image = np.load(self.file_paths[idx])              # load single sample
+    def __getitem__(self, i):
+        image = load_image(self.cache, i)
         image = torch.from_numpy(image).float()
-        image = image.permute(2, 0, 1)                     # (c, h, w)
+        image = image.permute(2, 0, 1) # (c, h, w)
         image = F.interpolate(
             image.unsqueeze(0),
             size=(256, 512),
             mode="bilinear",
             align_corners=False
         ).squeeze(0)
-        return image, self.labels[idx]
+        return image, self.labels[i]
 
-def compute_pos_weights(loader, num_labels, device):
+def compute_pos_weights(loader: DataLoader, num_labels: int, device: torch.device):
     """
     pos_weight[i] = (# negative samples for label i) / (# positive samples for label i)
     This is the standard formulation recommended by PyTorch docs.
@@ -153,7 +120,7 @@ def compute_pos_weights(loader, num_labels, device):
     pos_weight = pos_weight.clamp(max=20) # NOTE Increase when model predict 0 everywhere, decrease when model predict false positives
     return pos_weight.to(device)
 
-def train_epoch(model, loader, optimizer, criterion, device):
+def train_epoch(model: UNOCNNClassifier, loader: DataLoader, optimizer: torch.optim.AdamW, criterion: nn.BCEWithLogitsLoss, device: torch.device):
     model.train()
     total_loss = 0.0
     for images, labels in loader:
@@ -167,7 +134,7 @@ def train_epoch(model, loader, optimizer, criterion, device):
         total_loss += loss.item()
     return total_loss / len(loader)
 
-def val_epoch(model, loader, criterion, device):
+def val_epoch(model: UNOCNNClassifier, loader: DataLoader, criterion: nn.BCEWithLogitsLoss, device: torch.device):
     model.eval()
     total_loss = 0.0
     total_f1 = 0.0
@@ -188,57 +155,18 @@ def val_epoch(model, loader, criterion, device):
     avg_f1 = total_f1 / len(loader)
     return total_loss / len(loader), avg_f1
 
-def stratified_split_multilabel(labels: np.ndarray, train_ratio: float = 0.8):
-    """
-    labels      : (n, C) binary numpy array
-    train_ratio : fraction of data for training (default 0.8)
-    Returns train_indices, val_indices guaranteeing each card
-    appears at least once in the training set.
-    """
-    n, num_cards = labels.shape
-    target_train = int(n * train_ratio)
-
-    assigned      = np.zeros(n, dtype=bool)
-    train_indices = []
-
-    # Phase 1 — guarantee each card appears at least once
-    for card in range(num_cards):
-        candidates = np.where((labels[:, card] == 1) & ~assigned)[0]
-
-        if len(candidates) == 0:
-            continue
-
-        chosen = np.random.choice(candidates)
-        train_indices.append(chosen)
-        assigned[chosen] = True
-
-    # Phase 2 — fill up to target_train with random unassigned samples
-    remaining = np.where(~assigned)[0]
-    np.random.shuffle(remaining)
-
-    still_needed = max(0, target_train - len(train_indices))
-    extra = remaining[:still_needed]
-
-    train_indices.extend(extra.tolist())
-    assigned[extra] = True
-
-    val_indices = np.where(~assigned)[0].tolist()
-
-    return train_indices, val_indices
-
 if __name__ == "__main__":
 
     # Load dataset
     print("Loading preprocessed data")
-    paths, labels = load_cached_preprocessing()
+    paths, labels = load_labels()
 
     # Split dataset into train and validations sets
     print("Stratifying data")
-    train_indices, val_indices = stratified_split_multilabel(labels)
-    train_dataset = UNODataset([paths[i] for i in train_indices], labels[train_indices])
-    val_dataset   = UNODataset([paths[i] for i in val_indices], labels[val_indices])
-    train_loader  = DataLoader(train_dataset, batch_size=32, shuffle=True,  num_workers=4)
-    val_loader    = DataLoader(val_dataset,   batch_size=32, shuffle=False, num_workers=4)
+    train_dataset = UNODataset(Cache.TRAINING)
+    val_dataset = UNODataset(Cache.VALIDATION)
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
+    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False, num_workers=4)
 
     # Instantiate model
     print("Loading model")
@@ -257,7 +185,7 @@ if __name__ == "__main__":
     NUM_EPOCHS = 80
     PATIENCE = 10
     patience = 0
-    best_val_loss = float('inf')
+    best_val_loss = np.inf
     train_losses = []
     val_losses = []
     f1s = []
