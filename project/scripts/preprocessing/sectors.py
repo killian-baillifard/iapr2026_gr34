@@ -3,8 +3,12 @@ import cv2
 from project.scripts.dataset import Player
 from project.scripts.dataset import WIDTH as IMAGE_WIDTH, HEIGHT as IMAGE_HEIGHT
 
-SECTOR_WIDTH = 2048
-SECTOR_HEIGHT = 1024
+SECTOR_SRC_WIDTH = 2048
+SECTOR_SRC_HEIGHT = 1024
+
+SECTOR_END_WIDTH = 512
+SECTOR_END_HEIGHT = 256
+SECTOR_END_SIZE = (SECTOR_END_WIDTH, SECTOR_END_HEIGHT)
 
 class Sector:
 
@@ -40,34 +44,34 @@ class Sector:
 
 SECTORS = {
     "center": Sector(
-        x       = IMAGE_WIDTH / 2 - SECTOR_WIDTH / 2,
-        y       = IMAGE_HEIGHT / 2 - SECTOR_HEIGHT / 2,
-        width   = SECTOR_WIDTH,
-        height  = SECTOR_HEIGHT
+        x       = IMAGE_WIDTH / 2 - SECTOR_SRC_WIDTH / 2,
+        y       = IMAGE_HEIGHT / 2 - SECTOR_SRC_HEIGHT / 2,
+        width   = SECTOR_SRC_WIDTH,
+        height  = SECTOR_SRC_HEIGHT
     ),
     str(Player.P1): Sector(
-        x       = IMAGE_WIDTH / 2 - SECTOR_WIDTH / 2,
-        y       = IMAGE_HEIGHT - SECTOR_HEIGHT,
-        width   = SECTOR_WIDTH,
-        height  = SECTOR_HEIGHT
+        x       = IMAGE_WIDTH / 2 - SECTOR_SRC_WIDTH / 2,
+        y       = IMAGE_HEIGHT - SECTOR_SRC_HEIGHT,
+        width   = SECTOR_SRC_WIDTH,
+        height  = SECTOR_SRC_HEIGHT
     ),
     str(Player.P2): Sector(
-        x       = IMAGE_WIDTH - SECTOR_HEIGHT,
-        y       = IMAGE_HEIGHT / 2 - SECTOR_WIDTH / 2,
-        width   = SECTOR_HEIGHT,
-        height  = SECTOR_WIDTH
+        x       = IMAGE_WIDTH - SECTOR_SRC_HEIGHT,
+        y       = IMAGE_HEIGHT / 2 - SECTOR_SRC_WIDTH / 2,
+        width   = SECTOR_SRC_HEIGHT,
+        height  = SECTOR_SRC_WIDTH
     ),
     str(Player.P3): Sector(
-        x       = IMAGE_WIDTH / 2 - SECTOR_WIDTH / 2,
+        x       = IMAGE_WIDTH / 2 - SECTOR_SRC_WIDTH / 2,
         y       = 0,
-        width   = SECTOR_WIDTH,
-        height  = SECTOR_HEIGHT
+        width   = SECTOR_SRC_WIDTH,
+        height  = SECTOR_SRC_HEIGHT
     ),
     str(Player.P4): Sector(
         x       = 0,
-        y       = IMAGE_HEIGHT / 2 - SECTOR_WIDTH / 2,
-        width   = SECTOR_HEIGHT,
-        height  = SECTOR_WIDTH
+        y       = IMAGE_HEIGHT / 2 - SECTOR_SRC_WIDTH / 2,
+        width   = SECTOR_SRC_HEIGHT,
+        height  = SECTOR_SRC_WIDTH
     )
 }
 
@@ -100,22 +104,11 @@ def slice_sectors(image: np.ndarray) -> np.ndarray:
 
     # Return stacked sectors
     sectors = np.stack([
-        center_sector,
-        player_1_sector,
-        player_2_sector,
-        player_3_sector,
-        player_4_sector
+        cv2.resize(center_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA),
+        cv2.resize(player_1_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA),
+        cv2.resize(player_2_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA),
+        cv2.resize(player_3_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA),
+        cv2.resize(player_4_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA)
     ])
-
-    # TODO try downscaling here already
-    """
-    sectors = np.stack([
-        cv2.resize(center_sector, (512, 256), interpolation=cv2.INTER_AREA),
-        cv2.resize(player_1_sector, (512, 256), interpolation=cv2.INTER_AREA),
-        cv2.resize(player_2_sector, (512, 256), interpolation=cv2.INTER_AREA),
-        cv2.resize(player_3_sector, (512, 256), interpolation=cv2.INTER_AREA),
-        cv2.resize(player_4_sector, (512, 256), interpolation=cv2.INTER_AREA)
-    ])
-    """
 
     return sectors

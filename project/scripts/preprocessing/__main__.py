@@ -16,7 +16,7 @@ if __name__ == "__main__":
     for i in range(N):
 
         # Apply pipeline for each sector
-        print(f"Preprocessing image {i}")
+        print(f"Preprocessing image {i + 1} / {N}")
         preprocessed_preview = []
         filtered_preview = []
         for sector in slice_sectors(images[i]):
@@ -30,7 +30,6 @@ if __name__ == "__main__":
             filtered_preview.append(rygb2rgb(filtered))
 
         # Prepare plot
-        print(f"Plotting image {i}")
         COLS = 4
         plt.figure(f"Preprocessing {i}")
         plt.subplot(1, COLS, 1)

@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-AREA_BANDS = [(3_000, 90_000)]
+AREA_BANDS = [(250, 25_000)]
 
 def area_bandpass_filter(image: np.ndarray) -> np.ndarray:
     """
