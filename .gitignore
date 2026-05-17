@@ -5,3 +5,4 @@ data/data_lab_03/
 project/**/*.drawio.bkp
 project/data
 project/cache
+project/synthesized

@@ -1,3 +1,9 @@
-scikit-image
+numpy
 matplotlib
+pandas
+opencv-python
+torch
 ipykernel
+scipy
+scikit-image
+scikit-learn

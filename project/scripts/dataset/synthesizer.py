@@ -7,16 +7,20 @@ from project.scripts.dataset import PARENT_PATH, CARD_LOOKUP, CARDS_COUNT, Card
 from project.scripts.preprocessing.sectors import SECTOR_WIDTH, SECTOR_HEIGHT
 from scipy.stats import truncnorm
 
-SAMPLES_PATH = os.path.join(PARENT_PATH, "samples")
-BACKGROUNDS_PATH = os.path.join(SAMPLES_PATH, "backgrounds")
-CARDS_PATH = os.path.join(SAMPLES_PATH, "cards")
-TOKENS_PATH = os.path.join(SAMPLES_PATH, "tokens")
+SAMPLES_DIRECTORY = os.path.join(PARENT_PATH, "samples")
+BACKGROUNDS_DIRECTORY = os.path.join(SAMPLES_DIRECTORY, "backgrounds")
+CARDS_DIRECTORY = os.path.join(SAMPLES_DIRECTORY, "cards")
+TOKENS_DIRECTORY = os.path.join(SAMPLES_DIRECTORY, "tokens")
+SYNTHESIZED_DIRECTORY = os.path.join(PARENT_PATH, "synthesized")
+SYNTHESIZED_LABELS_PATH = os.path.join(SYNTHESIZED_DIRECTORY, "labels.npy")
+SYNTHESIZED_SECTORS = 5_000
 
-gray_background_path = lambda id: os.path.join(BACKGROUNDS_PATH, f"gray_{id}.png")
-flower_background_path = lambda id: os.path.join(BACKGROUNDS_PATH, f"flower_{id}.png")
-card_path = lambda id: os.path.join(CARDS_PATH, f"{id}.png")
-black_token_path = lambda id: os.path.join(TOKENS_PATH, f"k_{id}.png")
-yellow_token_path = lambda id: os.path.join(TOKENS_PATH, f"y_{id}.png")
+gray_background_path = lambda id: os.path.join(BACKGROUNDS_DIRECTORY, f"gray_{id}.png")
+flower_background_path = lambda id: os.path.join(BACKGROUNDS_DIRECTORY, f"flower_{id}.png")
+card_path = lambda id: os.path.join(CARDS_DIRECTORY, f"{id}.png")
+black_token_path = lambda id: os.path.join(TOKENS_DIRECTORY, f"k_{id}.png")
+yellow_token_path = lambda id: os.path.join(TOKENS_DIRECTORY, f"y_{id}.png")
+synthesized_image_path = lambda i: os.path.join(SYNTHESIZED_DIRECTORY, f"{i}.npy")
 
 def centered_truncated_normal(center: float, spread: float, std: float = 100) -> float:
     """
@@ -139,7 +143,8 @@ class Synthesizer:
                 # Randomize card placement over centerline
                 card_x = int(centered_truncated_normal(x, 10))
                 card_y = int(centered_truncated_normal(y, 10))
-                card_angle = centered_truncated_normal(centerline_angle, 45 if stacked_cards else 10)
+                reverse = np.random.randint(0, 2)
+                card_angle = 180 if reverse else 0 + centered_truncated_normal(centerline_angle, 45 if stacked_cards else 10)
                 self.alpha_blend(self.cards[index], card_x, card_y, card_angle)
 
                 # Increment centerline position
@@ -157,30 +162,45 @@ class Synthesizer:
 
 if __name__ == "__main__":
 
-    # Synthesize N image
+    PREVIEW = False
     N = 5
     synthesizer = Synthesizer()
-    for i in range(N):
 
-        # Generate new image
-        image, label = synthesizer.generate()
-        plt.figure(f"Synthesized image {i}")
-        
-        # Plot image
-        plt.subplot(211)
-        plt.imshow(image)
-        plt.axis("off")
+    if PREVIEW:
+        for i in range(N):
 
-        # Plot labels
-        plt.subplot(212)
-        plt.bar(np.arange(CARDS_COUNT), label, width=0.6)
-        plt.xlim(-0.5, CARDS_COUNT - 0.5)
-        plt.ylim(0, 1)
-        plt.yticks([])
-        plt.xticks(np.arange(CARDS_COUNT), [str(c) for c in Card], rotation=90, fontsize=8)
-        
-        # Finish plot
-        plt.tight_layout()
+            image, label = synthesizer.generate()
+            plt.figure(f"Synthesized image {i}")
+            
+            # Plot image
+            plt.subplot(211)
+            plt.imshow(image)
+            plt.axis("off")
 
-    # Show plot
-    plt.show()
+            # Plot labels
+            plt.subplot(212)
+            plt.bar(np.arange(CARDS_COUNT), label, width=0.6)
+            plt.xlim(-0.5, CARDS_COUNT - 0.5)
+            plt.ylim(0, 1)
+            plt.yticks([])
+            plt.xticks(np.arange(CARDS_COUNT), [str(c) for c in Card], rotation=90, fontsize=8)
+            
+            # Finish plot
+            plt.tight_layout()
+
+        # Show plot
+        plt.show()
+    
+    else:
+        os.makedirs(SYNTHESIZED_DIRECTORY, exist_ok=True)
+        labels = np.zeros((0, CARDS_COUNT))
+
+        for i in range(SYNTHESIZED_SECTORS):
+
+            print(f"Synthesizing image {i + 1} / {SYNTHESIZED_SECTORS}")
+            image, label = synthesizer.generate()
+            labels = np.concatenate([labels, label.reshape(1, CARDS_COUNT)])
+            np.save(synthesized_image_path(i), image)
+    
+        print(f"Saving labels")
+        np.save(SYNTHESIZED_LABELS_PATH, labels)
