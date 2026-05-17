@@ -117,7 +117,7 @@ class Synthesizer:
         self.canvas = self.flower_backgrounds[sector].copy() if flower else self.gray_backgrounds[sector].copy()
 
         # Select random number of cards
-        nb_cards = np.random.randint(0, 5) if sector < 4 else 1
+        nb_cards = 1 if center_sector else np.random.randint(0, 5)
         label = np.zeros(54)
         if nb_cards:
 
@@ -173,7 +173,7 @@ class Synthesizer:
             # Overlay token on image with random placement
             if not center_sector:
                 token_x = int(centered_truncated_normal(0.95 * SECTOR_WIDTH, 20))
-                token_y = int(centered_truncated_normal(SECTOR_HEIGHT / 4, 20))
+                token_y = int(centered_truncated_normal(SECTOR_HEIGHT / 4, 40))
                 token = self.yellow_tokens[sector] if flower else self.black_tokens[sector]
                 self.alpha_blend(token, token_x, token_y, 0.0)
 
@@ -183,7 +183,7 @@ class Synthesizer:
 if __name__ == "__main__":
 
     PREVIEW = False
-    N = 10
+    N = 5
     synthesizer = Synthesizer()
 
     if PREVIEW:
