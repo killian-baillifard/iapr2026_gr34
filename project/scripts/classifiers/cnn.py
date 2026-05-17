@@ -162,7 +162,7 @@ def train_model() -> None:
     print("Instantiating new model")
     device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model     = UNOCNNClassifier(num_classes=54).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-2)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=4e-3, weight_decay=1e-2)
     scheduler = ReduceLROnPlateau(
         optimizer, mode='min', patience=3, factor=0.5
     )

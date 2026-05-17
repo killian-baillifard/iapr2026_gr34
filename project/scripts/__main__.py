@@ -16,15 +16,15 @@ SUBMISSION_FILE = os.path.join("submission.csv")
 if __name__ == "__main__":
 
     # Settings
-    SYNTHETIZE = False
-    REBUILD_TRAIN_PREPROC_CACHE = False
-    REBUILD_VAL_PREPROC_CACHE = False
+    SYNTHETIZE = True
+    REBUILD_TRAIN_PREPROC_CACHE = True
+    REBUILD_VAL_PREPROC_CACHE = True
     TRAIN_MODEL = True
-    SUBMISSION = False
+    SUBMISSION = True
 
     # Synthetize data
     if SYNTHETIZE:
-        synthesize_train_set(512)
+        synthesize_train_set(16384)
 
     # Preprocess and cache train set
     if REBUILD_TRAIN_PREPROC_CACHE:
