@@ -166,7 +166,6 @@ class Synthesizer:
                     x = int(centered_truncated_normal(SECTOR_WIDTH / 2, 400))
                     y_offset = np.clip(centerline_y - SECTOR_HEIGHT / 2, -np.inf, 0)
                     c = 2 * y_offset + 100 * np.abs(np.sin(np.deg2rad(angle))) - 175
-                    print(c)
                     y = int(centered_truncated_normal(c, 10))
                     index = np.random.randint(0, CARDS_COUNT)
                     self.alpha_blend(self.cards[index], x, y, angle)
@@ -183,7 +182,7 @@ class Synthesizer:
 
 if __name__ == "__main__":
 
-    PREVIEW = True
+    PREVIEW = False
     N = 10
     synthesizer = Synthesizer()
 
