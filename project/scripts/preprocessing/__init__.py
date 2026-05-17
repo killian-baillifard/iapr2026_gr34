@@ -15,7 +15,7 @@ def preprocess(image: np.ndarray) -> np.ndarray:
     Returns
     -------
     preprocessed : np.ndarray
-        RYGB preprocessed image (5, height, width, 4)
+        RYGB preprocessed image (height, width, 4)
     """
 
     return area_bandpass_filter(hsv2rygb(cv2.cvtColor(image, cv2.COLOR_RGB2HSV)))
