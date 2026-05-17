@@ -111,11 +111,13 @@ class Synthesizer:
 
         # Select random background and sector and initialze new canvas
         flower = np.random.randint(0, 2)
-        sector = np.random.randint(0, 4)
+        sector = np.random.randint(0, 5)
+        center_sector = sector == 4
+        sector = sector if not center_sector else 0
         self.canvas = self.flower_backgrounds[sector].copy() if flower else self.gray_backgrounds[sector].copy()
 
         # Select random number of cards
-        nb_cards = np.random.randint(0, 5)
+        nb_cards = np.random.randint(0, 5) if sector < 4 else 1
         label = np.zeros(54)
         if nb_cards:
 
@@ -126,14 +128,14 @@ class Synthesizer:
             # Select random horizontal, vertical and angle cards centerline placement
             centerline_x = centered_truncated_normal(SECTOR_WIDTH / 2, 100)
             centerline_y = centered_truncated_normal(SECTOR_HEIGHT / 2, 50)
-            centerline_angle = centered_truncated_normal(0, np.deg2rad(15))
+            centerline_angle = centered_truncated_normal(0, 10)
 
             # Select if cards are stacked and randomize direction
             stacked_cards = np.random.randint(0, 2)
             stride = centered_truncated_normal(150, 50) if stacked_cards else centered_truncated_normal(380, 20)
             direction = 1 if np.random.randint(0, 2) else -1
-            x_stride = direction * stride * np.cos(centerline_angle)
-            y_stride = direction * stride * np.sin(centerline_angle)
+            x_stride = direction * stride * np.cos(np.deg2rad(centerline_angle))
+            y_stride = direction * stride * np.sin(np.deg2rad(centerline_angle))
 
             # Overlay cards on image
             x = centerline_x - (nb_cards - 1) * x_stride / 2
@@ -143,27 +145,46 @@ class Synthesizer:
                 # Randomize card placement over centerline
                 card_x = int(centered_truncated_normal(x, 10))
                 card_y = int(centered_truncated_normal(y, 10))
-                reverse = np.random.randint(0, 2)
-                card_angle = 180 if reverse else 0 + centered_truncated_normal(centerline_angle, 45 if stacked_cards else 10)
+                if center_sector:
+                    card_angle = centered_truncated_normal(centerline_angle, 180)
+                else:
+                    card_angle = centered_truncated_normal(centerline_angle, 30 if stacked_cards else 10)
+                    reverse = np.random.randint(0, 2)
+                    if reverse:
+                        card_angle += 180
                 self.alpha_blend(self.cards[index], card_x, card_y, card_angle)
 
                 # Increment centerline position
                 x += x_stride
                 y -= y_stride
 
+            # Randomly add center card at top of sectors 1 and 3
+            if not center_sector and sector % 2 == 0:
+                add_card = np.random.randint(0, 2)
+                if add_card:
+                    angle = centered_truncated_normal(0, 180)
+                    x = int(centered_truncated_normal(SECTOR_WIDTH / 2, 400))
+                    y_offset = np.clip(centerline_y - SECTOR_HEIGHT / 2, -np.inf, 0)
+                    c = 2 * y_offset + 100 * np.abs(np.sin(np.deg2rad(angle))) - 175
+                    print(c)
+                    y = int(centered_truncated_normal(c, 10))
+                    index = np.random.randint(0, CARDS_COUNT)
+                    self.alpha_blend(self.cards[index], x, y, angle)
+
             # Overlay token on image with random placement
-            token_x = int(centered_truncated_normal(0.95 * SECTOR_WIDTH, 50))
-            token_y = int(centered_truncated_normal(SECTOR_HEIGHT / 4, 100))
-            token = self.yellow_tokens[sector] if flower else self.black_tokens[sector]
-            self.alpha_blend(token, token_x, token_y, 0.0)
+            if not center_sector:
+                token_x = int(centered_truncated_normal(0.95 * SECTOR_WIDTH, 20))
+                token_y = int(centered_truncated_normal(SECTOR_HEIGHT / 4, 20))
+                token = self.yellow_tokens[sector] if flower else self.black_tokens[sector]
+                self.alpha_blend(token, token_x, token_y, 0.0)
 
         # Convert to RGB and return result
         return cv2.cvtColor(self.canvas.copy(), cv2.COLOR_BGRA2RGB), label
 
 if __name__ == "__main__":
 
-    PREVIEW = False
-    N = 5
+    PREVIEW = True
+    N = 10
     synthesizer = Synthesizer()
 
     if PREVIEW:
