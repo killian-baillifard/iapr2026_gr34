@@ -16,7 +16,7 @@
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "module": "project.scripts.scripts"
+            "module": "project.scripts"
         },
         {
             "name": "Token",

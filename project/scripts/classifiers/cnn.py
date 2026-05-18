@@ -33,49 +33,49 @@ class UNOCNNClassifier(nn.Module):
     def __init__(self, num_classes=54):
         super().__init__()
 
-        # ── Spatial feature extraction ──────────────────────────────────────
-        # Block 1: 4 → 32,  MaxPool ÷2  → (32, 125, 250)
-        self.block1 = nn.Sequential(
+        # ── Shared backbone ──────────────────────────────────────────────
+        self.backbone = nn.Sequential(
             ResidualBlock(4, 32),
-            nn.MaxPool2d(2, 2),
-        )
-        # Block 2: 32 → 64, MaxPool ÷2  → (64, 62, 125)
-        self.block2 = nn.Sequential(
+            nn.MaxPool2d(2, 2),    # → 128×256
             ResidualBlock(32, 64),
-            nn.MaxPool2d(2, 2),
-        )
-        # Block 3: 64 → 128, MaxPool ÷2 → (128, 31, 62)
-        self.block3 = nn.Sequential(
+            nn.MaxPool2d(2, 2),    # → 64×128
             ResidualBlock(64, 128),
-            nn.MaxPool2d(2, 2),
         )
-        # Block 4: 128 → 256, NO MaxPool → (256, 31, 62)
-        # Keeps spatial resolution high before pooling
-        self.block4 = ResidualBlock(128, 256)
 
-        # ── Spatial → vector ────────────────────────────────────────────────
-        # (4×4) instead of (2×2): 8× more spatial info than original
-        self.pool = nn.AdaptiveAvgPool2d((4, 4))   # → (256, 4, 4) = 4096-d
-
-        # ── Classifier head ─────────────────────────────────────────────────
-        self.classifier = nn.Sequential(
+        # ── Color branch — coarse global features ────────────────────────
+        # Aggressive pooling is fine for color
+        self.color_branch = nn.Sequential(
+            nn.AdaptiveAvgPool2d((4, 4)),  # 128×4×4 = 2048-d
             nn.Flatten(),
-            nn.Linear(256 * 4 * 4, 512),
+            nn.Linear(128 * 4 * 4, 256),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.3),
+        )
+
+        # ── Digit branch — fine local features ───────────────────────────
+        # Keep spatial resolution, let the network find digit regions
+        self.digit_branch = nn.Sequential(
+            ResidualBlock(128, 256),       # stays at 64×128
+            ResidualBlock(256, 256),       # stays at 64×128
+            nn.AdaptiveAvgPool2d((8, 8)), # 256×8×8 = 16384-d
+            nn.Flatten(),
+            nn.Linear(256 * 8 * 8, 512),
             nn.ReLU(inplace=True),
             nn.Dropout(0.4),
             nn.Linear(512, 256),
             nn.ReLU(inplace=True),
             nn.Dropout(0.3),
-            nn.Linear(256, num_classes),
         )
 
+        # ── Combined head ────────────────────────────────────────────────
+        # 256 (color) + 256 (digit) → 54
+        self.head = nn.Linear(512, num_classes)
+
     def forward(self, x):
-        x = self.block1(x)
-        x = self.block2(x)
-        x = self.block3(x)
-        x = self.block4(x)
-        x = self.pool(x)
-        return self.classifier(x)
+        shared = self.backbone(x)
+        color  = self.color_branch(shared)
+        digit  = self.digit_branch(shared)
+        return self.head(torch.cat([color, digit], dim=1))
 
 class UNODataset(Dataset):
 
@@ -110,7 +110,6 @@ def compute_pos_weights(labels: np.ndarray, device: torch.device):
     pos_counts = labels.sum(dim=0)
     neg_counts = len(labels) - pos_counts
     pos_weight = neg_counts / pos_counts.clamp(min=1)
-    pos_weight = pos_weight.clamp(max=20) # NOTE Increase when model predict 0 everywhere, decrease when model predict false positives
     return pos_weight.to(device)
 
 def train_epoch(model: UNOCNNClassifier, loader: DataLoader, optimizer: torch.optim.AdamW, criterion: nn.BCEWithLogitsLoss, device: torch.device):
@@ -154,17 +153,16 @@ def train_model() -> None:
     print("Creating datasets")
     train_dataset = UNODataset(Cache.TRAINING)
     val_dataset = UNODataset(Cache.VALIDATION)
-    sampler = RandomSampler(train_dataset, replacement=True, num_samples=512)
-    train_loader = DataLoader(train_dataset, batch_size=32, sampler=sampler, num_workers=4)
+    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True, num_workers=4)
     val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False, num_workers=4)
 
     # Instantiate model
     print("Instantiating new model")
-    device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model     = UNOCNNClassifier(num_classes=54).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=4e-3, weight_decay=1e-2)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = UNOCNNClassifier(num_classes=54).to(device)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-2)
     scheduler = ReduceLROnPlateau(
-        optimizer, mode='min', patience=3, factor=0.5
+        optimizer, mode='min', patience=2, factor=0.5
     )
     pos_weight = compute_pos_weights(train_dataset.labels, device=device)
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
@@ -172,20 +170,21 @@ def train_model() -> None:
 
     # Run epochs
     print("Running training epochs")
-    NUM_EPOCHS = 100
-    PATIENCE = 10
+    PATIENCE = 5
     patience = 0
     best_val_loss = np.inf
     train_losses = []
     val_losses = []
     f1s = []
-    for epoch in range(NUM_EPOCHS):
+    epoch = 0
+    while True:
         train_loss = train_epoch(model, train_loader, optimizer, criterion, device)
         val_loss, f1 = val_epoch(model, val_loader, criterion, device)
-        print(f"Epoch {epoch + 1:02d}/{NUM_EPOCHS} | Train loss: {train_loss:.4f} | Val loss: {val_loss:.4f} | F1 score: {f1:.2%}")
+        print(f"Epoch {epoch + 1:03d} | Train loss: {train_loss:.4f} | Val loss: {val_loss:.4f} | F1 score: {f1:.2%}")
         train_losses.append(train_loss)
         val_losses.append(val_loss)
         f1s.append(f1)
+        epoch += 1
 
         if val_loss < best_val_loss:
             patience = 0

@@ -16,10 +16,10 @@ SUBMISSION_FILE = os.path.join("submission.csv")
 if __name__ == "__main__":
 
     # Settings
-    SYNTHETIZE = True
-    REBUILD_TRAIN_PREPROC_CACHE = True
-    REBUILD_VAL_PREPROC_CACHE = True
-    TRAIN_MODEL = True
+    SYNTHETIZE = False
+    REBUILD_TRAIN_PREPROC_CACHE = False
+    REBUILD_VAL_PREPROC_CACHE = False
+    TRAIN_MODEL = False
     SUBMISSION = True
 
     # Synthetize data
@@ -78,14 +78,8 @@ if __name__ == "__main__":
                     # Preprocess sector
                     preprocessed = preprocess(sector)
 
-                    # Downscale image
-                    tensor = torch.tensor(preprocessed, dtype=torch.float32).permute(2, 0, 1)
-                    tensor = F.interpolate(
-                        tensor.unsqueeze(0), 
-                        size=(256, 512), 
-                        mode="bilinear", 
-                        align_corners=False
-                    ).to(device)
+                    # Reshape image
+                    tensor = torch.tensor(preprocessed, dtype=torch.float32).permute(2, 0, 1).unsqueeze(0)
 
                     # Run inference
                     logits = model(tensor)
@@ -97,7 +91,10 @@ if __name__ == "__main__":
 
                     # For all players keep all probabilites above 0.5
                     else:
-                        indices, = np.where(predicted > 0.5)
+                        if np.std(predicted) > 0.1:
+                            indices, = np.where(predicted > np.quantile(predicted, 0.95))
+                        else:
+                            indices = []
                         
                         # Keep at most 4, prioritizing highest probabilities
                         if len(indices) > 4:
