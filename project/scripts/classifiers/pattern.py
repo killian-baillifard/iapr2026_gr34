@@ -39,7 +39,7 @@ class PatternMatcher:
                 # Sweep across all rotations and small scalings
                 score = 0
                 for angle in np.linspace(-np.pi, np.pi, 32, endpoint=False):
-                    for scale in np.linspace(0.9, 1.1, 32, endpoint=False):
+                    for scale in np.linspace(0.9, 1.1, 8, endpoint=False):
 
                         # Rotate the pattern around its center
                         h, w = pattern_channel.shape
@@ -64,7 +64,7 @@ class PatternMatcher:
 
                 scores[i] += score / 4
 
-        return scores > np.quantile(scores, 0.95)
+        return scores
 
 if __name__ == "__main__":
 
