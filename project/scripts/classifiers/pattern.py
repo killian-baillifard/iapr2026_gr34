@@ -5,17 +5,6 @@ from project.scripts.dataset.synthesizer import CARDS_DIRECTORY
 from project.scripts.preprocessing.cache import Cache, load_labels, load_image
 from project.scripts.preprocessing.rygb import hsv2rygb, rygb2rgb
 
-def load_patterns() -> list[np.ndarray]:
-    patterns = []
-    for card in list(Card):
-        bgra = cv2.imread(os.path.join(CARDS_DIRECTORY, f"{card}.png"), cv2.IMREAD_UNCHANGED)
-        w = bgra.shape[1] // 4
-        h = bgra.shape[0] // 4
-        downscaled = cv2.resize(bgra, (w, h), interpolation=cv2.INTER_AREA)
-        rygb = hsv2rygb(cv2.cvtColor(bgra_to_rgb_white_bg(downscaled), cv2.COLOR_RGB2HSV))
-        patterns.append(rygb)
-    return patterns
-
 def bgra_to_rgb_white_bg(image):
     bgr = image[:, :, :3]
     alpha = image[:, :, 3]
@@ -24,50 +13,63 @@ def bgra_to_rgb_white_bg(image):
     composited = (bgr * alpha_factor + white_bg * (1 - alpha_factor)).astype(np.uint8)
     return cv2.cvtColor(composited, cv2.COLOR_BGR2RGB)
 
-def predict(patterns: np.ndarray, rygb_image: np.ndarray) -> np.ndarray:
-    predictions = np.zeros(len(patterns))
+class PatternMatcher:
 
-    for i, pattern in enumerate(patterns):
-        channel_score = 0
+    def __init__(self) -> None:
+        
+        # Load patterns
+        self.patterns = []
+        for card in list(Card):
+            bgra = cv2.imread(os.path.join(CARDS_DIRECTORY, f"{card}.png"), cv2.IMREAD_UNCHANGED)
+            w = bgra.shape[1] // 4
+            h = bgra.shape[0] // 4
+            downscaled = cv2.resize(bgra, (w, h), interpolation=cv2.INTER_AREA)
+            rygb = hsv2rygb(cv2.cvtColor(bgra_to_rgb_white_bg(downscaled), cv2.COLOR_RGB2HSV))
+            self.patterns.append(rygb)
 
-        for c in range(4):
-            channel = pattern[:, :, c]
-            image_channel = rygb_image[:, :, c]
-            angle_score = 0
+    def match(self, rygb_image: np.ndarray) -> np.ndarray:
 
-            for angle in np.linspace(-np.pi, np.pi, 16, endpoint=False):
-                # Rotate the pattern around its center
-                h, w = channel.shape
-                cx, cy = w / 2, h / 2
-                M = cv2.getRotationMatrix2D((cx, cy), np.degrees(angle), scale=1.0)
-                rotated = cv2.warpAffine(
-                    channel, M, (w, h),
-                    flags=cv2.INTER_LINEAR,
-                    borderMode=cv2.BORDER_CONSTANT,
-                    borderValue=0
-                )
+        # Compute match score for each pattern
+        scores = np.zeros(len(self.patterns))
+        for i, pattern in enumerate(self.patterns):
+            for c in range(4):
+                pattern_channel = pattern[:, :, c]
+                image_channel = rygb_image[:, :, c]
 
-                # Match the rotated pattern against the image channel
-                result = cv2.matchTemplate(
-                    image_channel.astype(np.float32),
-                    rotated.astype(np.float32),
-                    cv2.TM_CCOEFF_NORMED  # Score in [-1, 1], 1 = perfect match
-                )
+                # Sweep across all rotations and small scalings
+                score = 0
+                for angle in np.linspace(-np.pi, np.pi, 32, endpoint=False):
+                    for scale in np.linspace(0.9, 1.1, 32, endpoint=False):
 
-                # Take the best match score across all positions
-                _, max_val, _, _ = cv2.minMaxLoc(result)
-                angle_score = max(angle_score, max_val)
+                        # Rotate the pattern around its center
+                        h, w = pattern_channel.shape
+                        cx, cy = w / 2, h / 2
+                        M = cv2.getRotationMatrix2D((cx, cy), np.degrees(angle), scale)
+                        rotated = cv2.warpAffine(
+                            pattern_channel, M, (w, h),
+                            flags=cv2.INTER_LINEAR,
+                            borderMode=cv2.BORDER_CONSTANT,
+                            borderValue=0
+                        )
 
-            channel_score += angle_score
+                        # Match the rotated pattern against the image channel
+                        result = cv2.matchTemplate(
+                            image_channel.astype(np.float32),
+                            rotated.astype(np.float32),
+                            cv2.TM_CCOEFF_NORMED  # Score in [-1, 1], 1 = perfect match
+                        )
 
-        predictions[i] = channel_score
+                        # Keep best match score across all positions
+                        score = np.max([score, np.max(result)])
 
-    return predictions
+                scores[i] += score / 4
+
+        return scores > np.quantile(scores, 0.95)
 
 if __name__ == "__main__":
 
     print("Loading patterns")
-    patterns = load_patterns()
+    pattern_matcher = PatternMatcher()
     
     # Load random train image
     print("Loading random train image")
@@ -78,8 +80,7 @@ if __name__ == "__main__":
 
     # Run predictor
     print("Computing predictions")
-    predictions = predict(patterns, rygb_image)
-    predictions = predictions > np.quantile(predictions, 0.95)
+    predictions = pattern_matcher.match(rygb_image)
 
     # Plot probabilities for each card
     plt.figure()
