@@ -16,8 +16,9 @@ def bgra_to_rgb_white_bg(image):
 class Pattern:
 
     # Kernel definition
-    KERNEL_SIDE     = 256
-    KERNEL_SIZE     = (
+    TEMPLATES_SIDE = 640
+    KERNEL_SIDE = TEMPLATES_SIDE // 4
+    KERNEL_SIZE = (
         KERNEL_SIDE,
         KERNEL_SIDE
     )
@@ -27,31 +28,30 @@ class Pattern:
     )
 
     # Input definitions
-    INPUT_HEIGHT    = 256
-    INPUT_WIDTH     = 512
-    PADDED_SIZE     = (
+    INPUT_HEIGHT = 256
+    INPUT_WIDTH = 512
+    PADDED_SIZE = (
         INPUT_HEIGHT + KERNEL_SIDE - 1,
         INPUT_WIDTH + KERNEL_SIDE - 1
     )
 
     # Sweep definitions
-    ANGLES = np.linspace(-np.pi, np.pi, 32, endpoint=False)
-    SCALES = np.linspace(0.9, 1.1, 8, endpoint=False)
+    ANGLES = np.linspace(-np.pi, np.pi, 48, endpoint=False)
 
     def __init__(self) -> None:
 
         # Allocate kernels
         self.kernels = np.zeros((
             CARDS_COUNT,
-            len(Pattern.ANGLES),
-            len(Pattern.SCALES),
-            Pattern.PADDED_SIZE[1],
+            Pattern.ANGLES.size,
             Pattern.PADDED_SIZE[0],
+            Pattern.PADDED_SIZE[1] // 2 + 1,
             4
         ), dtype=np.complex64)
 
         # Load each kernel
         for n, card in enumerate(list(Card)):
+            print(f"Loading kernel {n} / {CARDS_COUNT}")
             bgra = cv2.imread(os.path.join(CARDS_DIRECTORY, f"{card}.png"), cv2.IMREAD_UNCHANGED)
 
             # Preprocess kernels
@@ -60,34 +60,33 @@ class Pattern:
 
             # Sweep angles and scales
             for a, angle in enumerate(Pattern.ANGLES):
-                for s, scale in enumerate(Pattern.SCALES):
 
-                    # Compute linear transform matrix for rotation and scaling
-                    rotation = cv2.getRotationMatrix2D(
-                        self.KERNEL_CENTER,
-                        np.degrees(angle),
-                        scale
+                # Compute linear transform matrix for rotation over all channels
+                rotation = cv2.getRotationMatrix2D(
+                    self.KERNEL_CENTER,
+                    np.degrees(angle),
+                    1.0
+                )
+                transform = np.stack([
+                    cv2.warpAffine(
+                        rygb[:, :, c],
+                        rotation,
+                        Pattern.KERNEL_SIZE,
+                        flags=cv2.INTER_LINEAR,
+                        borderMode=cv2.BORDER_CONSTANT,
+                        borderValue=0
                     )
-                    transform = np.stack([
-                        cv2.warpAffine(
-                            rygb[:, :, c],
-                            rotation,
-                            Pattern.KERNEL_SIZE,
-                            flags=cv2.INTER_LINEAR,
-                            borderMode=cv2.BORDER_CONSTANT,
-                            borderValue=0
-                        )
-                        for c in range(4)
-                    ], axis=-1).astype(np.float32)
+                    for c in range(4)
+                ], axis=-1).astype(np.float32)
 
-                    # Normalize channels
-                    for c in range(4):
-                        ch = transform[:, :, c]
-                        transform[:, :, c] = (ch - ch.mean()) / (ch.std() + 1e-8)
-                    
-                    # Compute kernel RFFT
-                    fft = np.fft.rfft2(transform.transpose(2, 0, 1), Pattern.PADDED_SIZE)
-                    self.kernels[n, a, s] = fft.transpose(1, 2, 0)
+                # Normalize channels
+                for c in range(4):
+                    ch = transform[:, :, c]
+                    transform[:, :, c] = (ch - ch.mean()) / (ch.std() + 1e-8)
+                
+                # Compute kernel RFFT
+                fft = np.fft.rfft2(transform.transpose(2, 0, 1), Pattern.PADDED_SIZE)
+                self.kernels[n, a] = fft.transpose(1, 2, 0)
 
     def match(self, rygb_image: np.ndarray) -> np.ndarray:
 
@@ -96,28 +95,28 @@ class Pattern:
         for c in range(4):
             ch = image[:, :, c]
             image[:, :, c] = (ch - ch.mean()) / (ch.std() + 1e-8)
+        
+        # Compute input RFFT: (H, W, 4) -> (4, H, W) -> rfft2 -> transpose to (415, 336, 4)
+        fft = np.fft.rfft2(image.transpose(2, 0, 1), s=Pattern.PADDED_SIZE)  # (4, 415, 336)
+        fft = fft.transpose(1, 2, 0)  # (415, 336, 4)
 
-        # Compute input RFFT
-        image_chw = image.transpose(2, 0, 1)
-        fft = np.fft.rfft2(image_chw, s=Pattern.PADDED_SIZE)
+        # Accumulate scores across all angles
+        scores = np.zeros(CARDS_COUNT)
+        for a in range(Pattern.ANGLES.size):
+            print(f"Matching angle {a} / {Pattern.ANGLES.size}")
+            kernel = self.kernels[:, a, :, :, :]  # (54, 415, 336, 4)
 
-        # Accumulate scores across all angles, scales and channels
-        scores = np.zeros(52)
-        for a in range(len(self.angles)):
-            for s in range(len(self.scales)):
-                kernel = self.kernels[:, a, s, :, :, :]
+            # Batched normalized cross-correlation
+            product = kernel.conj() * fft[np.newaxis, :, :, :]  # (54, 415, 336, 4)
 
-                # Batched normalized cross-correlation
-                product = kernel.conj() * fft[np.newaxis, :, :, :]
+            # IRFFT back to spatial domain over spatial axes
+            correlation = np.fft.irfft2(product, s=Pattern.PADDED_SIZE, axes=(1, 2))  # (54, 415, 671, 4)
 
-                # IRFFT back to spatial domain
-                correlation = np.fft.irfft2(product, s=Pattern.PADDED_SIZE)
+            # Max over spatial positions, mean over channels
+            scores += correlation.reshape(CARDS_COUNT, -1, 4).max(axis=1).mean(axis=-1)
 
-                # Max over spatial positions, mean over channels
-                scores += correlation.reshape(52, 4, -1).max(axis=-1).mean(axis=-1)
-
-        # Normalize by number of angles and scales and return
-        scores /= (Pattern.ANGLES.size * Pattern.SCALES.size)
+        # Normalize by number of angles and return
+        scores /= Pattern.ANGLES.size
         return scores
 
 if __name__ == "__main__":
