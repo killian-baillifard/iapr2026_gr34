@@ -7,7 +7,7 @@ from project.scripts.preprocessing.sectors import slice_sectors
 from project.scripts.preprocessing.cache import Cache, rebuild_cache
 from project.scripts.token import detect_active_player
 from project.scripts.classifiers.cnn import UNOCNNClassifier, train_model
-from project.scripts.classifiers.pattern import Pattern 
+from project.scripts.classifiers.pattern import PatternMatcher 
 
 # Dataset from https://www.kaggle.com/competitions/iapr-26-uno-vision-challenge/data
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         ])
 
         # For each image
-        pattern_matcher = Pattern()
+        pattern_matcher = PatternMatcher()
         paths = load_test_images_paths()
         N = len(paths)
         for i, path in enumerate(paths):
