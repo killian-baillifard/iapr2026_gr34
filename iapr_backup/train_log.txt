@@ -1,0 +1,1077 @@
+Train: 73 samples | Val: 8 samples
+Device : cuda
+Params : 4.69M
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[EMPTY]
+      P3  gt=[y_7, b_3]  pred=[r_3, y_7, g_7, wild]
+      P4  gt=[r_9, g_1]  pred=[EMPTY]
+  [2] CENTER  gt=y_4            pred=r_0            ✗
+      P1  gt=[g_6, draw_4]  pred=[EMPTY]
+      P2  gt=[b_draw_2, wild]  pred=[wild]
+      P3  gt=[g_5, b_9]  pred=[r_3, r_6, y_7, y_8, g_7, b_1, b_4, b_6, b_7, draw_4, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[wild]
+  [3] CENTER  gt=g_8            pred=r_0            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[r_3, y_7, g_7, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_6, r_8, y_5, y_7, y_8, y_skip, g_2, g_7, b_1, b_4, b_5, b_6, b_7, b_draw_2, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[wild]
+  [4] CENTER  gt=y_7            pred=r_0            ✗
+      P1  gt=[y_3]  pred=[wild]
+      P2  gt=[g_skip]  pred=[EMPTY]
+      P3  gt=[r_5, wild]  pred=[wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[r_3, y_7, g_7, wild]
+Epoch 01/50 | loss 1.3298 | lc 3.8289 | lp 0.7051 | val_acc 0.0000 | val_F1 0.1609 | score 0.1287
+  → best model saved (score 0.1287)
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[EMPTY]
+      P3  gt=[y_7, b_3]  pred=[r_3, r_4, r_6, r_8, r_draw_2, y_2, y_3, y_5, y_7, y_8, y_skip, g_2, g_4, g_6, g_7, g_8, g_reverse, b_1, b_2, b_3, b_4, b_5, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[EMPTY]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[EMPTY]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[r_8, b_1, b_2, b_3, b_4, b_5, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[wild]
+  [3] CENTER  gt=g_8            pred=r_0            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[r_3, r_8, y_8, g_4, g_8, b_1, b_2, b_3, b_4, b_5, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[b_1, b_4, b_5, b_7, b_reverse, b_draw_2, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, g_7, wild]
+  [4] CENTER  gt=y_7            pred=y_8            ✗
+      P1  gt=[y_3]  pred=[EMPTY]
+      P2  gt=[g_skip]  pred=[EMPTY]
+      P3  gt=[r_5, wild]  pred=[wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[r_3, r_4, r_5, r_6, r_7, r_8, r_skip, r_draw_2, y_0, y_2, y_3, y_5, y_7, y_8, y_reverse, y_skip, g_2, g_4, g_5, g_6, g_7, g_8, g_reverse, b_1, b_2, b_3, b_4, b_5, b_6, b_7, b_8, b_9, b_reverse, b_skip, b_draw_2, draw_4, wild]
+Epoch 02/50 | loss 1.1052 | lc 3.2497 | lp 0.5691 | val_acc 0.0000 | val_F1 0.1175 | score 0.0940
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[EMPTY]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, g_2, g_4, g_7, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[EMPTY]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[EMPTY]
+      P2  gt=[b_draw_2, wild]  pred=[wild]
+      P3  gt=[g_5, b_9]  pred=[wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[y_5, y_7, g_2, g_7, draw_4, wild]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_4, g_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[b_1, b_4, b_5, b_7, b_draw_2, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, wild]
+  [4] CENTER  gt=y_7            pred=y_8            ✗
+      P1  gt=[y_3]  pred=[y_5, y_7, wild]
+      P2  gt=[g_skip]  pred=[EMPTY]
+      P3  gt=[r_5, wild]  pred=[g_4, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[r_3, r_8, r_draw_2, y_2, y_5, y_7, y_8, y_reverse, y_skip, g_2, g_7, g_8, b_3, b_7, draw_4, wild]
+Epoch 03/50 | loss 0.9769 | lc 2.7295 | lp 0.5388 | val_acc 0.0000 | val_F1 0.1269 | score 0.1015
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[g_3, g_4, g_7]
+      P3  gt=[y_7, b_3]  pred=[r_3, y_2, y_3, y_5, y_7, y_8, y_reverse, y_skip, g_2, g_4, g_7, g_reverse, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_3, g_4, g_7, g_8]
+      P2  gt=[b_draw_2, wild]  pred=[g_4, g_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_7, b_1, b_4, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[y_0, y_2, y_3, y_5, y_7, y_8, y_reverse, y_skip, g_2, g_7, g_reverse, draw_4, wild]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_4, g_7, b_1, b_4, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[b_1, b_4, b_7, b_draw_2, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_2, y_3, y_5, y_7, y_8, g_2, g_4, g_7, g_reverse, draw_4, wild]
+  [4] CENTER  gt=y_7            pred=y_8            ✗
+      P1  gt=[y_3]  pred=[y_2, y_3, y_5, y_7, y_skip, g_7, draw_4, wild]
+      P2  gt=[g_skip]  pred=[g_4]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, y_5, y_7, g_7, draw_4, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[r_3, y_7, y_8, g_2, g_6, g_7, g_8, b_1, b_3, b_4, b_5, b_6, b_7, b_8, b_reverse, b_skip, b_draw_2, draw_4, wild]
+Epoch 04/50 | loss 0.8948 | lc 2.4236 | lp 0.5126 | val_acc 0.1250 | val_F1 0.1271 | score 0.1142
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[g_4]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_8, g_4, g_7, g_reverse, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_9, g_3, g_4, g_8]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_3, g_4, g_8]
+      P2  gt=[b_draw_2, wild]  pred=[EMPTY]
+      P3  gt=[g_5, b_9]  pred=[g_4, g_7, b_4, b_7, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[y_2, y_3, y_5, y_7, y_8, draw_4, wild]
+  [3] CENTER  gt=g_8            pred=g_5            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_4, g_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[b_4, b_7, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, g_4, g_7, g_reverse]
+  [4] CENTER  gt=y_7            pred=y_8            ✗
+      P1  gt=[y_3]  pred=[y_7]
+      P2  gt=[g_skip]  pred=[EMPTY]
+      P3  gt=[r_5, wild]  pred=[r_4, r_6, r_8, r_9, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_0, y_2, y_5, y_7, y_8, y_reverse, y_skip, g_2, g_7, draw_4, wild]
+Epoch 05/50 | loss 0.8447 | lc 2.2274 | lp 0.4991 | val_acc 0.0000 | val_F1 0.1655 | score 0.1324
+  → best model saved (score 0.1324)
+  [1] CENTER  gt=r_7            pred=r_4            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[g_3, g_4, g_7, g_8, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, g_4, g_7, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_9, g_1, g_3, g_4, g_7, g_8, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_3, g_4, g_7, g_8, g_skip]
+      P2  gt=[b_draw_2, wild]  pred=[g_4, b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_4, g_7, g_8, b_4, b_6, b_7, draw_4, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[y_0, y_2, y_3, y_5, y_7, y_8, y_reverse, y_draw_2, g_2, g_4, g_7, g_reverse, draw_4, wild]
+  [3] CENTER  gt=g_8            pred=g_5            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_4, g_7, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[b_1, b_4, b_7, b_reverse, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, g_2, g_3, g_4, g_7, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_8            ✗
+      P1  gt=[y_3]  pred=[y_5, y_7, draw_4, wild]
+      P2  gt=[g_skip]  pred=[g_4]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_6, r_8, r_9, y_5, draw_4, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_0, y_5, y_7, y_8, y_reverse, y_skip, g_2, g_6, g_7, g_8, b_1, b_5, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 06/50 | loss 0.7848 | lc 2.0387 | lp 0.4713 | val_acc 0.0000 | val_F1 0.1772 | score 0.1417
+  → best model saved (score 0.1417)
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2, b_6]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_8, y_reverse, y_skip, g_2, g_4, g_7, g_reverse, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2, b_6]
+      P2  gt=[b_draw_2, wild]  pred=[g_4, g_7, b_4, b_7, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_4, b_6, b_7, draw_4, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_1, r_3, r_4, r_6, r_8, y_0, y_2, y_3, y_4, y_5, y_7, y_8, y_reverse, y_skip, y_draw_2, g_2, draw_4, wild]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_2, g_4, g_7, g_reverse, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[g_4, g_7, b_1, b_4, b_6, b_7, b_reverse, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, y_8, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_3, y_5, y_7, y_8, g_reverse, draw_4, wild]
+      P2  gt=[g_skip]  pred=[g_3, g_4]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_reverse, g_2, g_5, g_6, g_7, g_8, b_7, b_skip, draw_4, wild]
+Epoch 07/50 | loss 0.7665 | lc 1.9931 | lp 0.4599 | val_acc 0.0000 | val_F1 0.1657 | score 0.1326
+  [1] CENTER  gt=r_7            pred=r_6            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_3, g_4, g_7, g_8, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_7, b_1, b_4, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_3, r_6, r_9, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_9, g_1, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[wild]
+      P3  gt=[g_5, b_9]  pred=[g_3, g_4, g_6, g_7, g_reverse, g_draw_2, b_4, b_6, b_7, draw_4, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_3, r_4, r_6, r_8, y_0, y_2, y_3, y_4, y_5, y_7, y_8, draw_4, wild]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_4, g_7, g_reverse, b_1, b_4, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[g_4, g_7, b_0, b_1, b_3, b_4, b_6, b_7, b_reverse, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, y_8, g_2, g_3, g_4, g_7, g_reverse, draw_4, wild]
+  [4] CENTER  gt=y_7            pred=y_8            ✗
+      P1  gt=[y_3]  pred=[y_5, y_7, draw_4, wild]
+      P2  gt=[g_skip]  pred=[EMPTY]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_4, b_5, b_6, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 08/50 | loss 0.7452 | lc 1.9390 | lp 0.4467 | val_acc 0.0000 | val_F1 0.1385 | score 0.1108
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[g_1, g_3, g_4, g_7, g_8, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_8, g_6, g_7, b_1, b_7, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_9, g_1, g_3, g_4, g_7, g_8, g_skip]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_1, g_3, g_4, g_7, g_8, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_4, g_6, g_7, g_8, g_draw_2, b_3, b_4, b_6, b_7, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_3, r_6, r_8, r_9, y_0, y_2, y_3, y_5, y_7, y_8, y_draw_2, g_2, g_3, g_4, g_7, g_reverse, g_skip, draw_4]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_2, g_4, g_6, g_7, g_8, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[b_0, b_1, b_2, b_3, b_4, b_6, b_7, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_3, y_7, y_8, g_3, g_4, g_7, g_reverse, g_skip, draw_4]
+      P2  gt=[g_skip]  pred=[g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_skip, r_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_4, g_5, g_6, g_7, g_8, b_6, b_7, draw_4, wild]
+Epoch 09/50 | loss 0.7302 | lc 1.8851 | lp 0.4414 | val_acc 0.0000 | val_F1 0.1751 | score 0.1401
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_9, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_9, g_1, g_3, g_4, g_7, g_8]
+      P2  gt=[b_draw_2, wild]  pred=[EMPTY]
+      P3  gt=[g_5, b_9]  pred=[g_4, g_6, g_7, g_8, g_draw_2, b_4, b_6, b_7, wild]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_6, r_9, y_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_4, g_6, g_7, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[b_0, b_1, b_2, b_3, b_4, b_7, b_reverse, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[g_3, g_4, g_7, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[EMPTY]
+      P2  gt=[g_skip]  pred=[EMPTY]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_4, g_5, g_6, g_7, g_8, b_1, b_6, b_7, b_skip, draw_4, wild]
+Epoch 10/50 | loss 0.7163 | lc 1.8754 | lp 0.4265 | val_acc 0.0000 | val_F1 0.1751 | score 0.1401
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2, b_6]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_8, y_9, y_skip, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_1, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_6]
+      P2  gt=[b_draw_2, wild]  pred=[wild]
+      P3  gt=[g_5, b_9]  pred=[g_1, g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_2, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_3, r_6, r_8, y_0, y_2, y_3, y_5, y_7, y_8, y_draw_2, g_2, g_4, g_reverse, draw_4]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, g_2, g_4, g_6, g_7, b_1, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[b_0, b_1, b_2, b_3, b_4, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, y_8, y_9, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_3, y_5, y_7, y_8, g_reverse, draw_4]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_7, draw_4, wild]
+Epoch 11/50 | loss 0.6911 | lc 1.7741 | lp 0.4203 | val_acc 0.1250 | val_F1 0.1759 | score 0.1533
+  → best model saved (score 0.1533)
+  [1] CENTER  gt=r_7            pred=r_4            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[g_1, g_2, g_3, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_6]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_8, g_7, b_1, b_4, b_7, b_reverse, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_1, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_6]
+      P2  gt=[b_draw_2, wild]  pred=[b_0, b_1, b_4, b_6, b_7, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_draw_2, b_1, b_2, b_3, b_4, b_5, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_3, g_2, g_3, g_4, g_reverse, g_skip]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_2, g_4, g_6, g_7, g_8, g_draw_2, b_1, b_3, b_4, b_5, b_6, b_7, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_skip, b_0, b_1, b_2, b_3, b_4, b_5, b_6, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, r_9, y_3, g_3, g_4, g_reverse]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_6, r_8, r_reverse, r_skip, r_draw_2, b_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_4, b_5, b_6, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 12/50 | loss 0.6813 | lc 1.7467 | lp 0.4150 | val_acc 0.0000 | val_F1 0.1506 | score 0.1205
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_8, g_7, b_1, b_4, b_7, b_reverse, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[b_0, b_1, b_4, b_7, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_1, g_2, g_4, g_6, g_7, g_8, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_draw_2, b_1, b_3, b_4, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_reverse, r_skip, b_0, b_1, b_3, b_4, b_5, b_6, b_7, b_reverse, b_draw_2, draw_4]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_3, y_5, y_7, y_8, g_3, g_4, g_7, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_6, r_7, r_8, r_reverse, r_skip, r_draw_2, b_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_4, g_5, g_6, g_7, g_8, b_1, b_3, b_5, b_6, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 13/50 | loss 0.6696 | lc 1.7198 | lp 0.4071 | val_acc 0.0000 | val_F1 0.1571 | score 0.1257
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_8, y_9, g_2, g_7, b_1, b_7, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_2, y_3, g_2, g_3, g_4, g_reverse, g_skip]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_2, g_4, g_6, g_7, g_reverse, b_1, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_skip, b_0, b_1, b_4, b_5, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, y_8, g_2, g_3, g_4, g_7, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_3, y_5, y_7, y_8, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_6, r_7, r_8, r_reverse, r_skip, r_draw_2, y_0, y_2, y_3, y_4, y_5, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_4, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 14/50 | loss 0.6646 | lc 1.7048 | lp 0.4046 | val_acc 0.0000 | val_F1 0.1665 | score 0.1332
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_8, y_9, y_reverse, g_2, g_3, g_4, g_6, g_7, g_reverse, b_1, b_6, b_7, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_2, r_3, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[g_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_1, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_reverse, r_skip, b_0, b_1, b_3, b_4, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_3, y_5, y_7, y_8, g_3, g_4, g_7, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_skip, r_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_4, g_5, g_6, g_7, g_8, g_draw_2, b_1, b_6, b_7, draw_4, wild]
+Epoch 15/50 | loss 0.6411 | lc 1.6225 | lp 0.3957 | val_acc 0.0000 | val_F1 0.1504 | score 0.1203
+  [1] CENTER  gt=r_7            pred=r_6            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_9]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_8, y_9, y_skip, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[g_7, b_1, b_4, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_2, y_3, y_4, y_7, y_8, y_draw_2, g_2, g_3, g_4, g_reverse, draw_4]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, g_2, g_4, g_6, g_7, b_1, b_4, b_6, b_7, b_reverse, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_reverse, r_skip, b_0, b_1, b_3, b_4, b_5, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_6, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_0, y_1, y_2, y_3, y_5, y_7, y_8, y_9, y_skip, y_draw_2, g_2, g_3, g_4, g_7, g_reverse, g_skip, draw_4]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_6, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 16/50 | loss 0.6273 | lc 1.5907 | lp 0.3865 | val_acc 0.0000 | val_F1 0.1758 | score 0.1406
+  [1] CENTER  gt=r_7            pred=r_6            ✗
+      P1  gt=[EMPTY]  pred=[r_0, r_1, r_3, r_4, r_6, r_8, r_9, y_0, y_3, g_3, g_4, g_reverse]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_0, g_1, g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_1, y_5, y_6, y_7, y_8, y_9, y_reverse, y_skip, g_2, g_6, g_7, g_9, b_1, b_7, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_2, r_3, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_2            ✗
+      P1  gt=[g_6, draw_4]  pred=[y_1, y_7, y_8, y_9, y_reverse, g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_9, g_reverse, g_skip, g_draw_2, draw_4, wild]
+      P2  gt=[b_draw_2, wild]  pred=[y_1, y_5, y_7, y_8, y_9, y_reverse, g_2, g_3, g_4, g_6, g_7, g_reverse, b_1, b_7, b_reverse, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_1, g_2, g_4, g_5, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_5, b_6, b_7, b_8, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_draw_2, y_0, y_2, y_3, y_4, y_5, y_7, y_8, y_reverse, y_skip, y_draw_2, g_2, g_4, g_reverse, draw_4]
+  [3] CENTER  gt=g_8            pred=g_5            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_1, y_5, y_6, y_7, y_8, y_9, y_reverse, g_2, g_4, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_reverse, r_skip, r_draw_2, y_0, y_7, b_1, b_3, b_4, b_5, b_7, b_reverse, b_skip, b_draw_2, wild]
+      P3  gt=[EMPTY]  pred=[r_0, r_6, r_9, y_3, g_3, g_4, g_reverse, g_skip]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, y_reverse, y_draw_2, g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_1, y_2, y_3, y_5, y_7, y_8, y_9, y_reverse, y_skip, y_draw_2, g_2, g_4, g_7, g_9, g_reverse, g_skip, draw_4]
+      P2  gt=[g_skip]  pred=[r_0, r_1, r_9, y_8, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_1, r_3, r_4, r_5, r_6, r_8, r_skip, r_draw_2, y_0, y_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 17/50 | loss 0.6190 | lc 1.5422 | lp 0.3882 | val_acc 0.0000 | val_F1 0.1530 | score 0.1224
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_8, y_9, y_skip, g_7, b_1, b_7, b_reverse, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_2, r_3, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[g_4, g_7, b_1, b_4, b_7, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_1, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_4, r_6, r_8, r_9, y_0, y_2, y_3, g_2, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_1, y_5, y_7, y_8, y_9, y_reverse, g_2, g_4, g_6, g_7, g_reverse, b_1, b_6, b_7, b_reverse, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_6, r_reverse, r_skip, b_0, b_1, b_4, b_5, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_3, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_0, y_2, y_3, y_5, y_7, y_8, g_reverse]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_7, r_reverse, r_skip, b_3, b_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_1, y_7, y_8, y_9, y_reverse, g_2, g_4, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 18/50 | loss 0.6099 | lc 1.5134 | lp 0.3840 | val_acc 0.0000 | val_F1 0.1657 | score 0.1325
+  [1] CENTER  gt=r_7            pred=r_4            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[g_1, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, b_1, b_reverse, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_6, r_9, g_1, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+      P2  gt=[b_draw_2, wild]  pred=[b_4, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_draw_2, b_0, b_1, b_3, b_4, b_6, b_7, draw_4]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_3, r_6, r_8, r_9, y_0, y_2, y_3, y_4, y_5, y_7, y_8, y_draw_2, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_2            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_5, y_7, g_7, b_1, b_7, b_reverse, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_reverse, r_skip, b_0, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_draw_2, draw_4]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_5, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_0, y_2, y_3, y_5, y_7, y_draw_2]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_7, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 19/50 | loss 0.5958 | lc 1.4534 | lp 0.3815 | val_acc 0.0000 | val_F1 0.1872 | score 0.1498
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_2, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, b_1, b_6, b_7, b_reverse, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_4, r_6, r_reverse, r_skip, b_0, b_1, b_3, b_4, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, y_8, y_9, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_3, y_5, y_7, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_5, b_7, b_skip, b_draw_2, wild]
+Epoch 20/50 | loss 0.5741 | lc 1.3580 | lp 0.3781 | val_acc 0.0000 | val_F1 0.1702 | score 0.1362
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_8, y_9, g_7, b_1, b_7, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_9, g_1, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[g_3, g_4, g_7, g_8, g_reverse, g_skip]
+      P2  gt=[b_draw_2, wild]  pred=[g_4]
+      P3  gt=[g_5, b_9]  pred=[g_1, g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_2, y_3, y_5, y_7, y_8, y_skip, y_draw_2, g_2, g_3, g_4, g_reverse, g_skip, draw_4]
+  [3] CENTER  gt=g_8            pred=g_5            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_9, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, b_1, b_6, b_7, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_6, r_reverse, r_skip, b_0, b_1, b_3, b_4, b_5, b_6, b_7, b_reverse, b_skip, b_draw_2, draw_4]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_5, y_7, y_8, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_8, r_reverse, r_skip, r_draw_2, y_0, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_5, b_7, b_8, b_skip, wild]
+Epoch 21/50 | loss 0.5554 | lc 1.2935 | lp 0.3709 | val_acc 0.0000 | val_F1 0.1687 | score 0.1350
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[EMPTY]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_3, r_6, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_5, y_6, y_7, y_skip, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, y_7, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[b_4, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_2, y_3, g_2, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_5            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_6, g_7, b_1, b_4, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_0, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_0, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_0, y_2, y_3, y_5, y_7, y_8, g_reverse]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_5, b_7, b_8, b_skip, b_draw_2, wild]
+Epoch 22/50 | loss 0.5496 | lc 1.2671 | lp 0.3702 | val_acc 0.0000 | val_F1 0.1741 | score 0.1393
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_8, y_9, g_7, b_1, b_reverse, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_9, g_1, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[y_7, y_8, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+      P2  gt=[b_draw_2, wild]  pred=[y_5, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_2, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_5            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_5, y_7, y_8, y_9, g_2, g_3, g_4, g_6, g_7, b_1, b_6, b_7, b_reverse, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_6, r_reverse, r_skip, b_1, b_4, b_5, b_reverse, b_draw_2, draw_4, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_2, y_3, y_5, y_7, y_8, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_skip, r_draw_2, y_0, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 23/50 | loss 0.5384 | lc 1.2237 | lp 0.3671 | val_acc 0.0000 | val_F1 0.1776 | score 0.1421
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_8, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[g_4, b_4, b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_2, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_2, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_9, g_2, g_3, g_4, g_6, g_7, g_8, g_reverse, g_draw_2, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_6, r_reverse, r_skip, b_0, b_1, b_3, b_4, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_3, y_5, y_7, y_8, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_7, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 24/50 | loss 0.5171 | lc 1.1267 | lp 0.3647 | val_acc 0.1250 | val_F1 0.1802 | score 0.1566
+  → best model saved (score 0.1566)
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, g_7, b_1, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_9, g_3, g_4, g_8]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+      P2  gt=[b_draw_2, wild]  pred=[draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_0, y_2, y_3, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_5, y_7, y_9, g_7, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_6, r_reverse, r_skip, b_1, b_4, b_5, b_7, b_reverse, b_skip, b_draw_2, draw_4]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_5, y_7, y_8, g_3, g_4, g_7, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_0, y_2, y_3, y_5, y_7, g_reverse]
+      P2  gt=[g_skip]  pred=[g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_reverse, r_skip, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_9, g_2, g_5, g_6, g_7, g_8, b_1, b_5, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 25/50 | loss 0.5102 | lc 1.1125 | lp 0.3596 | val_acc 0.1250 | val_F1 0.1634 | score 0.1432
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_5, y_6, y_7, g_7, b_1, b_5, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, b_4, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_0, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_2, g_6, g_7, b_1, b_3, b_4, b_5, b_6, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_7, y_8, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, r_9, y_2, y_3, y_5, y_7, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_5, b_7, b_8, b_skip, b_draw_2, draw_4, wild]
+Epoch 26/50 | loss 0.4969 | lc 1.0589 | lp 0.3564 | val_acc 0.0000 | val_F1 0.1677 | score 0.1342
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_2, g_3, g_4, g_8, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[g_4, b_4, b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_2, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_0, g_2, g_3, g_4, g_6, g_7, g_8, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_reverse, b_skip, b_draw_2, draw_4]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[r_3]
+      P4  gt=[y_6, g_9]  pred=[y_7, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, r_9, y_3, y_7, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_reverse, r_skip, r_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_7, b_skip, b_draw_2, wild]
+Epoch 27/50 | loss 0.5008 | lc 1.0616 | lp 0.3606 | val_acc 0.1250 | val_F1 0.1780 | score 0.1549
+  [1] CENTER  gt=r_7            pred=r_6            ✗
+      P1  gt=[EMPTY]  pred=[r_0, r_1, r_3, r_4, r_6, r_9, r_reverse, r_skip, g_3, g_4, g_reverse]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_3, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_6, y_7, y_8, y_9, y_reverse, g_2, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_0, g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[g_3, g_4, g_6, g_7, g_reverse, b_1, b_4, b_6, b_7, b_reverse, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_2, y_3, g_2, g_3, g_4, g_reverse, g_skip, draw_4]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_6, g_7, g_8, b_1, b_3, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_6, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[r_9, g_1, g_3, g_4, g_8, g_reverse]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, y_reverse, g_2, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=g_8            ✗
+      P1  gt=[y_3]  pred=[y_1, y_5, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+      P2  gt=[g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_8, r_skip, r_draw_2, y_3, b_7, b_8, b_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_5, b_7, b_skip, b_draw_2, draw_4, wild]
+Epoch 28/50 | loss 0.4869 | lc 1.0352 | lp 0.3498 | val_acc 0.1250 | val_F1 0.1499 | score 0.1324
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_6, y_7, y_8, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_0, g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_0, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_5            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_6, g_7, g_8, b_1, b_3, b_6, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_1, r_6, r_9, y_2, y_3, y_5, y_7, y_8, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_5, b_7, b_8, b_skip, b_draw_2, wild]
+Epoch 29/50 | loss 0.4687 | lc 0.9293 | lp 0.3535 | val_acc 0.1250 | val_F1 0.1784 | score 0.1552
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4, r_9, y_0, y_3]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_0, r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[y_5, b_1, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_2, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_6, y_7, y_8, y_9, g_2, g_6, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_6, r_reverse, r_skip, b_1, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_5, y_7, y_8, y_skip, g_3, g_4, g_7, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_skip, r_draw_2, y_0, y_3, y_4, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_5, b_7, b_skip, b_draw_2, wild]
+Epoch 30/50 | loss 0.4655 | lc 0.9260 | lp 0.3504 | val_acc 0.1250 | val_F1 0.1686 | score 0.1474
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8]
+  [2] CENTER  gt=y_4            pred=y_1            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[g_4, g_6, b_4, b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_2, g_3, g_4, g_6, g_7, g_8, g_draw_2, b_1, b_3, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_0, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_0, b_1, b_3, b_4, b_5, b_6, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_5, y_7, y_8, g_3, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_7, b_draw_2, draw_4, wild]
+Epoch 31/50 | loss 0.4594 | lc 0.9095 | lp 0.3468 | val_acc 0.1250 | val_F1 0.1618 | score 0.1419
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, g_7, b_1, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_draw_2, b_1, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_9, g_6, g_7, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_6, r_reverse, r_skip, b_1, b_4, b_5, b_9, b_reverse, b_skip, b_draw_2, draw_4]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[y_5, y_7, g_3, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_7, b_draw_2, draw_4, wild]
+Epoch 32/50 | loss 0.4544 | lc 0.9004 | lp 0.3429 | val_acc 0.1250 | val_F1 0.1894 | score 0.1640
+  → best model saved (score 0.1640)
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_reverse]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[b_4, b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_9, g_2, g_6, g_7, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_5, y_7, g_3, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_0, r_1, r_3, r_4, r_5, r_6, r_8, r_9, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 33/50 | loss 0.4450 | lc 0.8423 | lp 0.3456 | val_acc 0.1250 | val_F1 0.1699 | score 0.1484
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_9, g_1, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_6, y_7, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_reverse]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, b_4, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_2, g_6, g_7, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[r_3]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, y_skip, g_3, g_4, g_7, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_7, b_draw_2, wild]
+Epoch 34/50 | loss 0.4319 | lc 0.8163 | lp 0.3358 | val_acc 0.1250 | val_F1 0.1983 | score 0.1711
+  → best model saved (score 0.1711)
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, g_7, b_1, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_0, g_1, g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4, wild]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, b_4, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_2, r_3, r_6, r_8, r_9, r_skip, y_0, y_2, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_7, b_0, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_5, y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_0, r_3, r_4, r_5, r_8, r_skip, r_draw_2, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_5, b_7, b_draw_2, wild]
+Epoch 35/50 | loss 0.4287 | lc 0.7882 | lp 0.3389 | val_acc 0.1250 | val_F1 0.1831 | score 0.1590
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, g_7, b_1, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_reverse]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_9, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+      P2  gt=[b_draw_2, wild]  pred=[wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_9, g_2, g_6, g_7, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_0, r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, g_3, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 36/50 | loss 0.4165 | lc 0.7458 | lp 0.3342 | val_acc 0.1250 | val_F1 0.1865 | score 0.1617
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_8]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+      P2  gt=[b_draw_2, wild]  pred=[wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_9, g_2, g_6, g_7, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_3, y_5, y_7, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_draw_2, draw_4, wild]
+Epoch 37/50 | loss 0.4136 | lc 0.7277 | lp 0.3350 | val_acc 0.2500 | val_F1 0.1689 | score 0.1602
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4, r_9]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_0, r_1, r_9, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_6, y_7, y_8, y_9, y_reverse, g_2, g_6, g_7, b_1, b_3, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_3, y_5, y_7, g_3, g_4, g_7, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[r_9, g_1, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 38/50 | loss 0.4079 | lc 0.6874 | lp 0.3380 | val_acc 0.1250 | val_F1 0.1717 | score 0.1498
+  [1] CENTER  gt=r_7            pred=r_4            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_8, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_5, y_6, y_7, b_1, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_2, g_3, g_4, g_reverse]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_0, r_1, r_6, r_9, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[y_5, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_0, y_2, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_0, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_5, b_9, b_reverse, b_skip, b_draw_2, wild]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_5, y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, g_3, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_draw_2, draw_4, wild]
+Epoch 39/50 | loss 0.4035 | lc 0.6974 | lp 0.3300 | val_acc 0.1250 | val_F1 0.1784 | score 0.1552
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4, r_9, r_reverse]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_2, r_3, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_0, r_1, r_9, g_0, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[g_6, b_4, b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_6, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_0, r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[g_4, g_8]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_0, r_1, r_6, y_2, y_3, y_5, y_7, y_skip, g_3, g_4, g_7, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[r_9, g_1, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 40/50 | loss 0.4110 | lc 0.7331 | lp 0.3305 | val_acc 0.1250 | val_F1 0.1663 | score 0.1455
+  [1] CENTER  gt=r_7            pred=r_0            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4, r_9, r_reverse]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_2, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_5, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_0, r_1, r_9, g_0, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_0, y_6, y_7, y_9, g_2, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2, wild]
+      P3  gt=[EMPTY]  pred=[r_9]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, y_skip, g_3, g_4, g_7, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[r_9, g_1, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_draw_2, draw_4, wild]
+Epoch 41/50 | loss 0.3984 | lc 0.6721 | lp 0.3299 | val_acc 0.1250 | val_F1 0.1671 | score 0.1462
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, b_4, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_9, g_2, g_6, g_7, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, y_skip, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, y_reverse, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_draw_2, draw_4, wild]
+Epoch 42/50 | loss 0.3969 | lc 0.6621 | lp 0.3306 | val_acc 0.1250 | val_F1 0.1891 | score 0.1638
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_6, g_7, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, y_skip, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_draw_2, draw_4, wild]
+Epoch 43/50 | loss 0.3897 | lc 0.6330 | lp 0.3288 | val_acc 0.1250 | val_F1 0.1718 | score 0.1500
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4, r_9]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_2, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_5]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, y_7, g_0, g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, b_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_0, y_2, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_0, y_7, y_8, y_9, y_reverse, g_2, g_6, g_7, b_1, b_3, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_0, r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_5, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_0, r_1, r_6, y_2, y_3, y_5, y_7, y_skip, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[r_9, g_1, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_8, b_draw_2, draw_4, wild]
+Epoch 44/50 | loss 0.3870 | lc 0.6289 | lp 0.3266 | val_acc 0.1250 | val_F1 0.1886 | score 0.1634
+  [1] CENTER  gt=r_7            pred=r_9            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_9, g_7, b_1, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_9, y_reverse, g_2, g_3, g_6, g_7, g_8, b_1, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_0, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_3, g_4, g_7, g_8, g_reverse, g_skip]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, g_3, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_8, r_9, r_reverse, r_skip, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 45/50 | loss 0.3819 | lc 0.5872 | lp 0.3306 | val_acc 0.1250 | val_F1 0.1973 | score 0.1703
+  [1] CENTER  gt=r_7            pred=r_4            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_0, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_1, r_9, g_0, g_2, g_3, g_4, g_5, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, b_4, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_6, g_7, b_1, b_3, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_9, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, y_skip, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_draw_2, draw_4, wild]
+Epoch 46/50 | loss 0.3918 | lc 0.6525 | lp 0.3266 | val_acc 0.1250 | val_F1 0.1845 | score 0.1601
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_9, g_1, g_2, g_3, g_4, g_5, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_0, r_1, r_9, g_0, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[b_4, b_7, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_2, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, g_2, g_6, g_7, b_1, b_3, b_6, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, r_9, y_2, y_3, y_5, y_7, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_3, b_7, b_draw_2, draw_4, wild]
+Epoch 47/50 | loss 0.3826 | lc 0.6048 | lp 0.3270 | val_acc 0.1250 | val_F1 0.1659 | score 0.1453
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4, r_9]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_5, y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_0, r_1, r_9, g_0, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[b_1, draw_4, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_skip, g_draw_2, b_1, b_2, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_0, y_6, y_7, y_9, g_2, g_6, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_5, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[r_3]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[r_9, g_1, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_draw_2, draw_4, wild]
+Epoch 48/50 | loss 0.3892 | lc 0.6416 | lp 0.3261 | val_acc 0.1250 | val_F1 0.1739 | score 0.1516
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_0, r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip]
+      P3  gt=[y_7, b_3]  pred=[y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_0, r_1, r_9, g_1, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2]
+      P2  gt=[b_draw_2, wild]  pred=[g_6, b_4, b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_0, g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7, b_skip, b_draw_2]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_2, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_6, g_7, g_8, b_1, b_3, b_6, b_7, b_reverse, b_skip, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_0, r_2, r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, r_9, y_2, y_3, y_5, y_7, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_1, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, g_2, g_5, g_6, g_7, g_8, b_1, b_7, b_draw_2, draw_4, wild]
+Epoch 49/50 | loss 0.3875 | lc 0.6204 | lp 0.3293 | val_acc 0.1250 | val_F1 0.1725 | score 0.1505
+  [1] CENTER  gt=r_7            pred=r_3            ✗
+      P1  gt=[EMPTY]  pred=[r_3, r_4]
+      P2  gt=[g_2, g_skip]  pred=[r_1, r_9, g_1, g_2, g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[y_7, b_3]  pred=[y_6, y_7, y_9, g_7, b_1, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P4  gt=[r_9, g_1]  pred=[r_1, r_2, r_6, r_8, r_9, g_1, g_2, g_3, g_4]
+  [2] CENTER  gt=y_4            pred=y_8            ✗
+      P1  gt=[g_6, draw_4]  pred=[r_9, g_2, g_3, g_4, g_5, g_7, g_8, g_reverse, g_skip, g_draw_2, draw_4]
+      P2  gt=[b_draw_2, wild]  pred=[b_4, b_7, wild]
+      P3  gt=[g_5, b_9]  pred=[g_2, g_4, g_6, g_7, g_8, g_reverse, g_skip, g_draw_2, b_1, b_3, b_4, b_6, b_7]
+      P4  gt=[r_9, y_7, g_4]  pred=[r_0, r_1, r_3, r_6, r_8, r_9, r_skip, y_3, g_2, g_3, g_4, g_reverse]
+  [3] CENTER  gt=g_8            pred=g_4            ✗
+      P1  gt=[y_7, g_1, b_5]  pred=[y_7, y_8, y_9, y_reverse, g_2, g_6, g_7, g_8, b_1, b_3, b_6, b_7, b_reverse, b_draw_2, draw_4, wild]
+      P2  gt=[r_4, b_reverse]  pred=[r_3, r_4, r_5, r_6, r_reverse, r_skip, b_1, b_3, b_4, b_5, b_7, b_9, b_reverse, b_skip, b_draw_2]
+      P3  gt=[EMPTY]  pred=[EMPTY]
+      P4  gt=[y_6, g_9]  pred=[y_1, y_7, y_8, y_9, g_2, g_3, g_4, g_7, g_8, g_reverse, g_skip, draw_4]
+  [4] CENTER  gt=y_7            pred=y_1            ✗
+      P1  gt=[y_3]  pred=[r_6, y_2, y_3, y_5, y_7, g_3, g_4, g_reverse, g_skip]
+      P2  gt=[g_skip]  pred=[g_3, g_4, g_8, g_reverse, g_skip, g_draw_2]
+      P3  gt=[r_5, wild]  pred=[r_3, r_4, r_5, r_8, r_reverse, r_skip, r_draw_2, y_3, wild]
+      P4  gt=[y_reverse, g_draw_2, b_0]  pred=[y_7, y_8, g_2, g_5, g_6, g_7, g_8, b_1, b_7, draw_4, wild]
+Epoch 50/50 | loss 0.3786 | lc 0.5821 | lp 0.3277 | val_acc 0.1250 | val_F1 0.1917 | score 0.1659
+Threshold calibration:
+  t=0.05  F1=0.1138  score=0.1035
+  t=0.10  F1=0.1280  score=0.1149
+  t=0.15  F1=0.1402  score=0.1246
+  t=0.20  F1=0.1576  score=0.1385
+  t=0.25  F1=0.1676  score=0.1465
+  t=0.30  F1=0.1722  score=0.1502
+  t=0.35  F1=0.1917  score=0.1659
+  t=0.40  F1=0.2033  score=0.1751
+  t=0.45  F1=0.1902  score=0.1647
+  t=0.50  F1=0.2043  score=0.1760
+  t=0.55  F1=0.2165  score=0.1857
+  t=0.60  F1=0.2205  score=0.1889
+  t=0.65  F1=0.2363  score=0.2016
+Best threshold: 0.65  (score=0.2016)
+
+Use this threshold for inference: 0.65

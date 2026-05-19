@@ -1,8 +1,13 @@
 .env
 **/__pycache__
-data/data_lab_03.zip
-data/data_lab_03/
+**/*.pth
+**/*.npy
+**/*.gz
+data/
+path_logs/
 project/**/*.drawio.bkp
 project/data
 project/cache
 project/synthesized
+.claude/
+.vscode

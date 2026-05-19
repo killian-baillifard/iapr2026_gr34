@@ -1,0 +1,90 @@
+SyntheticCropDataset: 1000 single-card samples
+Device : cuda
+Params : 4.35M
+Samples: 1000
+Epoch 01/80 | loss=3.9302 | acc=0.0310 | best=0.0310
+Epoch 02/80 | loss=3.5204 | acc=0.0640 | best=0.0640
+Epoch 03/80 | loss=3.3194 | acc=0.0650 | best=0.0650
+Epoch 04/80 | loss=3.1923 | acc=0.0710 | best=0.0710
+Epoch 05/80 | loss=3.0847 | acc=0.1010 | best=0.1010
+Epoch 06/80 | loss=3.1224 | acc=0.0970 | best=0.1010
+Epoch 07/80 | loss=3.0257 | acc=0.0910 | best=0.1010
+Epoch 08/80 | loss=2.9089 | acc=0.0750 | best=0.1010
+Epoch 09/80 | loss=2.9096 | acc=0.1010 | best=0.1010
+Epoch 10/80 | loss=2.9144 | acc=0.1020 | best=0.1020
+Epoch 11/80 | loss=2.9016 | acc=0.1020 | best=0.1020
+Epoch 12/80 | loss=2.8018 | acc=0.1090 | best=0.1090
+Epoch 13/80 | loss=2.7244 | acc=0.1220 | best=0.1220
+Epoch 14/80 | loss=2.7004 | acc=0.1550 | best=0.1550
+Epoch 15/80 | loss=2.7777 | acc=0.1250 | best=0.1550
+Epoch 16/80 | loss=2.7768 | acc=0.1240 | best=0.1550
+Epoch 17/80 | loss=2.7233 | acc=0.1210 | best=0.1550
+Epoch 18/80 | loss=2.6745 | acc=0.1370 | best=0.1550
+Epoch 19/80 | loss=2.6282 | acc=0.1500 | best=0.1550
+Epoch 20/80 | loss=2.6295 | acc=0.1240 | best=0.1550
+Epoch 21/80 | loss=2.6001 | acc=0.1520 | best=0.1550
+Epoch 22/80 | loss=2.5491 | acc=0.1610 | best=0.1610
+Epoch 23/80 | loss=2.5829 | acc=0.1550 | best=0.1610
+Epoch 24/80 | loss=2.4873 | acc=0.1750 | best=0.1750
+Epoch 25/80 | loss=2.5572 | acc=0.1750 | best=0.1750
+Epoch 26/80 | loss=2.4960 | acc=0.1740 | best=0.1750
+Epoch 27/80 | loss=2.4058 | acc=0.1860 | best=0.1860
+Epoch 28/80 | loss=2.4389 | acc=0.1920 | best=0.1920
+Epoch 29/80 | loss=2.4624 | acc=0.1750 | best=0.1920
+Epoch 30/80 | loss=2.2719 | acc=0.1970 | best=0.1970
+Epoch 31/80 | loss=2.3103 | acc=0.2200 | best=0.2200
+Epoch 32/80 | loss=2.2795 | acc=0.1960 | best=0.2200
+Epoch 33/80 | loss=2.4060 | acc=0.1910 | best=0.2200
+Epoch 34/80 | loss=2.3829 | acc=0.2020 | best=0.2200
+Epoch 35/80 | loss=2.3280 | acc=0.2150 | best=0.2200
+Epoch 36/80 | loss=2.2496 | acc=0.2540 | best=0.2540
+Epoch 37/80 | loss=2.2454 | acc=0.2310 | best=0.2540
+Epoch 38/80 | loss=2.3185 | acc=0.2550 | best=0.2550
+Epoch 39/80 | loss=2.3641 | acc=0.2190 | best=0.2550
+Epoch 40/80 | loss=2.2665 | acc=0.2290 | best=0.2550
+Epoch 41/80 | loss=2.1823 | acc=0.2370 | best=0.2550
+Epoch 42/80 | loss=2.2027 | acc=0.2330 | best=0.2550
+Epoch 43/80 | loss=2.2027 | acc=0.2290 | best=0.2550
+Epoch 44/80 | loss=2.1299 | acc=0.2680 | best=0.2680
+Epoch 45/80 | loss=2.1034 | acc=0.2690 | best=0.2690
+Epoch 46/80 | loss=2.2129 | acc=0.2710 | best=0.2710
+Epoch 47/80 | loss=2.1025 | acc=0.2990 | best=0.2990
+Epoch 48/80 | loss=2.1420 | acc=0.2860 | best=0.2990
+Epoch 49/80 | loss=2.1379 | acc=0.2860 | best=0.2990
+Epoch 50/80 | loss=2.0907 | acc=0.2790 | best=0.2990
+Epoch 51/80 | loss=2.0849 | acc=0.3040 | best=0.3040
+Epoch 52/80 | loss=1.9970 | acc=0.3200 | best=0.3200
+Epoch 53/80 | loss=1.9850 | acc=0.3130 | best=0.3200
+Epoch 54/80 | loss=2.0133 | acc=0.3260 | best=0.3260
+Epoch 55/80 | loss=1.9419 | acc=0.3450 | best=0.3450
+Epoch 56/80 | loss=2.0021 | acc=0.3600 | best=0.3600
+Epoch 57/80 | loss=1.9094 | acc=0.3480 | best=0.3600
+Epoch 58/80 | loss=1.8718 | acc=0.3620 | best=0.3620
+Epoch 59/80 | loss=1.9396 | acc=0.3620 | best=0.3620
+Epoch 60/80 | loss=1.8498 | acc=0.3710 | best=0.3710
+Epoch 61/80 | loss=1.9207 | acc=0.3480 | best=0.3710
+Epoch 62/80 | loss=1.9953 | acc=0.3640 | best=0.3710
+Epoch 63/80 | loss=1.8808 | acc=0.3570 | best=0.3710
+Epoch 64/80 | loss=1.8927 | acc=0.3720 | best=0.3720
+Epoch 65/80 | loss=1.7266 | acc=0.4040 | best=0.4040
+Epoch 66/80 | loss=1.8228 | acc=0.3960 | best=0.4040
+Epoch 67/80 | loss=1.8752 | acc=0.3880 | best=0.4040
+Epoch 68/80 | loss=1.8383 | acc=0.3840 | best=0.4040
+Epoch 69/80 | loss=1.8107 | acc=0.3990 | best=0.4040
+Epoch 70/80 | loss=1.7132 | acc=0.3980 | best=0.4040
+Epoch 71/80 | loss=1.8796 | acc=0.3810 | best=0.4040
+Epoch 72/80 | loss=1.7862 | acc=0.3840 | best=0.4040
+Epoch 73/80 | loss=1.9099 | acc=0.4340 | best=0.4340
+Epoch 74/80 | loss=1.8191 | acc=0.4040 | best=0.4340
+Epoch 75/80 | loss=1.7071 | acc=0.4360 | best=0.4360
+Epoch 76/80 | loss=1.7966 | acc=0.4020 | best=0.4360
+Epoch 77/80 | loss=1.8171 | acc=0.3900 | best=0.4360
+Epoch 78/80 | loss=1.7677 | acc=0.4130 | best=0.4360
+Epoch 79/80 | loss=1.7548 | acc=0.4160 | best=0.4360
+Epoch 80/80 | loss=1.7284 | acc=0.4200 | best=0.4360
+
+Done. Best train acc: 0.4360
+Saved: best_crop_classifier.pth
+
+Evaluate with:
+  python -m project.crop_classifier.evaluate
