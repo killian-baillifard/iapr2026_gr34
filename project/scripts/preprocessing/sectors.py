@@ -104,11 +104,11 @@ def slice_sectors(image: np.ndarray) -> np.ndarray:
 
     # Return stacked sectors
     sectors = np.stack([
-        cv2.resize(center_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA),
-        cv2.resize(player_1_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA),
-        cv2.resize(player_2_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA),
-        cv2.resize(player_3_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA),
-        cv2.resize(player_4_sector, SECTOR_END_SIZE, interpolation=cv2.INTER_AREA)
+        center_sector,
+        player_1_sector,
+        player_2_sector,
+        player_3_sector,
+        player_4_sector
     ])
 
     return sectors
