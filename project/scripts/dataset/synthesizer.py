@@ -4,7 +4,7 @@ import os
 from cv2.typing import MatLike
 from matplotlib import pyplot as plt
 from project.scripts.dataset import PARENT_PATH, CARD_LOOKUP, CARDS_COUNT, Card
-from project.scripts.preprocessing.sectors import SECTOR_WIDTH, SECTOR_HEIGHT
+from project.scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT, SECTOR_END_SIZE
 from scipy.stats import truncnorm
 
 SAMPLES_DIRECTORY = os.path.join(PARENT_PATH, "samples")
@@ -58,7 +58,7 @@ class Synthesizer:
         self.yellow_tokens = [cv2.imread(yellow_token_path(i), cv2.IMREAD_UNCHANGED) for i in range(1, 5)]
 
         # Allocate canvas
-        self.canvas = np.zeros((SECTOR_HEIGHT, SECTOR_WIDTH, 4))
+        self.canvas = np.zeros((SECTOR_SRC_HEIGHT, SECTOR_SRC_WIDTH, 4))
 
     def alpha_blend(self, overlay: np.ndarray, x: int, y: int, angle: float = 0.0) -> None:
 
@@ -99,6 +99,42 @@ class Synthesizer:
         self.canvas[y1:y2, x1:x2, :3] = (rgb_out   * 255).astype(np.uint8)
         self.canvas[y1:y2, x1:x2, 3:] = (alpha_out * 255).astype(np.uint8)
 
+    def apply_illumination(self) -> np.ndarray:
+        h, w = self.canvas.shape[:2]
+        out = self.canvas.astype(np.float32)  # necessary copy for dtype change
+
+        # Ambiant lighting
+        out += centered_truncated_normal(0, 10)
+
+        # Directionnal diffuse
+        dx = centered_truncated_normal(0.0, 1.0)
+        dy = centered_truncated_normal(0.0, 1.0)
+        norm = np.sqrt(dx**2 + dy**2) + 1e-8
+        strength = centered_truncated_normal(0.01, 0.005)
+        scale = 255.0 * strength / norm  # fold norm + strength into one scalar
+
+        # Build gradient directly into a (h, w, 1) array, scaled, in-place
+        xs = np.linspace(-scale * dx, scale * dx, w, dtype=np.float32)  # (w,)
+        ys = np.linspace(-scale * dy, scale * dy, h, dtype=np.float32)  # (h,)
+        light_map = np.add.outer(ys, xs)                                # (h, w)
+        out += light_map[:, :, np.newaxis]
+
+        # Specular reflexions
+        cx = centered_truncated_normal(SECTOR_SRC_WIDTH  / 2, SECTOR_SRC_WIDTH  / 2)
+        cy = centered_truncated_normal(SECTOR_SRC_HEIGHT / 2, SECTOR_SRC_HEIGHT / 2)
+        radius  = centered_truncated_normal(1024, 512)
+        strength = centered_truncated_normal(5, 4)
+
+        Y, X = np.ogrid[:h, :w]
+        dist2 = (X - cx) ** 2 + (Y - cy) ** 2        # (h, w) — let numpy broadcast first
+        dist2 *= -1.0 / (2 * radius ** 2)            # in-place scale
+        np.exp(dist2, out=dist2)                     # in-place exp
+        dist2 *= strength                            # in-place scale
+        out += dist2[:, :, np.newaxis]
+
+        np.clip(out, 0, 255, out=out)
+        return out.astype(np.uint8)
+
     def generate(self) -> tuple[MatLike, np.ndarray]:
         """
         Returns
@@ -111,11 +147,18 @@ class Synthesizer:
 
         # Select random background and sector and initialze new canvas
         flower = np.random.randint(0, 2)
-        sector = np.random.randint(0, 4)
+        sector = np.random.randint(0, 5)
+        center_sector = sector == 4
+        sector = sector if not center_sector else 0
         self.canvas = self.flower_backgrounds[sector].copy() if flower else self.gray_backgrounds[sector].copy()
 
+        # Select random horizontal, vertical and angle cards centerline placement
+        centerline_x = centered_truncated_normal(SECTOR_SRC_WIDTH / 2, 100)
+        centerline_y = centered_truncated_normal(SECTOR_SRC_HEIGHT / 2, 50)
+        centerline_angle = centered_truncated_normal(0, 10)
+
         # Select random number of cards
-        nb_cards = np.random.randint(0, 5)
+        nb_cards = 1 if center_sector else np.random.randint(0, 5)
         label = np.zeros(54)
         if nb_cards:
 
@@ -123,17 +166,12 @@ class Synthesizer:
             indices = [np.random.randint(0, CARDS_COUNT) for _ in range(nb_cards)]
             label[indices] = 1.0
 
-            # Select random horizontal, vertical and angle cards centerline placement
-            centerline_x = centered_truncated_normal(SECTOR_WIDTH / 2, 100)
-            centerline_y = centered_truncated_normal(SECTOR_HEIGHT / 2, 50)
-            centerline_angle = centered_truncated_normal(0, np.deg2rad(15))
-
             # Select if cards are stacked and randomize direction
             stacked_cards = np.random.randint(0, 2)
             stride = centered_truncated_normal(150, 50) if stacked_cards else centered_truncated_normal(380, 20)
             direction = 1 if np.random.randint(0, 2) else -1
-            x_stride = direction * stride * np.cos(centerline_angle)
-            y_stride = direction * stride * np.sin(centerline_angle)
+            x_stride = direction * stride * np.cos(np.deg2rad(centerline_angle))
+            y_stride = direction * stride * np.sin(np.deg2rad(centerline_angle))
 
             # Overlay cards on image
             x = centerline_x - (nb_cards - 1) * x_stride / 2
@@ -143,32 +181,65 @@ class Synthesizer:
                 # Randomize card placement over centerline
                 card_x = int(centered_truncated_normal(x, 10))
                 card_y = int(centered_truncated_normal(y, 10))
-                reverse = np.random.randint(0, 2)
-                card_angle = 180 if reverse else 0 + centered_truncated_normal(centerline_angle, 45 if stacked_cards else 10)
+                if center_sector:
+                    card_angle = centered_truncated_normal(centerline_angle, 180)
+                else:
+                    card_angle = centered_truncated_normal(centerline_angle, 30 if stacked_cards else 10)
+                    reverse = np.random.randint(0, 2)
+                    if reverse:
+                        card_angle += 180
                 self.alpha_blend(self.cards[index], card_x, card_y, card_angle)
 
                 # Increment centerline position
                 x += x_stride
                 y -= y_stride
 
-            # Overlay token on image with random placement
-            token_x = int(centered_truncated_normal(0.95 * SECTOR_WIDTH, 50))
-            token_y = int(centered_truncated_normal(SECTOR_HEIGHT / 4, 100))
-            token = self.yellow_tokens[sector] if flower else self.black_tokens[sector]
-            self.alpha_blend(token, token_x, token_y, 0.0)
+        # Randomly add center card at top of sectors 1 and 3
+        if not center_sector and sector % 2 == 0:
+            add_card = np.random.randint(0, 2)
+            if add_card:
+                angle = centered_truncated_normal(0, 180)
+                x = int(centered_truncated_normal(SECTOR_SRC_WIDTH / 2, 400))
+                y_offset = np.clip(centerline_y - SECTOR_SRC_HEIGHT / 2, -np.inf, 0)
+                c = 2 * y_offset + 100 * np.abs(np.sin(np.deg2rad(angle))) - 175
+                y = int(centered_truncated_normal(c, 10))
+                index = np.random.randint(0, CARDS_COUNT)
+                self.alpha_blend(self.cards[index], x, y, angle)
+
+        # Overlay token on image with random placement
+        if nb_cards and not center_sector:
+                token_x = int(centered_truncated_normal(0.95 * SECTOR_SRC_WIDTH, 20))
+                token_y = int(centered_truncated_normal(SECTOR_SRC_HEIGHT / 4, 40))
+                token = self.yellow_tokens[sector] if flower else self.black_tokens[sector]
+                self.alpha_blend(token, token_x, token_y, 0.0)
 
         # Convert to RGB and return result
-        return cv2.cvtColor(self.canvas.copy(), cv2.COLOR_BGRA2RGB), label
+        return cv2.cvtColor(cv2.resize(self.apply_illumination(), SECTOR_END_SIZE, interpolation=cv2.INTER_AREA), cv2.COLOR_BGRA2RGB), label
+
+def synthesize_train_set(n: int = SYNTHESIZED_SECTORS) -> None:
+    os.makedirs(SYNTHESIZED_DIRECTORY, exist_ok=True)
+    labels = np.zeros((0, CARDS_COUNT))
+    synthesizer = Synthesizer()
+
+    for i in range(n):
+
+        print(f"Synthesizing image {i + 1} / {n}")
+        image, label = synthesizer.generate()
+        labels = np.concatenate([labels, label.reshape(1, CARDS_COUNT)])
+        np.save(synthesized_image_path(i), image)
+
+    print(f"Saving labels")
+    np.save(SYNTHESIZED_LABELS_PATH, labels)
 
 if __name__ == "__main__":
 
-    PREVIEW = False
-    N = 5
-    synthesizer = Synthesizer()
+    PREVIEW = True
+    N = 20
 
     if PREVIEW:
         for i in range(N):
 
+            synthesizer = Synthesizer()
             image, label = synthesizer.generate()
             plt.figure(f"Synthesized image {i}")
             
@@ -192,15 +263,4 @@ if __name__ == "__main__":
         plt.show()
     
     else:
-        os.makedirs(SYNTHESIZED_DIRECTORY, exist_ok=True)
-        labels = np.zeros((0, CARDS_COUNT))
-
-        for i in range(SYNTHESIZED_SECTORS):
-
-            print(f"Synthesizing image {i + 1} / {SYNTHESIZED_SECTORS}")
-            image, label = synthesizer.generate()
-            labels = np.concatenate([labels, label.reshape(1, CARDS_COUNT)])
-            np.save(synthesized_image_path(i), image)
-    
-        print(f"Saving labels")
-        np.save(SYNTHESIZED_LABELS_PATH, labels)
+        synthesize_train_set()

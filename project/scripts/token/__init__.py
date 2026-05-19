@@ -2,26 +2,26 @@ import cv2
 import numpy as np
 from project.scripts.dataset import WIDTH, HEIGHT, Player
 from project.scripts.preprocessing.rygb import filter_color
-from project.scripts.preprocessing.sectors import SECTOR_WIDTH, SECTOR_HEIGHT
+from project.scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT
 from matplotlib import pyplot as plt
 
 # Player zone centers
 PLAYER_CENTERS = {
-    Player.P1: (WIDTH // 2,                  HEIGHT - SECTOR_HEIGHT // 2),
-    Player.P2: (WIDTH  - SECTOR_HEIGHT // 2, HEIGHT // 2),
-    Player.P3: (WIDTH // 2,                  SECTOR_HEIGHT // 2),
-    Player.P4: (SECTOR_HEIGHT // 2,          HEIGHT // 2),
+    Player.P1: (WIDTH // 2,                  HEIGHT - SECTOR_SRC_HEIGHT // 2),
+    Player.P2: (WIDTH  - SECTOR_SRC_HEIGHT // 2, HEIGHT // 2),
+    Player.P3: (WIDTH // 2,                  SECTOR_SRC_HEIGHT // 2),
+    Player.P4: (SECTOR_SRC_HEIGHT // 2,          HEIGHT // 2),
 }
 
 PLAYER_ZONES = {
-    Player.P1: (WIDTH//2 - SECTOR_WIDTH//2,  HEIGHT - SECTOR_HEIGHT,
-                WIDTH//2 + SECTOR_WIDTH//2,  HEIGHT),
-    Player.P2: (WIDTH - SECTOR_HEIGHT,       HEIGHT//2 - SECTOR_WIDTH//2,
-                WIDTH,                       HEIGHT//2 + SECTOR_WIDTH//2),
-    Player.P3: (WIDTH//2 - SECTOR_WIDTH//2,  0,
-                WIDTH//2 + SECTOR_WIDTH//2,  SECTOR_HEIGHT),
-    Player.P4: (0,                           HEIGHT//2 - SECTOR_WIDTH//2,
-                SECTOR_HEIGHT,               HEIGHT//2 + SECTOR_WIDTH//2),
+    Player.P1: (WIDTH//2 - SECTOR_SRC_WIDTH//2,  HEIGHT - SECTOR_SRC_HEIGHT,
+                WIDTH//2 + SECTOR_SRC_WIDTH//2,  HEIGHT),
+    Player.P2: (WIDTH - SECTOR_SRC_HEIGHT,       HEIGHT//2 - SECTOR_SRC_WIDTH//2,
+                WIDTH,                       HEIGHT//2 + SECTOR_SRC_WIDTH//2),
+    Player.P3: (WIDTH//2 - SECTOR_SRC_WIDTH//2,  0,
+                WIDTH//2 + SECTOR_SRC_WIDTH//2,  SECTOR_SRC_HEIGHT),
+    Player.P4: (0,                           HEIGHT//2 - SECTOR_SRC_WIDTH//2,
+                SECTOR_SRC_HEIGHT,               HEIGHT//2 + SECTOR_SRC_WIDTH//2),
 }
 
 # Token blob parameters 
