@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from project.scripts.dataset import load_manually_segmented_images
+from scripts.dataset import load_manually_segmented_images
 
 def circular_mean_std(angles, max_val=180):
     """Compute mean and stddev for circular data (e.g. hue)."""
@@ -16,7 +16,7 @@ def circular_mean_std(angles, max_val=180):
     std = np.sqrt(-2 * np.log(R)) * (max_val / (2 * np.pi))
     return mean, std
 
-if __name__ == "__main__":
+def show_ref_cards_color_stats() -> None:
 
     # Load manually segmented images
     images = load_manually_segmented_images()
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     alpha_mask = {}
     for color, image in images.items():
         alpha_mask[color] = image[:, :, 3] != 0
-        rgb = cv2.cvtColor(image, cv2.COLOR_BGRA2RGB)
+        rgb = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
         hsv[color] = cv2.cvtColor(rgb, cv2.COLOR_RGB2HSV)
 
     # Compute color distributions in HSV space, omitting pixels outside the alpha mask
@@ -109,3 +109,6 @@ if __name__ == "__main__":
 
     plt.tight_layout()
     plt.show()
+
+if __name__ == "__main__":
+    show_ref_cards_color_stats()

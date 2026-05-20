@@ -3,8 +3,8 @@ import cv2
 import os
 from cv2.typing import MatLike
 from matplotlib import pyplot as plt
-from project.scripts.dataset import PARENT_PATH, CARD_LOOKUP, CARDS_COUNT, Card
-from project.scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT, SECTOR_END_SIZE
+from scripts.dataset import PARENT_PATH, CARD_LOOKUP, CARDS_COUNT, Card
+from scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT, SECTOR_END_SIZE
 from scipy.stats import truncnorm
 
 SAMPLES_DIRECTORY = os.path.join(PARENT_PATH, "samples")

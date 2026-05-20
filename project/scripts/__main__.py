@@ -1,13 +1,13 @@
 import os, torch, cv2, csv, numpy as np
 import torch.nn.functional as F
-from project.scripts.dataset import Player, load_test_images_paths, TEST_IMAGES_PATH, CARD_LOOKUP
-from project.scripts.dataset.synthesizer import synthesize_train_set
-from project.scripts.preprocessing import preprocess
-from project.scripts.preprocessing.sectors import slice_sectors
-from project.scripts.preprocessing.cache import Cache, rebuild_cache
-from project.scripts.token import detect_active_player
-from project.scripts.classifiers.cnn import UNOCNNClassifier, train_model
-from project.scripts.classifiers.pattern import PatternMatcher 
+from scripts.dataset import Player, load_test_images_paths, TEST_IMAGES_PATH, CARD_LOOKUP
+from scripts.dataset.synthesizer import synthesize_train_set
+from scripts.preprocessing import preprocess
+from scripts.preprocessing.sectors import slice_sectors
+from scripts.preprocessing.cache import Cache, rebuild_cache
+from scripts.token import detect_active_player
+from scripts.classifiers.cnn import UNOCNNClassifier, train_model
+from scripts.classifiers.pattern import PatternMatcher 
 
 # Dataset from https://www.kaggle.com/competitions/iapr-26-uno-vision-challenge/data
 

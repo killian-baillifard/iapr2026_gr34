@@ -5,7 +5,7 @@ import torch.nn.functional as F
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader, Dataset, RandomSampler
 import matplotlib.pyplot as plt
-from project.scripts.preprocessing.cache import Cache, load_labels, load_image
+from scripts.preprocessing.cache import Cache, load_labels, load_image
 from sklearn.metrics import f1_score
 
 class ResidualBlock(nn.Module):

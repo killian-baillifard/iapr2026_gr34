@@ -1,5 +1,5 @@
 import numpy as np
-from project.scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT
+from scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT
 
 CROP_SQUARE_SIZE = 250
 NUM_CROPS = 16

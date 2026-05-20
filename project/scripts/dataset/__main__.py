@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.gridspec import GridSpec
-from project.scripts.dataset import PARENT_PATH, CARDS_COUNT, load_random_train_images, Card
+from scripts.dataset import PARENT_PATH, CARDS_COUNT, load_random_train_images, Card
 
 if __name__ == "__main__":
 

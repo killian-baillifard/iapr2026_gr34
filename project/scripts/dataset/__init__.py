@@ -14,7 +14,7 @@ TRAIN_FILE = os.path.join(PARENT_PATH, "data", "train.csv")
 TRAIN_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "train_images")
 TEST_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "test_images")
 REF_IMAGES_PATH = os.path.join(PARENT_PATH, "data", "reference_images")
-MANUAL_SEGMENTATION_PATH = os.path.join(PARENT_PATH, "manual_segmentation")
+COLOR_SAMPLES_PATH = os.path.join(PARENT_PATH, "samples", "colors")
 
 WIDTH = 4000
 HEIGHT = 2662
@@ -298,7 +298,7 @@ def load_random_test_image() -> np.ndarray:
     image_path = os.path.join(TEST_IMAGES_PATH, random_filename)
 
     # Print current step
-    print(f"Loading random image: {random_filename}")
+    print(f"Loading random test image: {random_filename}")
 
     # Load the image
     image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
@@ -319,8 +319,8 @@ def load_manually_segmented_images() -> dict[str, MatLike]:
 
     images = {}
     for color in ["r", "y", "g", "b", "k"]:
-        path = os.path.join(MANUAL_SEGMENTATION_PATH, f"{color}.png")
-        images[color] = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB)
+        path = os.path.join(COLOR_SAMPLES_PATH, f"{color}.png")
+        images[color] = cv2.cvtColor(cv2.imread(path, cv2.IMREAD_UNCHANGED), cv2.COLOR_BGRA2RGBA)
     return images
 
 def load_reference_images() -> np.ndarray:

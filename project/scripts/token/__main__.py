@@ -1,5 +1,5 @@
-from project.scripts.dataset import load_train_images
-from project.scripts.token import detect_active_player
+from scripts.dataset import load_train_images
+from scripts.token import detect_active_player
 
 if __name__ == "__main__":
 

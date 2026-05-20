@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
-from project.scripts.dataset import Player
-from project.scripts.dataset import WIDTH as IMAGE_WIDTH, HEIGHT as IMAGE_HEIGHT
+from scripts.dataset import Player
+from scripts.dataset import WIDTH as IMAGE_WIDTH, HEIGHT as IMAGE_HEIGHT
 
 SECTOR_SRC_WIDTH = 2048
 SECTOR_SRC_HEIGHT = 1024
