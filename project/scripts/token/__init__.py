@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
-from project.scripts.dataset import WIDTH, HEIGHT, Player
-from project.scripts.preprocessing.rygb import filter_color
-from project.scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT
+from scripts.dataset import WIDTH, HEIGHT, Player
+from scripts.preprocessing.rygb import filter_color
+from scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT
 from matplotlib import pyplot as plt
 
 # Player zone centers

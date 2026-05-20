@@ -2,9 +2,9 @@ import numpy as np
 import cv2
 from skimage.morphology import closing, disk
 from matplotlib import pyplot as plt
-from project.scripts.dataset import CARDS_COUNT, Card
-from project.scripts.preprocessing.rygb import rygb2rgb
-from project.scripts.preprocessing.cache import load_labels
+from scripts.dataset import CARDS_COUNT, Card
+from scripts.preprocessing.rygb import rygb2rgb
+from scripts.preprocessing.cache import load_labels
 
 def fourier_descriptors(contour: np.ndarray, n_descriptors: int = 32) -> np.ndarray:
     """

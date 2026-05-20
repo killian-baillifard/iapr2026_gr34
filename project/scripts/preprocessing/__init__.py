@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
-from project.scripts.preprocessing.rygb import hsv2rygb
-from project.scripts.preprocessing.filter import area_bandpass_filter
+from scripts.preprocessing.rygb import hsv2rygb
+from scripts.preprocessing.filter import area_bandpass_filter
 
 def preprocess(image: np.ndarray) -> np.ndarray:
     """

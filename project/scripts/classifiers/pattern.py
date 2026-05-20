@@ -1,9 +1,9 @@
 import os, cv2, numpy as np
 from matplotlib import pyplot as plt
-from project.scripts.dataset import Card, CARDS_COUNT
-from project.scripts.dataset.synthesizer import CARDS_DIRECTORY
-from project.scripts.preprocessing.cache import Cache, load_labels, load_image
-from project.scripts.preprocessing.rygb import hsv2rygb, rygb2rgb
+from scripts.dataset import Card, CARDS_COUNT
+from scripts.dataset.synthesizer import CARDS_DIRECTORY
+from scripts.preprocessing.cache import Cache, load_labels, load_image
+from scripts.preprocessing.rygb import hsv2rygb, rygb2rgb
 
 def bgra_to_rgb_white_bg(image):
     bgr = image[:, :, :3]

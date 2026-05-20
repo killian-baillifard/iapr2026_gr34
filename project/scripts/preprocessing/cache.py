@@ -2,12 +2,12 @@ import os, cv2
 import numpy as np
 from matplotlib import pyplot as plt
 from enum import StrEnum
-from project.scripts.dataset import CARDS_COUNT
-from project.scripts.preprocessing.sectors import slice_sectors
-from project.scripts.dataset import PARENT_PATH, Card, load_train_images_paths_and_labels
-from project.scripts.dataset.synthesizer import SYNTHESIZED_DIRECTORY, SYNTHESIZED_LABELS_PATH, SYNTHESIZED_SECTORS, synthesized_image_path
-from project.scripts.preprocessing import preprocess
-from project.scripts.preprocessing.rygb import rygb2rgb
+from scripts.dataset import CARDS_COUNT
+from scripts.preprocessing.sectors import slice_sectors
+from scripts.dataset import PARENT_PATH, Card, load_train_images_paths_and_labels
+from scripts.dataset.synthesizer import SYNTHESIZED_DIRECTORY, SYNTHESIZED_LABELS_PATH, SYNTHESIZED_SECTORS, synthesized_image_path
+from scripts.preprocessing import preprocess
+from scripts.preprocessing.rygb import rygb2rgb
 
 class Cache(StrEnum):
     VALIDATION = "validation"

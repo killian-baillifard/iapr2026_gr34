@@ -1,10 +1,10 @@
 import numpy as np
 import cv2
-from project.scripts.dataset import CARDS_COUNT, Card, load_random_train_images
+from scripts.dataset import CARDS_COUNT, Card, load_random_train_images
 from matplotlib import pyplot as plt
-from project.scripts.preprocessing.sectors import slice_sectors
-from project.scripts.preprocessing.rygb import hsv2rygb, rygb2rgb
-from project.scripts.preprocessing.filter import area_bandpass_filter
+from scripts.preprocessing.sectors import slice_sectors
+from scripts.preprocessing.rygb import hsv2rygb, rygb2rgb
+from scripts.preprocessing.filter import area_bandpass_filter
 
 if __name__ == "__main__":
 
