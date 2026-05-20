@@ -6,3 +6,4 @@ project/**/*.drawio.bkp
 project/data
 project/cache
 project/synthesized
+project/tmp

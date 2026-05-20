@@ -1,6 +1,6 @@
-import cv2
+import cv2, os
 import numpy as np
-from scripts.dataset import WIDTH, HEIGHT, Player
+from scripts.dataset import WIDTH, HEIGHT, Player, PARENT_PATH
 from scripts.preprocessing.rygb import filter_color
 from scripts.preprocessing.sectors import SECTOR_SRC_WIDTH, SECTOR_SRC_HEIGHT
 from matplotlib import pyplot as plt
@@ -261,6 +261,7 @@ def _debug_plot(n, img, white, soft, binary,
     axes[2].axis("off")
 
     plt.tight_layout()
-    plt.savefig(f"/tmp/debug_image_{n}.png", dpi=60)
+    os.makedirs(os.path.join(PARENT_PATH, "tmp"), exist_ok=True)
+    plt.savefig(os.path.join(PARENT_PATH, "tmp", f"debug_image_{n}.png"), dpi=60)
     plt.close()
     print(f"  Debug saved to /tmp/debug_image_{n}.png")
