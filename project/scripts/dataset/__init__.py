@@ -244,6 +244,20 @@ def load_random_train_images(n: int) -> tuple[np.ndarray, list[Label]]:
 
     return np.array(images), labels
 
+def load_train_image(image_id: str) -> np.ndarray:
+    image_path = os.path.join(TRAIN_IMAGES_PATH, f"{image_id}.jpg")
+
+    # Print current step
+    print(f"Loading train image: {image_path}")
+
+    # Load the image
+    image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+    
+    if image is None:
+        raise ValueError(f"Could not read image at {image_path}")
+
+    return image
+
 def load_test_images_paths() -> list[str]:
     """
     Returns
@@ -299,6 +313,20 @@ def load_random_test_image() -> np.ndarray:
 
     # Print current step
     print(f"Loading random test image: {random_filename}")
+
+    # Load the image
+    image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+    
+    if image is None:
+        raise ValueError(f"Could not read image at {image_path}")
+
+    return image
+
+def load_test_image(image_id: str) -> np.ndarray:
+    image_path = os.path.join(TEST_IMAGES_PATH, f"{image_id}.jpg")
+
+    # Print current step
+    print(f"Loading test image: {image_path}")
 
     # Load the image
     image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
