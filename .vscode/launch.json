@@ -5,32 +5,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
-        },
-        {
             "name": "Submission",
             "type": "debugpy",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "module": "project.scripts.scripts"
+            "cwd": "${workspaceFolder}/project",
+            "module": "scripts.scripts"
         },
         {
             "name": "Token",
             "type": "debugpy",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "module": "project.scripts.tokken_detection"
+            "cwd": "${workspaceFolder}/project",
+            "module": "scripts.tokken_detection"
         },
         {
             "name": "Preprocessing",
             "type": "debugpy",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "module": "project.scripts.preprocessing"
+            "cwd": "${workspaceFolder}/project",
+            "module": "scripts.preprocessing"
+        },
+        {
+            "name": "Crop",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/project",
+            "module": "scripts.preprocessing.crop"
         }
     ]
 }
