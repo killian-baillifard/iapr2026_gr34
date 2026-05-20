@@ -244,19 +244,21 @@ def load_random_train_images(n: int) -> tuple[np.ndarray, list[Label]]:
 
     return np.array(images), labels
 
-def load_train_image(image_id: str) -> np.ndarray:
+def load_train_image(image_id: str) -> tuple[np.ndarray, Label]:
     image_path = os.path.join(TRAIN_IMAGES_PATH, f"{image_id}.jpg")
-
-    # Print current step
     print(f"Loading train image: {image_path}")
 
     # Load the image
     image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
-    
     if image is None:
         raise ValueError(f"Could not read image at {image_path}")
 
-    return image
+    # Load the label matching this image_id
+    csv = pd.read_csv(TRAIN_FILE, index_col=0)
+    row = csv.loc[[image_id]].reset_index().iloc[0]
+    label = Label.from_row(row)
+
+    return image, label
 
 def load_test_images_paths() -> list[str]:
     """
